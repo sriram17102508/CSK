@@ -1,0 +1,1481 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSK Official Shop — Chennai Super Kings Merchandise</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700;1,800;1,900&family=Poppins:wght@300;400;500;600&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --gold: #FDB913;
+      --gold-dim: rgba(253, 185, 19, 0.15);
+      --blue: #0047A0;
+      --blue-light: #1a6fd4;
+      --bg: #060810;
+      --bg2: #080c18;
+      --text: #e8eaf0;
+      --muted: rgba(232, 234, 240, 0.5);
+      --border: rgba(253, 185, 19, 0.2);
+      --neon-green: #39ff14;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* CUSTOM CURSOR */
+    #cursor {
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      background: var(--gold);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 99999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.1s;
+      mix-blend-mode: screen;
+    }
+
+    #cursor-ring {
+      position: fixed;
+      width: 36px;
+      height: 36px;
+      border: 1.5px solid var(--gold);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 99998;
+      transform: translate(-50%, -50%);
+      transition: all 0.15s ease;
+      opacity: 0.6;
+    }
+
+    /* SCANLINE */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 0, 0, 0.03) 2px, rgba(0, 0, 0, 0.03) 4px);
+      pointer-events: none;
+      z-index: 9998;
+    }
+
+    /* NAVBAR */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+      height: 72px;
+      transition: background 0.4s, backdrop-filter 0.4s;
+    }
+
+    nav.scrolled {
+      background: rgba(6, 8, 16, 0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo img {
+      height: 52px;
+      width: auto;
+      filter: drop-shadow(0 0 12px rgba(253, 185, 19, 0.4));
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 36px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 600;
+      font-size: 15px;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--gold) !important;
+      text-shadow: 0 0 8px rgba(253, 185, 19, 0.6) !important;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .btn-angled {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800;
+      font-size: 14px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--bg);
+      text-decoration: none;
+      background: var(--gold);
+      padding: 11px 28px;
+      clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+      transition: all 0.2s;
+      display: inline-block;
+    }
+
+    .btn-angled:hover {
+      background: #ffe066;
+      transform: translateY(-1px);
+      box-shadow: 0 8px 30px rgba(253, 185, 19, 0.4);
+    }
+
+    /* CART ICON BADGE */
+    .cart-badge-trigger {
+      background: rgba(253, 185, 19, 0.1);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 8px 16px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--gold);
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .cart-badge-trigger:hover {
+      background: var(--gold);
+      color: var(--bg);
+      box-shadow: 0 0 15px rgba(253, 185, 19, 0.3);
+    }
+
+    .cart-count {
+      background: var(--blue);
+      color: #fff;
+      font-size: 11px;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+      transition: transform 0.2s;
+    }
+
+    .cart-count.bounce {
+      transform: scale(1.3);
+    }
+
+    /* SHOP HERO */
+    .shop-hero {
+      position: relative;
+      padding: 140px 8vw 60px;
+      background: linear-gradient(180deg, rgba(253, 185, 19, 0.05) 0%, transparent 100%);
+      border-bottom: 1px solid rgba(253, 185, 19, 0.05);
+      text-align: center;
+    }
+
+    .shop-tag {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 0.3em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      display: inline-block;
+    }
+
+    .shop-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 64px;
+      font-weight: 900;
+      line-height: 1.1;
+      text-transform: uppercase;
+      letter-spacing: -0.01em;
+      margin-bottom: 16px;
+    }
+
+    .shop-title span {
+      color: var(--gold);
+      text-shadow: 0 0 20px rgba(253, 185, 19, 0.3);
+    }
+
+    .shop-subtitle {
+      color: var(--muted);
+      font-size: 16px;
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    /* BENTO SHOP LAYOUT */
+    .shop-section {
+      padding: 40px 8vw 80px;
+      max-width: 1600px;
+      margin: 0 auto;
+    }
+
+    .shop-filter-container {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      background: rgba(8, 12, 24, 0.6);
+      border: 1px solid var(--border);
+      padding: 10px 24px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      outline: none;
+    }
+
+    .filter-btn:hover {
+      border-color: var(--gold);
+      color: #fff;
+    }
+
+    .filter-btn.active {
+      color: var(--bg);
+      background: var(--gold);
+      border-color: var(--gold);
+      box-shadow: 0 0 15px rgba(253, 185, 19, 0.4);
+    }
+
+    .bento-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 16px;
+    }
+
+    .bento-card {
+      grid-column: span 3; /* Same bento card size for all products: 4 in a row */
+      background: rgba(8, 12, 24, 0.4);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      height: 100%; /* Stretch to equal height in grid row */
+      justify-content: flex-start;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .bento-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--gold);
+      box-shadow: 0 10px 30px rgba(253, 185, 19, 0.15);
+    }
+
+    .bento-thumb-wrap {
+      position: relative;
+      background: radial-gradient(circle, #0e1424 0%, #04060c 100%);
+      width: 100%;
+      overflow: hidden;
+      aspect-ratio: 1 / 1; /* Square thumbnail */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-bottom: 1px solid rgba(253, 185, 19, 0.1);
+    }
+
+    .bento-img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain; /* Fit the entire image without clipping */
+      padding: 16px;       /* Spacing to let the product breathe inside the square */
+      transition: transform 0.5s ease;
+    }
+
+    .bento-card:hover .bento-img {
+      transform: scale(1.05);
+    }
+
+    .bento-tag {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: var(--blue);
+      color: #fff;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      padding: 3px 8px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      box-shadow: 0 4px 10px rgba(0, 71, 160, 0.5);
+      z-index: 2;
+    }
+
+    .bento-info {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1; /* Stretch to fill remaining card space */
+      justify-content: flex-start;
+    }
+
+    .bento-name {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 19px;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: var(--text);
+      line-height: 1.2;
+      margin-bottom: 6px;
+    }
+
+    .bento-desc {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.4;
+      margin-bottom: 12px;
+    }
+
+    .bento-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: auto;
+      gap: 12px;
+    }
+
+    .bento-price {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 22px;
+      font-weight: 900;
+      color: var(--gold);
+      letter-spacing: 0.02em;
+    }
+
+    /* BUY BUTTON ANGLED */
+    .btn-buy {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800;
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--bg);
+      border: none;
+      background: var(--gold);
+      padding: 8px 16px;
+      clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-buy:hover {
+      background: #ffe066;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(253, 185, 19, 0.4);
+    }
+
+    /* SLIDING SHOPPING CART DRAWER */
+    .cart-drawer-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(4, 6, 12, 0.8);
+      backdrop-filter: blur(10px);
+      z-index: 2000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+    }
+
+    .cart-drawer-overlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .cart-drawer {
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      right: -450px;
+      width: 450px;
+      max-width: 100vw;
+      background: #080c18;
+      border-left: 1px solid var(--border);
+      z-index: 2001;
+      display: flex;
+      flex-direction: column;
+      box-shadow: -10px 0 50px rgba(0, 0, 0, 0.6);
+      transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .cart-drawer-overlay.active .cart-drawer {
+      right: 0;
+    }
+
+    .cart-header {
+      padding: 24px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .cart-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      color: var(--gold);
+      text-transform: uppercase;
+    }
+
+    .cart-close-btn {
+      background: none;
+      border: none;
+      color: var(--muted);
+      font-size: 20px;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+
+    .cart-close-btn:hover {
+      color: #fff;
+    }
+
+    .cart-items-feed {
+      flex: 1;
+      overflow-y: auto;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .cart-item {
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      gap: 16px;
+      border-bottom: 1px solid rgba(232, 234, 240, 0.05);
+      padding-bottom: 16px;
+      align-items: center;
+    }
+
+    .cart-item-thumb {
+      width: 80px;
+      height: 80px;
+      border-radius: 8px;
+      object-fit: cover;
+      background: #04060c;
+    }
+
+    .cart-item-info {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .cart-item-name {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      color: var(--text);
+    }
+
+    .cart-item-price {
+      color: var(--gold);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 16px;
+      font-weight: 800;
+    }
+
+    .cart-qty-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 4px;
+    }
+
+    .cart-qty-selectors {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 2px 6px;
+    }
+
+    .qty-btn {
+      background: none;
+      border: none;
+      color: var(--gold);
+      font-size: 14px;
+      cursor: pointer;
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .qty-btn:hover {
+      color: #fff;
+    }
+
+    .qty-val {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      min-width: 16px;
+      text-align: center;
+    }
+
+    .cart-remove-btn {
+      background: none;
+      border: none;
+      color: #ff4444;
+      font-size: 13px;
+      cursor: pointer;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .cart-remove-btn:hover {
+      text-decoration: underline;
+    }
+
+    .cart-empty-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      opacity: 0.5;
+      text-align: center;
+      gap: 12px;
+    }
+
+    .cart-empty-icon {
+      font-size: 48px;
+    }
+
+    .cart-summary {
+      padding: 24px;
+      border-top: 1px solid var(--border);
+      background: rgba(6, 8, 16, 0.4);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .summary-row-total {
+      border-top: 1px solid rgba(232, 234, 240, 0.1);
+      padding-top: 12px;
+      margin-top: 4px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 22px;
+      font-weight: 900;
+      color: var(--gold);
+    }
+
+    .btn-checkout {
+      width: 100%;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800;
+      font-size: 16px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--bg);
+      background: var(--gold);
+      border: none;
+      padding: 14px;
+      clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-top: 8px;
+      text-align: center;
+    }
+
+    .btn-checkout:hover {
+      background: #ffe066;
+      box-shadow: 0 0 20px rgba(253, 185, 19, 0.4);
+    }
+
+    /* INTERACTIVE CHECKOUT SUCCESS MODAL */
+    .checkout-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(4, 6, 12, 0.95);
+      z-index: 3000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      backdrop-filter: blur(25px);
+    }
+
+    .checkout-modal-overlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .checkout-modal-container {
+      width: 100%;
+      max-width: 500px;
+      background: #080c18;
+      border: 2px solid var(--neon-green);
+      border-radius: 20px;
+      box-shadow: 0 0 50px rgba(57, 255, 20, 0.25);
+      padding: 40px;
+      text-align: center;
+      position: relative;
+      transform: scale(0.9);
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .checkout-modal-overlay.active .checkout-modal-container {
+      transform: scale(1);
+    }
+
+    .success-icon-ring {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      border: 3px solid var(--neon-green);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
+      color: var(--neon-green);
+      margin: 0 auto 24px;
+      box-shadow: 0 0 25px rgba(57, 255, 20, 0.3);
+      animation: pulse-green 1.5s infinite alternate;
+    }
+
+    @keyframes pulse-green {
+      0% { transform: scale(1); box-shadow: 0 0 10px rgba(57, 255, 20, 0.3); }
+      100% { transform: scale(1.05); box-shadow: 0 0 30px rgba(57, 255, 20, 0.6); }
+    }
+
+    .success-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 36px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #fff;
+      margin-bottom: 12px;
+    }
+
+    .success-order-num {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--neon-green);
+      letter-spacing: 0.1em;
+      margin-bottom: 16px;
+      text-transform: uppercase;
+    }
+
+    .success-desc {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 32px;
+    }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 60px 8vw 30px;
+      background: #03050a;
+    }
+
+    .footer-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 30px;
+      margin-bottom: 40px;
+    }
+
+    .footer-brand {
+      flex: 1;
+      min-width: 250px;
+    }
+
+    .footer-logo-text {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 32px;
+      font-weight: 900;
+      letter-spacing: 0.05em;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+
+    .footer-logo-text span {
+      color: var(--gold);
+    }
+
+    .footer-tagline {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover {
+      color: var(--gold);
+    }
+
+    .footer-socials {
+      display: flex;
+      gap: 16px;
+    }
+
+    .social-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      text-decoration: none;
+      transition: all 0.3s ease;
+      font-size: 16px;
+    }
+
+    .social-icon:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+      box-shadow: 0 0 10px rgba(253, 185, 19, 0.3);
+    }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      border-top: 1px solid rgba(232, 234, 240, 0.05);
+      padding-top: 24px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .footer-csk {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      color: var(--gold);
+      text-transform: uppercase;
+    }
+
+    /* RESPONSIVENESS & MOBILE MENU */
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 8px;
+      z-index: 200;
+    }
+
+    .nav-hamburger span {
+      display: block;
+      width: 26px;
+      height: 2px;
+      background: var(--text);
+      border-radius: 2px;
+      transition: .3s;
+    }
+
+    .nav-hamburger.active span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+
+    .nav-hamburger.active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .nav-hamburger.active span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+
+    @media (max-width: 1024px) {
+      .bento-card {
+        grid-column: span 6;
+      }
+    }
+
+    @media (max-width: 900px) {
+      nav {
+        padding: 0 24px;
+      }
+
+      .nav-hamburger {
+        display: flex;
+      }
+
+      .nav-links {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: min(320px, 80vw);
+        height: 100vh;
+        background: rgba(6, 8, 16, .98);
+        backdrop-filter: blur(20px);
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 32px;
+        transition: right .4s cubic-bezier(.25, .8, .25, 1);
+        border-left: 1px solid var(--border);
+        z-index: 150;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .nav-links.open {
+        right: 0;
+      }
+
+      .nav-links a {
+        font-size: 20px;
+      }
+      
+      .shop-title {
+        font-size: 40px;
+      }
+
+      .bento-card {
+        grid-column: span 12;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Custom cursor elements -->
+  <div id="cursor"></div>
+  <div id="cursor-ring"></div>
+
+  <!-- NAVIGATION -->
+  <nav id="navbar">
+    <div class="nav-logo">
+      <a href="csk_website.html"><img src="logo.png" alt="CSK Crest"></a>
+    </div>
+    <button class="nav-hamburger" id="nav-hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="csk_website.html">Home</a></li>
+      <li><a href="about_csk.html">About CSK</a></li>
+      <li><a href="pillars.html">Pillars</a></li>
+      <li><a href="stats.html">Stats</a></li>
+      <li><a href="awards.html">Awards</a></li>
+      <li><a href="fanzone.html">Fan Zone</a></li>
+      <li><a href="csk_tv.html">CSK TV</a></li>
+      <li><a href="shop.html" class="active">Shop</a></li>
+    </ul>
+    <div class="nav-right">
+      <div class="cart-badge-trigger" id="cart-drawer-trigger">
+        🛍️ Bag <span class="cart-count" id="cart-badge-val">0</span>
+      </div>
+      <div id="nav-user-profile" style="display:none; align-items:center; gap:12px; margin-left:15px;">
+        <span class="user-avatar" style="width:36px; height:36px; border-radius:50%; background:var(--gold); color:var(--bg); display:flex; align-items:center; justify-content:center; font-family:'Barlow Condensed', sans-serif; font-weight:800; font-size:16px; border:2px solid #fff; box-shadow:0 0 10px rgba(253,195,19,0.4);">🦁</span>
+        <span id="nav-username" style="font-family:'Barlow Condensed', sans-serif; font-weight:700; font-size:14px; letter-spacing:0.05em; text-transform:uppercase; color:#fff;"></span>
+        <a href="javascript:void(0)" id="logout-btn" style="font-family:'Barlow Condensed', sans-serif; font-weight:700; font-size:12px; letter-spacing:0.05em; text-transform:uppercase; color:var(--muted); text-decoration:none; margin-left:8px; transition:color 0.2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--muted)'">Logout</a>
+      </div>
+      <a href="csk_website.html#membership" class="btn-angled" id="join-now-btn" style="margin-left:15px;">Join Now</a>
+    </div>
+  </nav>
+
+  <!-- SHOP HERO BANNER -->
+  <header class="shop-hero">
+    <span class="shop-tag">Official Store</span>
+    <h1 class="shop-title">Official <span>Merchandise</span></h1>
+    <p class="shop-subtitle">Gear up for the season with original CSK kits, matchday collectibles, and premium travel accessories.</p>
+  </header>
+
+  <!-- BENTO PRODUCTS GRID -->
+  <main class="shop-section">
+    <!-- Category Filter Toggles -->
+    <div class="shop-filter-container">
+      <button class="filter-btn active" data-category="all" onclick="setCategory('all')">All Pride</button>
+      <button class="filter-btn" data-category="apparel" onclick="setCategory('apparel')">Apparel</button>
+      <button class="filter-btn" data-category="accessories" onclick="setCategory('accessories')">Bags &amp; Caps</button>
+      <button class="filter-btn" data-category="drinkware" onclick="setCategory('drinkware')">Drinkware</button>
+    </div>
+
+    <div class="bento-grid" id="shop-bento-grid">
+      <!-- Populated dynamically by JS -->
+    </div>
+  </main>
+
+  <!-- SLIDING SHOPPING CART DRAWER -->
+  <div class="cart-drawer-overlay" id="cart-drawer-overlay">
+    <div class="cart-drawer">
+      <div class="cart-header">
+        <h2 class="cart-title">Your Cart</h2>
+        <button class="cart-close-btn" id="cart-drawer-close">✕</button>
+      </div>
+
+      <div class="cart-items-feed" id="cart-items-feed">
+        <!-- Populated dynamically by JS -->
+      </div>
+
+      <div class="cart-summary">
+        <div class="summary-row">
+          <span>Subtotal</span>
+          <span id="summary-subtotal">₹0</span>
+        </div>
+        <div class="summary-row">
+          <span>GST (18%)</span>
+          <span id="summary-gst">₹0</span>
+        </div>
+        <div class="summary-row">
+          <span>Shipping</span>
+          <span id="summary-shipping">₹0</span>
+        </div>
+        <div class="summary-row summary-row-total">
+          <span>Grand Total</span>
+          <span id="summary-total">₹0</span>
+        </div>
+        <button class="btn-checkout" id="checkout-trigger-btn">Proceed to Checkout</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- INTERACTIVE CHECKOUT SUCCESS MODAL -->
+  <div class="checkout-modal-overlay" id="checkout-success-modal">
+    <div class="checkout-modal-container">
+      <div class="success-icon-ring">✓</div>
+      <h2 class="success-title">Order Confirmed</h2>
+      <div class="success-order-num" id="success-order-id">TRANSMISSION: #CSK-498263-K</div>
+      <p class="success-desc">Congratulations! Your holographic payment was successfully processed. Your official CSK gear has been scheduled for dispatch from Chennai Fortress. Prepare to Whistle Podu! 🦁</p>
+      <button class="btn-checkout" id="success-return-btn">Return to Shop</button>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-container">
+      <div class="footer-brand">
+        <div class="footer-logo-text">CSK <span>PORTAL</span></div>
+        <p class="footer-tagline">The Pride of Chennai · 5-Time IPL Champions</p>
+      </div>
+      <div class="footer-links">
+        <a href="csk_website.html">Home</a>
+        <a href="about_csk.html">About CSK</a>
+        <a href="pillars.html">Pillars</a>
+        <a href="stats.html">Stats</a>
+        <a href="awards.html">Awards</a>
+        <a href="fanzone.html">Fan Zone</a>
+        <a href="csk_tv.html">CSK TV</a>
+        <a href="shop.html">Shop</a>
+      </div>
+      <div class="footer-socials">
+        <a href="#" class="social-icon">𝕏</a>
+        <a href="#" class="social-icon">📸</a>
+        <a href="#" class="social-icon">🎥</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">&copy; 2026 Chennai Super Kings Cricket Ltd. All rights reserved.</div>
+      <div class="footer-csk">Whistle Podu 🦁</div>
+    </div>
+  </footer>
+
+  <script>
+    // ─── CURSOR ENGINE ───
+    const cursor = document.getElementById('cursor');
+    const ring = document.getElementById('cursor-ring');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; cursor.style.left = mx + 'px'; cursor.style.top = my + 'px'; });
+    function animRing() { rx += (mx - rx) * 0.12; ry += (my - ry) * .12; ring.style.left = rx + 'px'; ring.style.top = ry + 'px'; requestAnimationFrame(animRing); }
+    animRing();
+
+    function bindCursorEffects() {
+      document.querySelectorAll('a, button, select, input, .bento-card, .cart-badge-trigger, .cart-close-btn, .qty-btn, .cart-remove-btn').forEach(el => {
+        el.addEventListener('mouseenter', () => { ring.style.width = '60px'; ring.style.height = '60px'; ring.style.borderColor = 'rgba(253, 185, 19, 0.8)'; });
+        el.addEventListener('mouseleave', () => { ring.style.width = '36px'; ring.style.height = '36px'; ring.style.borderColor = 'var(--gold)'; });
+      });
+    }
+
+    // ─── PRODUCT DATABASE ───
+    const PRODUCTS = [
+      {
+        id: 1,
+        name: "All-New CSK Customised Match Jersey - Adults",
+        desc: "Wear the skin of champions. Official 2026 Customized Match Jersey featuring the gold thread crest and high-absorption matrix cooling grids.",
+        price: 2599,
+        category: "apparel",
+        tag: "Official Kit",
+        thumb: "j1.png"
+      },
+
+      {
+        id: 3,
+        name: "AUTHENTIC TRAINING JERSEY IPL 2026 - ADULT",
+        desc: "Train like the legends in Chennai. Equipped with micro-ventilation panels and quick-dry technical fabric.",
+        price: 1299,
+        category: "apparel",
+        tag: "Training",
+        thumb: "j3.png"
+      },
+
+      {
+        id: 5,
+        name: "All You Need is Yellove Oversized Tee",
+        desc: "Relaxed street-fit drop shoulder tee in premium combed cotton, highlighting Chennai's iconic heartbeat script.",
+        price: 1000,
+        category: "apparel",
+        tag: "Lifestyle",
+        thumb: "j5.png"
+      },
+
+      {
+        id: 7,
+        name: "Team Travel Polo - Women",
+        desc: "Tailored smart-casual fit travel polo in classic navy with yellow accents, crafted for super queen supporters.",
+        price: 1500,
+        category: "apparel",
+        tag: "Travel Wear",
+        thumb: "j7.png"
+      },
+      {
+        id: 8,
+        name: "All You Need is Yellove Socks",
+        desc: "Premium cushioned sports crew socks for ultimate comfort on the turf or everyday stride.",
+        price: 300,
+        category: "apparel",
+        tag: "Accessories",
+        thumb: "j8.png"
+      },
+      {
+        id: 9,
+        name: "#Leo Socks",
+        desc: "Bring out your inner beast. Signature high-tensile crew socks honoring our mascot lion pride.",
+        price: 350,
+        category: "apparel",
+        tag: "Accessories",
+        thumb: "j9.png"
+      },
+      {
+        id: 10,
+        name: "CSK Kutty Singham Tee",
+        desc: "For the junior champions. Soft cotton t-shirt with an adorable cartoon Kutty Singham roar graphic.",
+        price: 499,
+        category: "apparel",
+        tag: "Kids",
+        thumb: "j10.jpeg"
+      },
+
+      {
+        id: 12,
+        name: "SPORTS REVA 1000 CSK-Black",
+        desc: "Extra large 1-litre high durability impact-resistant hydration bottle for all-day workouts.",
+        price: 420,
+        category: "drinkware",
+        tag: "Hydration",
+        thumb: "j12.jpeg"
+      },
+      {
+        id: 13,
+        name: "SPORTS STEEL EDGE 900 CSK-Black",
+        desc: "Dual-wall insulated flask with a sharp geometric design, keeping liquids cold for 24 hours.",
+        price: 580,
+        originalPrice: 725,
+        category: "drinkware",
+        tag: "On Sale",
+        thumb: "j13.jpeg"
+      },
+      {
+        id: 14,
+        name: "CSK Fan Cap",
+        desc: "Unstructured profile, high-density 3D whistle embroidery, adjustable metal buckle closure.",
+        price: 699,
+        category: "accessories",
+        tag: "Headwear",
+        thumb: "j14.jpeg"
+      },
+      {
+        id: 15,
+        name: "CSK Match Day Duffle",
+        desc: "Spacious heavy-duty duffle bag featuring dedicated wet/shoe compartments and gold accent zippers.",
+        price: 799,
+        category: "accessories",
+        tag: "Travel Gear",
+        thumb: "j15.jpeg"
+      },
+      {
+        id: 16,
+        name: "CSK Sling Bag",
+        desc: "Compact cross-body bag for keys, phone, and matchday tickets. Multi-tier secure zip pockets.",
+        price: 599,
+        category: "accessories",
+        tag: "Lifestyle",
+        thumb: "j16.jpeg"
+      }
+    ];
+
+    // ─── CART SYSTEM STATE ───
+    let CART = [];
+    let currentCategory = 'all';
+
+    const bentoGrid = document.getElementById("shop-bento-grid");
+    const cartOverlay = document.getElementById("cart-drawer-overlay");
+    const cartCloseBtn = document.getElementById("cart-drawer-close");
+    const cartTrigger = document.getElementById("cart-drawer-trigger");
+    const cartItemsFeed = document.getElementById("cart-items-feed");
+    const cartBadgeVal = document.getElementById("cart-badge-val");
+
+    const summarySubtotal = document.getElementById("summary-subtotal");
+    const summaryGst = document.getElementById("summary-gst");
+    const summaryShipping = document.getElementById("summary-shipping");
+    const summaryTotal = document.getElementById("summary-total");
+
+    const checkoutBtn = document.getElementById("checkout-trigger-btn");
+    const checkoutModal = document.getElementById("checkout-success-modal");
+    const successOrderId = document.getElementById("success-order-id");
+    const successReturnBtn = document.getElementById("success-return-btn");
+
+    // Category Filter Toggle Function
+    window.setCategory = function(cat) {
+      currentCategory = cat;
+      
+      // Update active state in UI buttons
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        if (btn.getAttribute('data-category') === cat) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      });
+      
+      renderBentoProducts();
+    };
+
+    // Render Bento merchandise
+    function renderBentoProducts() {
+      bentoGrid.innerHTML = "";
+
+      let filtered = PRODUCTS.filter(p => currentCategory === 'all' || p.category === currentCategory);
+
+      // Sort products by price from high to low when "All Pride" is active
+      if (currentCategory === 'all') {
+        filtered.sort((a, b) => b.price - a.price);
+      }
+
+      filtered.forEach(p => {
+        const card = document.createElement("div");
+        card.className = `bento-card reveal`;
+
+        let thumbHtml = `
+          <div class="bento-thumb-wrap">
+            <img src="${p.thumb}" alt="${p.name}" class="bento-img">
+            <span class="bento-tag">${p.tag}</span>
+          </div>
+        `;
+
+        let priceHtml = p.originalPrice 
+          ? `<span class="bento-price"><span style="text-decoration: line-through; color: var(--muted); font-size: 16px; margin-right: 8px;">₹${p.originalPrice}</span>₹${p.price}</span>`
+          : `<span class="bento-price">₹${p.price}</span>`;
+
+        let infoHtml = `
+          <div class="bento-info">
+            <div>
+              <h3 class="bento-name">${p.name}</h3>
+              <p class="bento-desc">${p.desc}</p>
+            </div>
+            <div class="bento-meta">
+              ${priceHtml}
+              <button class="btn-buy" onclick="addToCart(${p.id})">Add To Bag</button>
+            </div>
+          </div>
+        `;
+
+        card.innerHTML = thumbHtml + infoHtml;
+        bentoGrid.appendChild(card);
+      });
+
+      bindCursorEffects();
+    }
+
+    // ─── CART ACTIONS ───
+    window.addToCart = function(productId) {
+      const prod = PRODUCTS.find(p => p.id === productId);
+      if (!prod) return;
+
+      const existing = CART.find(item => item.product.id === productId);
+      if (existing) {
+        existing.quantity += 1;
+      } else {
+        CART.push({ product: prod, quantity: 1 });
+      }
+
+      triggerCartBounce();
+      updateCartDisplay();
+      openCartDrawer();
+    };
+
+    function triggerCartBounce() {
+      cartBadgeVal.classList.add("bounce");
+      setTimeout(() => cartBadgeVal.classList.remove("bounce"), 250);
+    }
+
+    function updateCartDisplay() {
+      cartItemsFeed.innerHTML = "";
+      
+      let totalQty = 0;
+      let subtotal = 0;
+
+      if (CART.length === 0) {
+        cartItemsFeed.innerHTML = `
+          <div class="cart-empty-state">
+            <div class="cart-empty-icon">🛍️</div>
+            <p>Your shopping bag is empty.</p>
+          </div>
+        `;
+        cartBadgeVal.textContent = "0";
+        summarySubtotal.textContent = "₹0";
+        summaryGst.textContent = "₹0";
+        summaryShipping.textContent = "₹0";
+        summaryTotal.textContent = "₹0";
+        checkoutBtn.disabled = true;
+        checkoutBtn.style.opacity = 0.5;
+        checkoutBtn.style.cursor = "not-allowed";
+        return;
+      }
+
+      checkoutBtn.disabled = false;
+      checkoutBtn.style.opacity = 1;
+      checkoutBtn.style.cursor = "pointer";
+
+      CART.forEach(item => {
+        totalQty += item.quantity;
+        const itemCost = item.product.price * item.quantity;
+        subtotal += itemCost;
+
+        const row = document.createElement("div");
+        row.className = "cart-item";
+        row.innerHTML = `
+          <img src="${item.product.thumb}" alt="${item.product.name}" class="cart-item-thumb">
+          <div class="cart-item-info">
+            <div class="cart-item-name">${item.product.name}</div>
+            <div class="cart-item-price">₹${item.product.price}</div>
+            <div class="cart-qty-row">
+              <div class="cart-qty-selectors">
+                <button class="qty-btn" onclick="adjustQty(${item.product.id}, -1)">-</button>
+                <span class="qty-val">${item.quantity}</span>
+                <button class="qty-btn" onclick="adjustQty(${item.product.id}, 1)">+</button>
+              </div>
+              <button class="cart-remove-btn" onclick="removeFromCart(${item.product.id})">Remove</button>
+            </div>
+          </div>
+        `;
+        cartItemsFeed.appendChild(row);
+      });
+
+      // Math calculations
+      const gst = Math.floor(subtotal * 0.18);
+      const shipping = subtotal > 2000 ? 0 : 150;
+      const total = subtotal + gst + shipping;
+
+      cartBadgeVal.textContent = totalQty;
+      summarySubtotal.textContent = `₹${subtotal}`;
+      summaryGst.textContent = `₹${gst}`;
+      summaryShipping.textContent = shipping === 0 ? "FREE" : `₹${shipping}`;
+      summaryTotal.textContent = `₹${total}`;
+
+      bindCursorEffects();
+    }
+
+    window.adjustQty = function(productId, val) {
+      const item = CART.find(item => item.product.id === productId);
+      if (!item) return;
+
+      item.quantity += val;
+      if (item.quantity <= 0) {
+        removeFromCart(productId);
+      } else {
+        updateCartDisplay();
+      }
+    };
+
+    window.removeFromCart = function(productId) {
+      CART = CART.filter(item => item.product.id !== productId);
+      updateCartDisplay();
+    };
+
+    function openCartDrawer() {
+      cartOverlay.classList.add("active");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeCartDrawer() {
+      cartOverlay.classList.remove("active");
+      document.body.style.overflow = "";
+    }
+
+    cartTrigger.onclick = openCartDrawer;
+    cartCloseBtn.onclick = closeCartDrawer;
+    cartOverlay.onclick = (e) => {
+      if (e.target === cartOverlay) closeCartDrawer();
+    };
+
+    // ─── CHECKOUT CONTROLLER ───
+    checkoutBtn.onclick = () => {
+      closeCartDrawer();
+      
+      // Generate unique transaction ID
+      const digits = Math.floor(Math.random() * 900000 + 100000);
+      successOrderId.textContent = `TRANSMISSION: #CSK-${digits}-K`;
+
+      checkoutModal.classList.add("active");
+      document.body.style.overflow = "hidden";
+    };
+
+    successReturnBtn.onclick = () => {
+      CART = [];
+      updateCartDisplay();
+      checkoutModal.classList.remove("active");
+      document.body.style.overflow = "";
+    };
+
+    // ─── INITIAL RENDERING ───
+    renderBentoProducts();
+    updateCartDisplay();
+
+    // Scroll Navbar effect
+    window.addEventListener('scroll', () => {
+      document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 40);
+    });
+
+    // ═══ HAMBURGER MENU ════════════════════════════════════════════
+    (function () {
+      var btn = document.getElementById('nav-hamburger');
+      var links = document.getElementById('nav-links');
+      if (!btn || !links) return;
+      btn.addEventListener('click', function () {
+        btn.classList.toggle('active');
+        links.classList.toggle('open');
+      });
+      links.querySelectorAll('a').forEach(function (a) {
+        a.addEventListener('click', function () {
+          btn.classList.remove('active');
+          links.classList.remove('open');
+        });
+      });
+    })();
+
+    // ─── AUTHENTICATION SESSION RESTORER (Sync across all subpages) ───
+    const joinNowBtn = document.getElementById('join-now-btn');
+    const navUserProfile = document.getElementById('nav-user-profile');
+    const navUsername = document.getElementById('nav-username');
+    const logoutBtn = document.getElementById('logout-btn');
+
+    function updateNavState(username) {
+      if (joinNowBtn) joinNowBtn.style.display = 'none';
+      if (navUserProfile) {
+        navUserProfile.style.display = 'flex';
+        navUsername.textContent = username;
+      }
+    }
+
+    if (logoutBtn) {
+      logoutBtn.addEventListener('click', () => {
+        localStorage.removeItem('csk_auth_user');
+        localStorage.removeItem('csk_auth_verified');
+        if (joinNowBtn) joinNowBtn.style.display = 'inline-block';
+        if (navUserProfile) navUserProfile.style.display = 'none';
+        alert('You have successfully logged out of the CSK Portal.');
+      });
+    }
+
+    const cachedUser = JSON.parse(localStorage.getItem('csk_auth_user'));
+    const isVerified = localStorage.getItem('csk_auth_verified') === 'true';
+    if (cachedUser && isVerified) {
+      updateNavState(cachedUser.username);
+    }
+  </script>
+</body>
+
+</html>

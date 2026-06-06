@@ -1,0 +1,1155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chennai Super Kings — About CSK</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700;1,800;1,900&family=Poppins:wght@300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --gold: #FDB913;
+      --gold-dim: rgba(253, 185, 19, 0.15);
+      --blue: #0047A0;
+      --blue-light: #1a6fd4;
+      --bg: #060810;
+      --bg2: #080c18;
+      --text: #e8eaf0;
+      --muted: rgba(232, 234, 240, 0.5);
+      --border: rgba(253, 185, 19, 0.2);
+      --card-bg: rgba(8, 12, 24, 0.6);
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: radial-gradient(circle at 50% 50%, var(--bg2) 0%, var(--bg) 100%);
+      color: var(--text);
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* CUSTOM CURSOR */
+    #cursor {
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      background: var(--gold);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 99999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.1s;
+      mix-blend-mode: screen;
+    }
+
+    #cursor-ring {
+      position: fixed;
+      width: 36px;
+      height: 36px;
+      border: 1.5px solid var(--gold);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 99998;
+      transform: translate(-50%, -50%);
+      transition: all 0.15s ease;
+      opacity: 0.6;
+    }
+
+    /* SCANLINE & GRID BACKGROUND */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 0, 0, 0.03) 2px, rgba(0, 0, 0, 0.03) 4px),
+        linear-gradient(rgba(253, 185, 19, 0.01) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(253, 185, 19, 0.01) 1px, transparent 1px);
+      background-size: 100% 100%, 40px 40px, 40px 40px;
+      pointer-events: none;
+      z-index: 9998;
+    }
+
+    /* NAVBAR */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+      height: 72px;
+      transition: background 0.4s, backdrop-filter 0.4s;
+    }
+
+    nav.scrolled {
+      background: rgba(6, 8, 16, 0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800;
+      font-size: 24px;
+      letter-spacing: 0.05em;
+      color: var(--gold);
+      text-transform: uppercase;
+      transition: transform 0.2s;
+    }
+
+    .nav-logo img {
+      height: 52px;
+      width: auto;
+      filter: drop-shadow(0 0 12px rgba(253, 185, 19, 0.4));
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 36px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 600;
+      font-size: 15px;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--gold) !important;
+      text-shadow: 0 0 8px rgba(253, 185, 19, 0.6) !important;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .live-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(253, 185, 19, 0.1);
+      border: 1px solid rgba(253, 185, 19, 0.3);
+      padding: 5px 12px;
+      border-radius: 4px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      color: var(--gold);
+      text-transform: uppercase;
+    }
+
+    .live-dot {
+      width: 7px;
+      height: 7px;
+      background: var(--gold);
+      border-radius: 50%;
+      animation: pulse-gold 1.2s infinite;
+    }
+
+    @keyframes pulse-gold {
+
+      0%,
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      50% {
+        opacity: 0.4;
+        transform: scale(0.7);
+      }
+    }
+
+    .btn-angled {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800;
+      font-size: 14px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--bg);
+      text-decoration: none;
+      background: var(--gold);
+      padding: 11px 28px;
+      clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+      transition: all 0.2s;
+      display: inline-block;
+    }
+
+    .btn-angled:hover {
+      background: #ffe066;
+      transform: translateY(-1px);
+      box-shadow: 0 8px 30px rgba(253, 185, 19, 0.4);
+    }
+
+    /* HEADER */
+    header {
+      padding: 140px 8vw 40px;
+      text-align: center;
+      position: relative;
+    }
+
+    header h1 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(3rem, 6vw, 5.5rem);
+      font-weight: 900;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      line-height: 0.95;
+      color: #fff;
+      text-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
+      margin-bottom: 10px;
+    }
+
+    header h1 span {
+      color: var(--gold);
+      display: block;
+      font-size: clamp(1.5rem, 3vw, 2.5rem);
+      font-weight: 700;
+      letter-spacing: 0.25em;
+      margin-top: 5px;
+    }
+
+    header p {
+      max-width: 600px;
+      margin: 20px auto 0;
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* CONTAINER */
+    .container {
+      width: 100%;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 8vw 100px;
+    }
+
+    .section-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 32px;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: #fff;
+      border-left: 4px solid var(--gold);
+      padding-left: 15px;
+      margin-bottom: 40px;
+      margin-top: 80px;
+    }
+
+    .section-title span {
+      font-size: 13px;
+      font-family: 'Poppins', sans-serif;
+      color: var(--muted);
+      letter-spacing: 0;
+      font-weight: 400;
+      text-transform: none;
+      display: block;
+      margin-top: 5px;
+    }
+
+    /* HORIZONTAL TIMELINE SLIDER WITH RUNNING LION */
+    .timeline-container {
+      position: relative;
+      width: 100%;
+      margin: 40px auto 80px;
+      padding: 40px 0;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scrollbar-width: none; /* Firefox */
+      cursor: grab;
+    }
+
+    .timeline-container:active {
+      cursor: grabbing;
+    }
+
+    .timeline-container::-webkit-scrollbar {
+      display: none; /* Safari and Chrome */
+    }
+
+    .timeline-wrapper {
+      position: relative;
+      display: inline-block;
+      min-width: 100%;
+      padding-top: 50px;
+    }
+
+    .timeline-line {
+      position: absolute;
+      top: 24px;
+      left: 150px;
+      right: 150px;
+      height: 4px;
+      background: rgba(253, 185, 19, 0.2);
+      border-radius: 2px;
+    }
+
+    .timeline-line-progress {
+      display: none;
+    }
+
+    .running-lion {
+      position: absolute;
+      top: -26px;
+      left: 0%;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: left 0.1s ease-out;
+      pointer-events: none;
+      filter: drop-shadow(0 2px 8px var(--gold));
+    }
+
+    .lion-emoji {
+      font-size: 24px;
+      display: block;
+      animation: bounceLion 0.6s infinite alternate ease-in-out;
+    }
+
+    @keyframes bounceLion {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-6px); }
+    }
+
+    .timeline-items-wrapper {
+      display: flex;
+      gap: 20px;
+      padding: 0 150px;
+    }
+
+    .timeline-slide-item {
+      flex: 0 0 260px;
+      position: relative;
+    }
+
+    .timeline-node {
+      position: absolute;
+      top: -30px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 12px;
+      height: 12px;
+      background-color: var(--bg);
+      border: 2px solid var(--gold);
+      border-radius: 50%;
+      z-index: 10;
+      box-shadow: 0 0 8px var(--gold);
+      transition: all 0.3s ease;
+    }
+
+    .timeline-slide-item:hover .timeline-node {
+      transform: translateX(-50%) scale(1.3);
+      background-color: var(--gold);
+      box-shadow: 0 0 12px var(--gold);
+    }
+
+    .timeline-content {
+      padding: 16px;
+      background: rgba(10, 14, 26, 0.65);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(253, 185, 19, 0.1);
+      border-radius: 10px;
+      position: relative;
+      transition: all 0.3s ease;
+      margin-top: 10px;
+    }
+
+    .timeline-content:hover {
+      border-color: rgba(253, 185, 19, 0.4);
+      box-shadow: 0 4px 20px rgba(253, 185, 19, 0.12);
+      transform: translateY(-3px);
+    }
+
+    .timeline-year {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--gold);
+      margin-bottom: 4px;
+    }
+
+    .timeline-title {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+
+    .timeline-text {
+      font-size: 11.5px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    /* GRID OF INFORMATIONAL CARDS */
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 30px;
+      margin-bottom: 80px;
+    }
+
+    .info-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(15px);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 36px 30px;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.4s ease;
+    }
+
+    .info-card:hover {
+      border-color: var(--gold);
+      box-shadow: 0 10px 30px rgba(253, 185, 19, 0.08);
+      transform: translateY(-4px);
+    }
+
+    .info-header {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .info-icon {
+      font-size: 32px;
+      filter: drop-shadow(0 0 8px rgba(253, 185, 19, 0.3));
+    }
+
+    .info-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 26px;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: #fff;
+      letter-spacing: 0.02em;
+    }
+
+    .info-text {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    /* SPONSORS DATABASE TABLE */
+    .sponsors-table-wrapper {
+      background: var(--card-bg);
+      backdrop-filter: blur(15px);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 30px;
+      overflow-x: auto;
+      margin-bottom: 80px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .sponsors-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      text-align: left;
+    }
+
+    .sponsors-table th {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 15px 20px;
+      border-bottom: 2px solid rgba(253, 185, 19, 0.3);
+    }
+
+    .sponsors-table td {
+      padding: 16px 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      color: var(--text);
+    }
+
+    .sponsors-table tr:hover td {
+      background: rgba(253, 185, 19, 0.03);
+      color: #fff;
+    }
+
+
+
+    /* RESPONSIVENESS */
+    @media (max-width: 800px) {
+      .info-grid {
+        grid-template-columns: 1fr;
+      }
+      .timeline-container {
+        padding: 20px 0;
+      }
+    }
+
+    /* RESPONSIVENESS & MOBILE MENU */
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 8px;
+      z-index: 200;
+    }
+
+    .nav-hamburger span {
+      display: block;
+      width: 26px;
+      height: 2px;
+      background: var(--text);
+      border-radius: 2px;
+      transition: .3s;
+    }
+
+    .nav-hamburger.active span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+
+    .nav-hamburger.active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .nav-hamburger.active span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+
+    @media (max-width: 900px) {
+      nav {
+        padding: 0 24px;
+      }
+
+      .nav-hamburger {
+        display: flex;
+      }
+
+      .nav-links {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: min(320px, 80vw);
+        height: 100vh;
+        background: rgba(6, 8, 16, .98);
+        backdrop-filter: blur(20px);
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 32px;
+        transition: right .4s cubic-bezier(.25, .8, .25, 1);
+        border-left: 1px solid var(--border);
+        z-index: 150;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .nav-links.open {
+        right: 0;
+      }
+
+      .nav-links a {
+        font-size: 20px;
+      }
+    }
+
+    /* FOOTER */
+    footer {
+      background: #04050a;
+      border-top: 1px solid var(--border);
+      padding: 60px 8vw;
+      text-align: center;
+      font-size: 13px;
+      color: var(--muted);
+      position: relative;
+      z-index: 10;
+    }
+
+    footer p {
+      margin-bottom: 15px;
+    }
+
+    footer a {
+      color: var(--gold);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    footer a:hover {
+      color: #fff;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="cursor"></div>
+  <div id="cursor-ring"></div>
+
+  <!-- NAVBAR -->
+  <nav id="navbar">
+    <div class="nav-logo">
+      <a href="csk_website.html"><img src="logo.png" alt="CSK Crest"></a>
+    </div>
+    <button class="nav-hamburger" id="nav-hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="csk_website.html">Home</a></li>
+      <li><a href="about_csk.html" class="active">About CSK</a></li>
+      <li><a href="pillars.html">Pillars</a></li>
+      <li><a href="stats.html">Stats</a></li>
+      <li><a href="awards.html">Awards</a></li>
+      <li><a href="fanzone.html">Fan Zone</a></li>
+      <li><a href="csk_tv.html">CSK TV</a></li>
+      <li><a href="shop.html">Shop</a></li>
+    </ul>
+    <div class="nav-right">
+      <div id="nav-user-profile" style="display:none; align-items:center; gap:12px;">
+        <span class="user-avatar" style="width:36px; height:36px; border-radius:50%; background:var(--gold); color:var(--bg); display:flex; align-items:center; justify-content:center; font-family:'Barlow Condensed', sans-serif; font-weight:800; font-size:16px; border:2px solid #fff; box-shadow:0 0 10px rgba(253,195,19,0.4);">🦁</span>
+        <span id="nav-username" style="font-family:'Barlow Condensed', sans-serif; font-weight:700; font-size:14px; letter-spacing:0.05em; text-transform:uppercase; color:#fff;"></span>
+        <a href="javascript:void(0)" id="logout-btn" style="font-family:'Barlow Condensed', sans-serif; font-weight:700; font-size:12px; letter-spacing:0.05em; text-transform:uppercase; color:var(--muted); text-decoration:none; margin-left:8px; transition:color 0.2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--muted)'">Logout</a>
+      </div>
+      <a href="csk_website.html#membership" class="btn-angled" id="join-now-btn">Join Now</a>
+    </div>
+  </nav>
+
+  <!-- HEADER -->
+  <header>
+    <h1>THE CHRONICLE OF CSK <span>History &amp; Brand Legacy</span></h1>
+    <p>Dive deep into the roots of Chennai Super Kings. Learn about their humble inception, iconic grounds, unmatched
+      fan support, corporate governance, and sponsorship history.</p>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <div class="container">
+
+    <!-- 1. Timeline of Origin & History -->
+    <div class="section-title">
+      Historical Timeline <span>The Inception of a Powerhouse</span>
+    </div>
+
+    <div class="timeline-container">
+      <div class="timeline-wrapper">
+        <div class="timeline-line">
+          <div class="timeline-line-progress"></div>
+          <div class="running-lion" id="running-lion">
+            <span class="lion-emoji">🦁</span>
+          </div>
+        </div>
+        <div class="timeline-items-wrapper">
+          <!-- 2007 -->
+          <div class="timeline-slide-item">
+            <div class="timeline-node"></div>
+            <div class="timeline-content">
+              <div class="timeline-year">2007</div>
+              <h4 class="timeline-title">IPL Announced</h4>
+              <p class="timeline-text">The BCCI launches the Indian Premier League, with Chennai awarded one of the original eight franchises, laying the foundation for what would become one of cricket's most iconic teams.</p>
+            </div>
+          </div>
+
+          <!-- 2008 -->
+          <div class="timeline-slide-item">
+            <div class="timeline-node"></div>
+            <div class="timeline-content">
+              <div class="timeline-year">2008</div>
+              <h4 class="timeline-title">Dhoni Arrives &amp; CSK Begins</h4>
+              <p class="timeline-text">MS Dhoni becomes CSK's marquee signing and captain. Alongside stars such as Suresh Raina, Matthew Hayden, Muttiah Muralitharan, and Michael Hussey, CSK reaches the IPL Final in its debut season.</p>
+            </div>
+          </div>
+
+          <!-- 2010 -->
+          <div class="timeline-slide-item">
+            <div class="timeline-node"></div>
+            <div class="timeline-content">
+              <div class="timeline-year">2010</div>
+              <h4 class="timeline-title">First IPL &amp; CLT20 Triumph</h4>
+              <p class="timeline-text">CSK wins its maiden IPL championship and later lifts its first Champions League T20 title, becoming the first Indian franchise to achieve the prestigious IPL–CLT20 double in the same year.</p>
+            </div>
+          </div>
+
+          <!-- 2011 -->
+          <div class="timeline-slide-item">
+            <div class="timeline-node"></div>
+            <div class="timeline-content">
+              <div class="timeline-year">2011</div>
+              <h4 class="timeline-title">Back-to-Back IPL Champions</h4>
+              <p class="timeline-text">CSK becomes the first franchise in IPL history to successfully defend its title, cementing its status as the league's dominant force.</p>
+            </div>
+          </div>
+
+          <!-- 2014 -->
+          <div class="timeline-slide-item">
+            <div class="timeline-node"></div>
+            <div class="timeline-content">
+              <div class="timeline-year">2014</div>
+              <h4 class="timeline-title">Second CLT20 Crown</h4>
+              <p class="timeline-text">The Super Kings capture their second Champions League T20 trophy, further strengthening their reputation as one of the world's premier T20 franchises.</p>
+            </div>
+          </div>
+
+          <!-- 2016–2017 -->
+          <div class="timeline-slide-item">
+            <div class="timeline-node"></div>
+            <div class="timeline-content">
+              <div class="timeline-year">2016–2017</div>
+              <h4 class="timeline-title">The Suspension Years</h4>
+              <p class="timeline-text">CSK serves a two-year suspension from the IPL, marking the most challenging chapter in the franchise's history.</p>
+            </div>
+          </div>
+
+          <!-- 2018 -->
+          <div class="timeline-slide-item">
+            <div class="timeline-node"></div>
+            <div class="timeline-content">
+              <div class="timeline-year">2018</div>
+              <h4 class="timeline-title">The Grand Comeback</h4>
+              <p class="timeline-text">Returning after suspension, the veteran squad—famously labeled "Dad's Army"—defies expectations and wins its third IPL title in a fairytale comeback.</p>
+            </div>
+          </div>
+
+          <!-- 2020 -->
+          <div class="timeline-slide-item">
+            <div class="timeline-node"></div>
+            <div class="timeline-content">
+              <div class="timeline-year">2020</div>
+              <h4 class="timeline-title">A Rare Setback</h4>
+              <p class="timeline-text">For the first time in franchise history, CSK fails to qualify for the IPL playoffs, ending an era of unprecedented consistency.</p>
+            </div>
+          </div>
+
+          <!-- 2021 -->
+          <div class="timeline-slide-item">
+            <div class="timeline-node"></div>
+            <div class="timeline-content">
+              <div class="timeline-year">2021</div>
+              <h4 class="timeline-title">Back on the Throne</h4>
+              <p class="timeline-text">CSK bounces back in style, winning its fourth IPL championship and reaffirming its championship pedigree.</p>
+            </div>
+          </div>
+
+          <!-- 2023 -->
+          <div class="timeline-slide-item">
+            <div class="timeline-node"></div>
+            <div class="timeline-content">
+              <div class="timeline-year">2023</div>
+              <h4 class="timeline-title">Historic Fifth Title</h4>
+              <p class="timeline-text">CSK secures its fifth IPL trophy in a thrilling final, becoming the joint-most successful franchise in IPL history.</p>
+            </div>
+          </div>
+
+          <!-- 2024 -->
+          <div class="timeline-slide-item">
+            <div class="timeline-node"></div>
+            <div class="timeline-content">
+              <div class="timeline-year">2024</div>
+              <h4 class="timeline-title">A New Era Begins</h4>
+              <p class="timeline-text">After leading the franchise for 16 seasons, MS Dhoni passes the captaincy to Ruturaj Gaikwad, ushering in the next chapter of the Super Kings legacy.</p>
+            </div>
+          </div>
+
+          <!-- 2025–Present -->
+          <div class="timeline-slide-item">
+            <div class="timeline-node"></div>
+            <div class="timeline-content">
+              <div class="timeline-year">2025–Present</div>
+              <h4 class="timeline-title">Building the Future</h4>
+              <p class="timeline-text">Under new leadership, CSK continues its pursuit of excellence while carrying forward the values, culture, and winning legacy that made the franchise a symbol of consistency and success.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. Grounds, Fans, Ownership, Pop Culture -->
+    <div class="section-title">
+      Franchise Dimensions <span>Grounds, Fans, Governance, &amp; Pop Culture</span>
+    </div>
+
+    <div class="info-grid">
+      <!-- Fortress Chepauk -->
+      <div class="info-card">
+        <div class="info-header">
+          <div class="info-icon">🏟️</div>
+          <h3 class="info-title">Fortress Chepauk</h3>
+        </div>
+        <p class="info-text">The primary home of CSK is the historic <strong>M. A. Chidambaram Stadium</strong>, widely
+          known as Chepauk. Located in Chennai, this ground is renowned for its iconic spin-friendly pitches and the
+          passionate, knowledgeable crowd dressed in seas of yellow. Due to administrative or political circumstances,
+          CSK has temporarily hosted matches at secondary home grounds such as Ranchi (2014) and Pune (2018), where
+          their fan support followed them in huge numbers.</p>
+      </div>
+
+      <!-- Yellow Army & Support -->
+      <div class="info-card">
+        <div class="info-header">
+          <div class="info-icon">📣</div>
+          <h3 class="info-title">Yellow Army &amp; Fan Support</h3>
+        </div>
+        <p class="info-text">The official fan base, famously known as the <strong>Whistle Podu Army</strong>, is one of
+          the most passionate supporter groups in global sports. The battle cry "Whistle Podu" (blow the whistle) has
+          become a viral culture. In 2018, when home games were shifted to Pune, the franchise and fans chartered a
+          special <strong>"Whistle Podu Express"</strong> train, transporting hundreds of die-hard supporters from
+          Chennai to Pune free of charge, transforming the away stadium into a roaring sea of yellow.</p>
+      </div>
+
+      <!-- Ownership & Finances -->
+      <div class="info-card">
+        <div class="info-header">
+          <div class="info-icon">💼</div>
+          <h3 class="info-title">Ownership &amp; Governance</h3>
+        </div>
+        <p class="info-text">Initially owned by corporate giant <strong>India Cements</strong>, with N. Srinivasan as a
+          key executive, ownership was reorganized in December 2014. The franchise was transferred to a newly
+          established entity called <strong>Chennai Super Kings Cricket Limited (CSKCL)</strong>. Today, CSK is
+          considered a premium commercial brand with massive valuation, stable profit growth, and a distinguished
+          portfolio of corporate partnerships.</p>
+      </div>
+
+      <!-- In Popular Culture -->
+      <div class="info-card">
+        <div class="info-header">
+          <div class="info-icon">🎬</div>
+          <h3 class="info-title">In Popular Culture</h3>
+        </div>
+        <p class="info-text">CSK holds an iconic place in mainstream media. In 2019, Hotstar released <strong>"Roar of
+            the Lion"</strong>, a premium multi-part docu-series capturing their historic comeback and 2018 triumph
+          under Dhoni's captaincy. Furthermore, the team and its players are deeply integrated into south Indian cinema,
+          with movie stars frequently paying tributes to "Thala" Dhoni and the franchise in blockbusters.</p>
+      </div>
+    </div>
+
+    <!-- 3. Shirt Sponsors Historical Database -->
+    <div class="section-title">
+      Sponsorship Chronicles <span>Historical Shirt Sponsors &amp; Partners (2008–Present)</span>
+    </div>
+
+    <div class="sponsors-table-wrapper">
+      <table class="sponsors-table">
+        <thead>
+          <tr>
+            <th>Years</th>
+            <th>Kit Manufacturer</th>
+            <th>Principal Shirt Sponsor (Chest)</th>
+            <th>Back Sponsor</th>
+            <th>Major Sleeve Sponsors</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="font-weight: 700; color: var(--gold);">2008–2014</td>
+            <td>Reebok</td>
+            <td>Aircel</td>
+            <td>Gulf Oil</td>
+            <td>Reebok, Usha</td>
+          </tr>
+          <tr>
+            <td style="font-weight: 700; color: var(--gold);">2015</td>
+            <td>Reebok</td>
+            <td>Aircel</td>
+            <td>Gulf Oil</td>
+            <td>UST Global, Reebok</td>
+          </tr>
+          <tr>
+            <td style="font-weight: 700; color: var(--gold);">2016–2017</td>
+            <td colspan="4" style="color: var(--muted); text-align: center; font-style: italic;">Franchise suspended for
+              two years</td>
+          </tr>
+          <tr>
+            <td style="font-weight: 700; color: var(--gold);">2018–2020</td>
+            <td>Seven</td>
+            <td>Muthoot Group</td>
+            <td>Gulf Oil</td>
+            <td>Equitas, HIL, ACT Fibernet</td>
+          </tr>
+          <tr>
+            <td style="font-weight: 700; color: var(--gold);">2021</td>
+            <td>Seven</td>
+            <td>Myntra</td>
+            <td>India Cements</td>
+            <td>Gulf Oil, British Empire</td>
+          </tr>
+          <tr>
+            <td style="font-weight: 700; color: var(--gold);">2022–2023</td>
+            <td>TYKA</td>
+            <td>TVS Eurogrip</td>
+            <td>India Cements</td>
+            <td>Gulf Oil, ICICI Prudential</td>
+          </tr>
+          <tr>
+            <td style="font-weight: 700; color: var(--gold);">2024–2025</td>
+            <td>TYKA</td>
+            <td>TVS Eurogrip</td>
+            <td>Etihad Airways</td>
+            <td>Gulf Oil, ICICI Prudential</td>
+          </tr>
+          <tr>
+            <td style="font-weight: 700; color: var(--gold);">2026</td>
+            <td>TYKA</td>
+            <td>TVS Eurogrip</td>
+            <td>Etihad Airways</td>
+            <td>Gulf Oil, Nippon Paint</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>&copy; 2026 Chennai Super Kings Fan Portal. Developed with 💛 for Super Fans.</p>
+    <p>All historical resources and sponsor databases are compiled from authorized archives. Back to <a
+        href="csk_website.html">Main Home Page</a>.</p>
+  </footer>
+
+  <script>
+    // CURSOR LOGIC (Matching main website exactly)
+    const cursor = document.getElementById('cursor');
+    const ring = document.getElementById('cursor-ring');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX;
+      my = e.clientY;
+      cursor.style.left = mx + 'px';
+      cursor.style.top = my + 'px';
+    });
+
+    function animRing() {
+      rx += (mx - rx) * 0.12;
+      ry += (my - ry) * 0.12;
+      ring.style.left = rx + 'px';
+      ring.style.top = ry + 'px';
+      requestAnimationFrame(animRing);
+    }
+    animRing();
+
+    // Hover scales for cursor ring
+    document.querySelectorAll('a, button, .timeline-content, .info-card, tr').forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        ring.style.width = '60px';
+        ring.style.height = '60px';
+        ring.style.borderColor = 'rgba(253, 185, 19, 0.8)';
+      });
+      el.addEventListener('mouseleave', () => {
+        ring.style.width = '36px';
+        ring.style.height = '36px';
+        ring.style.borderColor = 'var(--gold)';
+      });
+    });
+
+    // NAVBAR SCROLL TRANSITION
+    window.addEventListener('scroll', () => {
+      document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 40);
+    });
+
+    // ═══ HAMBURGER MENU ════════════════════════════════════════════
+    (function () {
+      var btn = document.getElementById('nav-hamburger');
+      var links = document.getElementById('nav-links');
+      if (!btn || !links) return;
+      btn.addEventListener('click', function () {
+        btn.classList.toggle('active');
+        links.classList.toggle('open');
+      });
+      links.querySelectorAll('a').forEach(function (a) {
+        a.addEventListener('click', function () {
+          btn.classList.remove('active');
+          links.classList.remove('open');
+        });
+      });
+    })();
+
+    // ─── AUTHENTICATION SESSION RESTORER (Sync across all subpages) ───
+    const joinNowBtn = document.getElementById('join-now-btn');
+    const navUserProfile = document.getElementById('nav-user-profile');
+    const navUsername = document.getElementById('nav-username');
+    const logoutBtn = document.getElementById('logout-btn');
+
+    function updateNavState(username) {
+      if (joinNowBtn) joinNowBtn.style.display = 'none';
+      if (navUserProfile) {
+        navUserProfile.style.display = 'flex';
+        navUsername.textContent = username;
+      }
+    }
+
+    if (logoutBtn) {
+      logoutBtn.addEventListener('click', () => {
+        localStorage.removeItem('csk_auth_user');
+        localStorage.removeItem('csk_auth_verified');
+        if (joinNowBtn) joinNowBtn.style.display = 'inline-block';
+        if (navUserProfile) navUserProfile.style.display = 'none';
+        alert('You have successfully logged out of the CSK Portal.');
+      });
+    }
+
+    // ─── TIMELINE RUNNING LION & DRAG-SCROLL ───
+    (function() {
+      const container = document.querySelector('.timeline-container');
+      const lineProgress = document.querySelector('.timeline-line-progress');
+      const lion = document.getElementById('running-lion');
+      
+      if (!container || !lineProgress || !lion) return;
+      
+      let direction = 1; // 1 = right, -1 = left
+      let autoScrollActive = true;
+      let userInteractionTimeout = null;
+      let lastScrollLeft = container.scrollLeft;
+
+      function updateLion() {
+        const maxScroll = container.scrollWidth - container.clientWidth;
+        const scrollRatio = maxScroll > 0 ? container.scrollLeft / maxScroll : 0;
+        
+        const lineOffsetPercent = scrollRatio * 100;
+        lineProgress.style.width = `${lineOffsetPercent}%`;
+        lion.style.left = `${lineOffsetPercent}%`;
+      }
+
+      function handleDirectionFlip() {
+        if (direction === 1) {
+          lion.style.transform = 'translateX(-50%) scaleX(-1)';
+        } else {
+          lion.style.transform = 'translateX(-50%) scaleX(1)';
+        }
+      }
+      
+      container.addEventListener('scroll', () => {
+        updateLion();
+        if (!autoScrollActive) {
+          const delta = container.scrollLeft - lastScrollLeft;
+          if (delta > 1) {
+            direction = 1;
+            handleDirectionFlip();
+          } else if (delta < -1) {
+            direction = -1;
+            handleDirectionFlip();
+          }
+        }
+        lastScrollLeft = container.scrollLeft;
+      });
+      window.addEventListener('resize', updateLion);
+      setTimeout(updateLion, 100);
+
+      // Smooth auto scrolling ping-pong
+      function step() {
+        if (autoScrollActive) {
+          const maxScroll = container.scrollWidth - container.clientWidth;
+          if (maxScroll > 0) {
+            let nextScroll = container.scrollLeft + (direction * 0.7);
+            
+            if (direction === 1 && nextScroll >= maxScroll) {
+              nextScroll = maxScroll;
+              direction = -1;
+              handleDirectionFlip();
+            } else if (direction === -1 && nextScroll <= 0) {
+              nextScroll = 0;
+              direction = 1;
+              handleDirectionFlip();
+            }
+            
+            container.scrollLeft = nextScroll;
+          }
+        }
+        requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+
+      function pauseAutoScroll() {
+        autoScrollActive = false;
+        clearTimeout(userInteractionTimeout);
+        userInteractionTimeout = setTimeout(() => {
+          autoScrollActive = true;
+        }, 4000);
+      }
+
+      container.addEventListener('touchstart', pauseAutoScroll);
+      container.addEventListener('wheel', pauseAutoScroll);
+
+      // Drag to scroll
+      let isDown = false;
+      let startX;
+      let scrollLeft;
+
+      container.addEventListener('mousedown', (e) => {
+        pauseAutoScroll();
+        isDown = true;
+        container.style.cursor = 'grabbing';
+        startX = e.pageX - container.offsetLeft;
+        scrollLeft = container.scrollLeft;
+      });
+      
+      window.addEventListener('mouseup', () => {
+        isDown = false;
+        container.style.cursor = 'grab';
+      });
+      
+      container.addEventListener('mouseleave', () => {
+        isDown = false;
+        container.style.cursor = 'grab';
+      });
+      
+      container.addEventListener('mousemove', (e) => {
+        if (!isDown) return;
+        pauseAutoScroll();
+        e.preventDefault();
+        const x = e.pageX - container.offsetLeft;
+        const walk = (x - startX) * 1.5;
+        container.scrollLeft = scrollLeft - walk;
+      });
+    })();
+
+    // Restore Session Storage sync
+    const cachedUser = JSON.parse(localStorage.getItem('csk_auth_user'));
+    const isVerified = localStorage.getItem('csk_auth_verified') === 'true';
+    if (cachedUser && isVerified) {
+      updateNavState(cachedUser.username);
+    }
+  </script>
+
+</body>
+
+</html>
