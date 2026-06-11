@@ -1,0 +1,4350 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chennai Super Kings — All-Time Stats</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700;1,800;1,900&family=Poppins:wght@300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --gold: #FDB913;
+      --gold-dim: rgba(253, 185, 19, 0.15);
+      --blue: #0047A0;
+      --blue-light: #1a6fd4;
+      --bg: #060810;
+      --bg2: #080c18;
+      --text: #e8eaf0;
+      --muted: rgba(232, 234, 240, 0.5);
+      --border: rgba(253, 185, 19, 0.2);
+      --card-bg: rgba(8, 12, 24, 0.6);
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: radial-gradient(circle at 50% 50%, var(--bg2) 0%, var(--bg) 100%);
+      color: var(--text);
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* CUSTOM CURSOR */
+    #cursor {
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      background: var(--gold);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 99999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.1s;
+      mix-blend-mode: screen;
+    }
+
+    #cursor-ring {
+      position: fixed;
+      width: 36px;
+      height: 36px;
+      border: 1.5px solid var(--gold);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 99998;
+      transform: translate(-50%, -50%);
+      transition: all 0.15s ease;
+      opacity: 0.6;
+    }
+
+    /* SCANLINE & GRID BACKGROUND */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 0, 0, 0.03) 2px, rgba(0, 0, 0, 0.03) 4px),
+        linear-gradient(rgba(253, 185, 19, 0.01) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(253, 185, 19, 0.01) 1px, transparent 1px);
+      background-size: 100% 100%, 40px 40px, 40px 40px;
+      pointer-events: none;
+      z-index: 9998;
+    }
+
+    /* NAVBAR */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+      height: 72px;
+      transition: background 0.4s, backdrop-filter 0.4s;
+    }
+
+    nav.scrolled {
+      background: rgba(6, 8, 16, 0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800;
+      font-size: 24px;
+      letter-spacing: 0.05em;
+      color: var(--gold);
+      text-transform: uppercase;
+      transition: transform 0.2s;
+    }
+
+    .nav-logo img {
+      height: 52px;
+      width: auto;
+      filter: drop-shadow(0 0 12px rgba(253, 185, 19, 0.4));
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 36px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 600;
+      font-size: 15px;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--gold) !important;
+      text-shadow: 0 0 8px rgba(253, 185, 19, 0.6) !important;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .live-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(253, 185, 19, 0.1);
+      border: 1px solid rgba(253, 185, 19, 0.3);
+      padding: 5px 12px;
+      border-radius: 4px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      color: var(--gold);
+      text-transform: uppercase;
+    }
+
+    .live-dot {
+      width: 7px;
+      height: 7px;
+      background: var(--gold);
+      border-radius: 50%;
+      animation: pulse-gold 1.2s infinite;
+    }
+
+    @keyframes pulse-gold {
+
+      0%,
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      50% {
+        opacity: 0.4;
+        transform: scale(0.7);
+      }
+    }
+
+    .btn-angled {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800;
+      font-size: 14px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--bg);
+      text-decoration: none;
+      background: var(--gold);
+      padding: 11px 28px;
+      clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+      transition: all 0.2s;
+      display: inline-block;
+    }
+
+    .btn-angled:hover {
+      background: #ffe066;
+      transform: translateY(-1px);
+      box-shadow: 0 8px 30px rgba(253, 185, 19, 0.4);
+    }
+
+    /* HEADER */
+    header {
+      padding: 140px 8vw 40px;
+      text-align: center;
+      position: relative;
+    }
+
+    header h1 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(3rem, 6vw, 5.5rem);
+      font-weight: 900;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      line-height: 0.95;
+      color: #fff;
+      text-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
+      margin-bottom: 10px;
+    }
+
+    header h1 span {
+      color: var(--gold);
+      display: block;
+      font-size: clamp(1.5rem, 3vw, 2.5rem);
+      font-weight: 700;
+      letter-spacing: 0.25em;
+      margin-top: 5px;
+    }
+
+    header p {
+      max-width: 600px;
+      margin: 20px auto 0;
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* GENERAL STATS CONTAINER */
+    .container {
+      width: 100%;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 8vw 100px;
+    }
+
+    .section-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 32px;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: #fff;
+      border-left: 4px solid var(--gold);
+      padding-left: 15px;
+      margin-bottom: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .section-title span {
+      font-size: 13px;
+      font-family: 'Poppins', sans-serif;
+      color: var(--muted);
+      letter-spacing: 0;
+      font-weight: 400;
+      text-transform: none;
+    }
+
+    /* HALL OF FAME: TOP 7 LEGENDS */
+    .hall-of-fame-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 16px;
+      margin-bottom: 80px;
+    }
+
+    .hof-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(15px);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px 12px;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      aspect-ratio: 1 / 1;
+      width: 100%;
+    }
+
+    .hof-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(253, 185, 19, 0.05) 0%, transparent 50%);
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+
+    .hof-card:hover {
+      transform: translateY(-8px);
+      border-color: var(--gold);
+      box-shadow: 0 10px 40px rgba(253, 185, 19, 0.15);
+    }
+
+    .hof-card .hof-avatar-container {
+      width: 70px;
+      height: 70px;
+      padding: 2.5px;
+      margin-bottom: 10px;
+    }
+
+    .hof-card .hof-name {
+      font-size: clamp(14px, 1.25vw, 18px);
+      margin-bottom: 2px;
+      line-height: 1.2;
+    }
+
+    .hof-card .hof-title {
+      font-size: clamp(9px, 0.8vw, 10px);
+      margin-bottom: 0;
+      line-height: 1.2;
+    }
+
+    .hof-card .hof-rank {
+      top: 10px;
+      left: 12px;
+      font-size: clamp(24px, 2.5vw, 36px);
+    }
+
+    .hof-rank {
+      position: absolute;
+      top: 15px;
+      left: 20px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900;
+      font-size: 48px;
+      line-height: 1;
+      color: rgba(253, 185, 19, 0.12);
+      transition: color 0.3s;
+    }
+
+    .hof-card:hover .hof-rank {
+      color: rgba(253, 185, 19, 0.3);
+    }
+
+    .hof-watermark {
+      position: absolute;
+      right: -10px;
+      bottom: -30px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900;
+      font-size: 150px;
+      color: rgba(253, 185, 19, 0.02);
+      pointer-events: none;
+      user-select: none;
+      line-height: 1;
+      transition: color 0.3s;
+    }
+
+    .hof-card:hover .hof-watermark {
+      color: rgba(253, 185, 19, 0.04);
+    }
+
+    .hof-avatar-container {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      padding: 3px;
+      background: linear-gradient(185deg, var(--gold) 0%, rgba(253, 185, 19, 0.1) 80%);
+      margin-bottom: 20px;
+      position: relative;
+      z-index: 2;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    .hof-avatar {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      background: var(--bg2);
+    }
+
+    .hof-avatar-placeholder {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: var(--bg2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800;
+      font-size: 32px;
+      color: var(--gold);
+      text-shadow: 0 0 10px rgba(253, 185, 19, 0.3);
+      border: 2px solid rgba(253, 185, 19, 0.2);
+    }
+
+    .hof-name {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: #fff;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      margin-bottom: 2px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hof-title {
+      font-size: 11px;
+      color: var(--gold);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 20px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hof-stats-main {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 38px;
+      font-weight: 900;
+      color: var(--gold);
+      line-height: 1;
+      margin-bottom: 5px;
+      text-shadow: 0 0 15px rgba(253, 185, 19, 0.2);
+      position: relative;
+      z-index: 2;
+    }
+
+    .hof-stats-label {
+      font-size: 10px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 24px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hof-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      width: 100%;
+      border-top: 1px solid rgba(253, 185, 19, 0.1);
+      padding-top: 15px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hof-substat {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .hof-subval {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .hof-sublbl {
+      font-size: 9px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* GRID OF 7 OTHER STATS CATEGORIES */
+    .stats-categories-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      align-items: start;
+    }
+
+    /* Large Grid Span for 7 Elements to balance the layout */
+    .stats-categories-grid>*:nth-child(6),
+    .stats-categories-grid>*:nth-child(7) {
+      grid-column: span 1;
+    }
+
+    @media (max-width: 1200px) {
+      .hall-of-fame-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .stats-categories-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .hall-of-fame-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .stats-categories-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hall-of-fame-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @keyframes cardEntrance {
+      from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.98);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .category-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(15px);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+      position: relative;
+      overflow: hidden;
+      animation: cardEntrance 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .category-card::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -150%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg,
+          transparent,
+          rgba(255, 255, 255, 0.08),
+          transparent);
+      transform: skewX(-25deg);
+      transition: 0.75s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    .category-card:hover {
+      border-color: var(--gold);
+      box-shadow: 0 12px 40px rgba(253, 185, 19, 0.12);
+      transform: translateY(-6px) scale(1.01);
+    }
+
+    .category-card:hover::after {
+      left: 150%;
+    }
+
+    .category-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .category-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      background: rgba(253, 185, 19, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gold);
+      font-size: 20px;
+      border: 1px solid rgba(253, 185, 19, 0.2);
+      transition: all 0.3s ease;
+    }
+
+    .category-card:hover .category-icon {
+      transform: scale(1.1) rotate(5deg);
+      background: rgba(253, 185, 19, 0.25);
+      border-color: var(--gold);
+      box-shadow: 0 0 15px rgba(253, 185, 19, 0.3);
+    }
+
+    .category-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      color: #fff;
+    }
+
+    .stats-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      flex: 1;
+    }
+
+    .stats-table th {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      text-align: left;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(253, 185, 19, 0.15);
+    }
+
+    .stats-table td {
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+      color: var(--text);
+      vertical-align: middle;
+      line-height: 1.4;
+    }
+
+    .stats-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .player-row {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      vertical-align: middle;
+    }
+
+    .player-row-avatar {
+      width: 26px;
+      height: 26px;
+      min-width: 26px;
+      border-radius: 50%;
+      background: var(--gold-dim);
+      border: 1px solid rgba(253, 185, 19, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800;
+      font-size: 10px;
+      color: var(--gold);
+      flex-shrink: 0;
+    }
+
+    .player-row-avatar img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .stats-table .rank-num {
+      width: 24px;
+      min-width: 24px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800;
+      color: var(--muted);
+      font-size: 14px;
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    .stats-table tr:hover td {
+      color: #fff;
+    }
+
+    .stats-table tr:hover .rank-num {
+      color: var(--gold);
+    }
+
+    .stat-val {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+      text-align: right;
+    }
+
+    .stats-table th.text-right,
+    .stats-table td.text-right {
+      text-align: right;
+    }
+
+    .stat-extra {
+      font-size: 10px;
+      color: var(--muted);
+      display: block;
+      font-weight: 400;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    /* FOOTER */
+    footer {
+      background: #04050a;
+      border-top: 1px solid var(--border);
+      padding: 60px 8vw;
+      text-align: center;
+      font-size: 13px;
+      color: var(--muted);
+      position: relative;
+      z-index: 10;
+    }
+
+    footer p {
+      margin-bottom: 15px;
+    }
+
+    footer a {
+      color: var(--gold);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    footer a:hover {
+      color: #fff;
+    }
+
+    /* BY OPPOSITION & CAPTAINS SECTIONS */
+    .opposition-container {
+      margin-top: 80px;
+      width: 100%;
+    }
+
+    .opposition-table-wrapper {
+      background: var(--card-bg);
+      backdrop-filter: blur(15px);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 30px;
+      overflow-x: auto;
+      margin-bottom: 80px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .opposition-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      text-align: center;
+    }
+
+    .opposition-table th {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 15px 10px;
+      border-bottom: 2px solid rgba(253, 185, 19, 0.3);
+    }
+
+    .opposition-table td {
+      padding: 14px 10px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      color: var(--text);
+    }
+
+    .opposition-table tr:hover td {
+      background: rgba(253, 185, 19, 0.03);
+      color: #fff;
+    }
+
+    .opposition-table .total-row td {
+      font-weight: bold;
+      color: var(--gold);
+      border-top: 2px solid rgba(253, 185, 19, 0.3);
+      border-bottom: 2px solid rgba(253, 185, 19, 0.3);
+      background: rgba(253, 185, 19, 0.05);
+    }
+
+    /* Vertical dividers for table sections */
+    .opposition-table thead tr:first-child th:nth-child(4),
+    .opposition-table thead tr:first-child th:nth-child(5),
+    .opposition-table thead tr:first-child th:nth-child(6) {
+      border-left: 1px solid rgba(253, 185, 19, 0.3);
+    }
+
+    .opposition-table thead tr:nth-child(2) th:nth-child(5),
+    .opposition-table thead tr:nth-child(2) th:nth-child(8) {
+      border-left: 1px solid rgba(253, 185, 19, 0.3);
+    }
+
+    .opposition-table tbody td:nth-child(7),
+    .opposition-table tbody td:nth-child(10),
+    .opposition-table tbody td:nth-child(14) {
+      border-left: 1px solid rgba(253, 185, 19, 0.3);
+    }
+
+    .captains-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      margin-bottom: 80px;
+    }
+
+    .captain-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(15px);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .captain-card:hover {
+      transform: translateY(-6px);
+      border-color: var(--gold);
+      box-shadow: 0 10px 40px rgba(253, 185, 19, 0.15);
+    }
+
+    .captain-avatar-container {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      padding: 3px;
+      background: linear-gradient(185deg, var(--gold) 0%, rgba(253, 185, 19, 0.1) 80%);
+      margin-bottom: 16px;
+      position: relative;
+      z-index: 2;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    }
+
+    .captain-avatar {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      background: var(--bg2);
+    }
+
+    .captain-avatar-placeholder {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: var(--bg2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800;
+      font-size: 28px;
+      color: var(--gold);
+      text-shadow: 0 0 10px rgba(253, 185, 19, 0.3);
+      border: 2px solid rgba(253, 185, 19, 0.2);
+    }
+
+    .win-progress-container {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 6px;
+      height: 6px;
+      margin: 12px 0 6px 0;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .win-progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--blue-light), var(--gold));
+      border-radius: 6px;
+    }
+
+    @media (max-width: 1024px) {
+      .captains-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .captains-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Stats Filter Dropdown Styles */
+    .stats-filter-container {
+      position: relative;
+    }
+
+    .stats-select {
+      background: rgba(6, 8, 16, 0.75);
+      border: 1px solid var(--border);
+      color: #fff;
+      padding: 8px 16px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-radius: 6px;
+      outline: none;
+      cursor: pointer;
+      backdrop-filter: blur(12px);
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      padding-right: 32px;
+    }
+
+    .stats-filter-container::after {
+      content: '▼';
+      font-size: 9px;
+      color: var(--gold);
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      pointer-events: none;
+    }
+
+    .stats-select:focus,
+    .stats-select:hover {
+      border-color: var(--gold);
+      box-shadow: 0 0 10px rgba(253, 185, 19, 0.2);
+    }
+
+    .stats-select option {
+      background: #060810;
+      color: #fff;
+    }
+
+    /* Empty Bento Skeletons */
+    .empty-bento-body {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-top: 25px;
+      padding: 10px 0;
+      height: 230px;
+      /* Aligns height perfectly with populated tables */
+      justify-content: space-between;
+    }
+
+    .empty-row-skeleton {
+      height: 12px;
+      background: linear-gradient(90deg, rgba(255, 255, 255, 0.02) 25%, rgba(253, 185, 19, 0.06) 50%, rgba(255, 255, 255, 0.02) 75%);
+      background-size: 200% 100%;
+      animation: skeleton-pulse 2s infinite linear;
+      border-radius: 6px;
+      border: 1px dashed rgba(253, 185, 19, 0.12);
+    }
+
+    .empty-bento-msg {
+      font-size: 10px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      text-align: center;
+      margin-top: -10px;
+      margin-bottom: 5px;
+    }
+
+    @keyframes skeleton-pulse {
+      0% {
+        background-position: 200% 0;
+      }
+
+      100% {
+        background-position: -200% 0;
+      }
+    }
+
+    /* RESPONSIVENESS & MOBILE MENU */
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 8px;
+      z-index: 200;
+    }
+
+    .nav-hamburger span {
+      display: block;
+      width: 26px;
+      height: 2px;
+      background: var(--text);
+      border-radius: 2px;
+      transition: .3s;
+    }
+
+    .nav-hamburger.active span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+
+    .nav-hamburger.active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .nav-hamburger.active span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+
+    @media (max-width: 900px) {
+      nav {
+        padding: 0 24px;
+      }
+
+      .nav-hamburger {
+        display: flex;
+      }
+
+      .nav-links {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: min(320px, 80vw);
+        height: 100vh;
+        background: rgba(6, 8, 16, .98);
+        backdrop-filter: blur(20px);
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 32px;
+        transition: right .4s cubic-bezier(.25, .8, .25, 1);
+        border-left: 1px solid var(--border);
+        z-index: 150;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .nav-links.open {
+        right: 0;
+      }
+
+      .nav-links a {
+        font-size: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="cursor"></div>
+  <div id="cursor-ring"></div>
+
+  <!-- NAVBAR -->
+  <nav id="navbar">
+    <div class="nav-logo">
+      <a href="csk_website.html"><img src="logo.png" alt="CSK Crest"></a>
+    </div>
+    <button class="nav-hamburger" id="nav-hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="csk_website.html">Home</a></li>
+      <li><a href="about_csk.html">About CSK</a></li>
+      <li><a href="pillars.html">Pillars</a></li>
+      <li><a href="stats.html" class="active">Stats</a></li>
+      <li><a href="awards.html">Awards</a></li>
+      <li><a href="fanzone.html">Fan Zone</a></li>
+      <li><a href="csk_tv.html">CSK TV</a></li>
+      <li><a href="shop.html">Shop</a></li>
+    </ul>
+    <div class="nav-right">
+      <div id="nav-user-profile" style="display:none; align-items:center; gap:12px;">
+        <span class="user-avatar"
+          style="width:36px; height:36px; border-radius:50%; background:var(--gold); color:var(--bg); display:flex; align-items:center; justify-content:center; font-family:'Barlow Condensed', sans-serif; font-weight:800; font-size:16px; border:2px solid #fff; box-shadow:0 0 10px rgba(253,195,19,0.4);">🦁</span>
+        <span id="nav-username"
+          style="font-family:'Barlow Condensed', sans-serif; font-weight:700; font-size:14px; letter-spacing:0.05em; text-transform:uppercase; color:#fff;"></span>
+        <a href="javascript:void(0)" id="logout-btn"
+          style="font-family:'Barlow Condensed', sans-serif; font-weight:700; font-size:12px; letter-spacing:0.05em; text-transform:uppercase; color:var(--muted); text-decoration:none; margin-left:8px; transition:color 0.2s;"
+          onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--muted)'">Logout</a>
+      </div>
+      <a href="csk_website.html#membership" class="btn-angled" id="join-now-btn">Join Now</a>
+    </div>
+  </nav>
+
+  <!-- HEADER -->
+  <header>
+    <h1>CSK ALL-TIME STATS <span>Leaders Chronicle</span></h1>
+    <p>Explore the legacy of Chennai Super Kings. A statistical breakdown of the highest run-getters, wicket-takers, and
+      legendary team records across all IPL and Champions League T20 years.</p>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <div class="container">
+
+    <!-- 9. Captains (Leadership Statistics) -->
+    <div class="section-title">
+      Captains' Chronicle <span>CSK Leadership & Leadership Stats</span>
+    </div>
+
+    <div class="captains-grid">
+      <!-- MS Dhoni -->
+      <div class="captain-card">
+        <div class="captain-avatar-container">
+          <img src="1.png" alt="MS Dhoni" class="captain-avatar">
+        </div>
+        <h3 class="hof-name">MS Dhoni</h3>
+        <div class="hof-title" style="margin-bottom: 10px;">Thala (2008–2025)</div>
+        <div style="font-size: 12px; color: var(--muted); margin-bottom: 8px;">Nationality: India</div>
+        <div class="hof-stats-main" style="font-size: 32px; margin-bottom: 2px;">59.43%</div>
+        <div class="hof-stats-label">Win Percentage</div>
+
+        <div class="win-progress-container">
+          <div class="win-progress-bar" style="width: 59.43%;"></div>
+        </div>
+
+        <div class="hof-stats-grid" style="margin-top: 10px; padding-top: 10px;">
+          <div class="hof-substat">
+            <span class="hof-subval">244</span>
+            <span class="hof-sublbl">Matches</span>
+          </div>
+          <div class="hof-substat">
+            <span class="hof-subval">145</span>
+            <span class="hof-sublbl">Wins</span>
+          </div>
+        </div>
+        <div class="hof-stats-grid" style="margin-top: 5px; padding-top: 5px; border-top: none;">
+          <div class="hof-substat">
+            <span class="hof-subval">96</span>
+            <span class="hof-sublbl">Losses</span>
+          </div>
+          <div class="hof-substat">
+            <span class="hof-subval">1 / 0</span>
+            <span class="hof-sublbl">Tie / NR</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ruturaj Gaikwad -->
+      <div class="captain-card">
+        <div class="captain-avatar-container">
+          <img src="7.png" alt="Ruturaj Gaikwad" class="captain-avatar">
+        </div>
+        <h3 class="hof-name">R. Gaikwad</h3>
+        <div class="hof-title" style="margin-bottom: 10px;">Future Leader (2024–Present)</div>
+        <div style="font-size: 12px; color: var(--muted); margin-bottom: 8px;">Nationality: India</div>
+        <div class="hof-stats-main" style="font-size: 32px; margin-bottom: 2px;">42.42%</div>
+        <div class="hof-stats-label">Win Percentage</div>
+
+        <div class="win-progress-container">
+          <div class="win-progress-bar" style="width: 42.42%;"></div>
+        </div>
+
+        <div class="hof-stats-grid" style="margin-top: 10px; padding-top: 10px;">
+          <div class="hof-substat">
+            <span class="hof-subval">33</span>
+            <span class="hof-sublbl">Matches</span>
+          </div>
+          <div class="hof-substat">
+            <span class="hof-subval">14</span>
+            <span class="hof-sublbl">Wins</span>
+          </div>
+        </div>
+        <div class="hof-stats-grid" style="margin-top: 5px; padding-top: 5px; border-top: none;">
+          <div class="hof-substat">
+            <span class="hof-subval">19</span>
+            <span class="hof-sublbl">Losses</span>
+          </div>
+          <div class="hof-substat">
+            <span class="hof-subval">0 / 0</span>
+            <span class="hof-sublbl">Tie / NR</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Suresh Raina -->
+      <div class="captain-card">
+        <div class="captain-avatar-container">
+          <img src="raina.avif" alt="Suresh Raina" class="captain-avatar">
+        </div>
+        <h3 class="hof-name">Suresh Raina</h3>
+        <div class="hof-title" style="margin-bottom: 10px;">Chinna Thala (2010–2019)</div>
+        <div style="font-size: 12px; color: var(--muted); margin-bottom: 8px;">Nationality: India</div>
+        <div class="hof-stats-main" style="font-size: 32px; margin-bottom: 2px;">33.33%</div>
+        <div class="hof-stats-label">Win Percentage</div>
+
+        <div class="win-progress-container">
+          <div class="win-progress-bar" style="width: 33.33%;"></div>
+        </div>
+
+        <div class="hof-stats-grid" style="margin-top: 10px; padding-top: 10px;">
+          <div class="hof-substat">
+            <span class="hof-subval">6</span>
+            <span class="hof-sublbl">Matches</span>
+          </div>
+          <div class="hof-substat">
+            <span class="hof-subval">2</span>
+            <span class="hof-sublbl">Wins</span>
+          </div>
+        </div>
+        <div class="hof-stats-grid" style="margin-top: 5px; padding-top: 5px; border-top: none;">
+          <div class="hof-substat">
+            <span class="hof-subval">3</span>
+            <span class="hof-sublbl">Losses</span>
+          </div>
+          <div class="hof-substat">
+            <span class="hof-subval">1 / 0</span>
+            <span class="hof-sublbl">Tie / NR</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ravindra Jadeja -->
+      <div class="captain-card">
+        <div class="captain-avatar-container">
+          <img src="jadeja.png" alt="Ravindra Jadeja" class="captain-avatar">
+        </div>
+        <h3 class="hof-name">Ravindra Jadeja</h3>
+        <div class="hof-title" style="margin-bottom: 10px;">Thalapathy (2022)</div>
+        <div style="font-size: 12px; color: var(--muted); margin-bottom: 8px;">Nationality: India</div>
+        <div class="hof-stats-main" style="font-size: 32px; margin-bottom: 2px;">25.00%</div>
+        <div class="hof-stats-label">Win Percentage</div>
+
+        <div class="win-progress-container">
+          <div class="win-progress-bar" style="width: 25.00%;"></div>
+        </div>
+
+        <div class="hof-stats-grid" style="margin-top: 10px; padding-top: 10px;">
+          <div class="hof-substat">
+            <span class="hof-subval">8</span>
+            <span class="hof-sublbl">Matches</span>
+          </div>
+          <div class="hof-substat">
+            <span class="hof-subval">2</span>
+            <span class="hof-sublbl">Wins</span>
+          </div>
+        </div>
+        <div class="hof-stats-grid" style="margin-top: 5px; padding-top: 5px; border-top: none;">
+          <div class="hof-substat">
+            <span class="hof-subval">6</span>
+            <span class="hof-sublbl">Losses</span>
+          </div>
+          <div class="hof-substat">
+            <span class="hof-subval">0 / 0</span>
+            <span class="hof-sublbl">Tie / NR</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 8. By Opposition (Matches and Records Breakdown) -->
+    <div class="section-title" style="margin-top: 80px;">
+      By Opposition <span>All-Time Match Records (IPL and CLT20 Breakdown)</span>
+    </div>
+
+    <div class="opposition-table-wrapper" style="margin-bottom: 80px;">
+      <table class="opposition-table">
+        <thead>
+          <tr>
+            <th rowspan="2" style="text-align: left; vertical-align: middle;">Opposition</th>
+            <th rowspan="2" style="vertical-align: middle;">Span</th>
+            <th colspan="4" style="border-bottom: 1px solid rgba(253, 185, 19, 0.2);">Indian Premier League (IPL)</th>
+            <th colspan="3" style="border-bottom: 1px solid rgba(253, 185, 19, 0.2);">Champions League T20 (CLT20)</th>
+            <th colspan="4" style="border-bottom: 1px solid rgba(253, 185, 19, 0.2);">Combined Total</th>
+            <th rowspan="2" style="vertical-align: middle; color: var(--gold);">Win %</th>
+          </tr>
+          <tr>
+            <th>M</th>
+            <th>W</th>
+            <th>L</th>
+            <th>NR</th>
+            <th>M</th>
+            <th>W</th>
+            <th>L</th>
+            <th>M</th>
+            <th>W</th>
+            <th>L</th>
+            <th>NR</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="text-align: left; font-weight: 600;">Pune Warriors India</td>
+            <td>2011–2013</td>
+            <td>6</td>
+            <td>4</td>
+            <td>2</td>
+            <td>0</td>
+            <td>—</td>
+            <td>—</td>
+            <td>—</td>
+            <td>6</td>
+            <td>4</td>
+            <td>2</td>
+            <td>0</td>
+            <td style="font-weight: 700; color: #fff;">66.66%</td>
+          </tr>
+          <tr>
+            <td style="text-align: left; font-weight: 600;">Kolkata Knight Riders</td>
+            <td>2008–2026</td>
+            <td>33</td>
+            <td>21</td>
+            <td>11</td>
+            <td>1</td>
+            <td>2</td>
+            <td>1</td>
+            <td>1</td>
+            <td>34</td>
+            <td>22</td>
+            <td>12</td>
+            <td>1</td>
+            <td style="font-weight: 700; color: #fff;">64.71%</td>
+          </tr>
+          <tr>
+            <td style="text-align: left; font-weight: 600;">Sunrisers Hyderabad</td>
+            <td>2013–2026</td>
+            <td>24</td>
+            <td>15</td>
+            <td>9</td>
+            <td>0</td>
+            <td>1</td>
+            <td>1</td>
+            <td>0</td>
+            <td>25</td>
+            <td>16</td>
+            <td>9</td>
+            <td>0</td>
+            <td style="font-weight: 700; color: #fff;">64.00%</td>
+          </tr>
+          <tr>
+            <td style="text-align: left; font-weight: 600;">Delhi Capitals</td>
+            <td>2008–2026</td>
+            <td>33</td>
+            <td>21</td>
+            <td>12</td>
+            <td>0</td>
+            <td>—</td>
+            <td>—</td>
+            <td>—</td>
+            <td>33</td>
+            <td>21</td>
+            <td>12</td>
+            <td>0</td>
+            <td style="font-weight: 700; color: #fff;">63.64%</td>
+          </tr>
+          <tr>
+            <td style="text-align: left; font-weight: 600;">Deccan Chargers</td>
+            <td>2008–2012</td>
+            <td>10</td>
+            <td>6</td>
+            <td>4</td>
+            <td>0</td>
+            <td>—</td>
+            <td>—</td>
+            <td>—</td>
+            <td>10</td>
+            <td>6</td>
+            <td>4</td>
+            <td>0</td>
+            <td style="font-weight: 700; color: #fff;">60.00%</td>
+          </tr>
+          <tr>
+            <td style="text-align: left; font-weight: 600;">Royal Challengers Bengaluru</td>
+            <td>2008–2026</td>
+            <td>36</td>
+            <td>21</td>
+            <td>14</td>
+            <td>1</td>
+            <td>1</td>
+            <td>1</td>
+            <td>0</td>
+            <td>37</td>
+            <td>22</td>
+            <td>14</td>
+            <td>1</td>
+            <td style="font-weight: 700; color: #fff;">59.46%</td>
+          </tr>
+          <tr>
+            <td style="text-align: left; font-weight: 600;">Punjab Kings</td>
+            <td>2008–2026</td>
+            <td>33</td>
+            <td>16</td>
+            <td>17</td>
+            <td>0</td>
+            <td>1</td>
+            <td>1</td>
+            <td>0</td>
+            <td>34</td>
+            <td>17</td>
+            <td>17</td>
+            <td>0</td>
+            <td style="font-weight: 700; color: #fff;">50.50%</td>
+          </tr>
+          <tr>
+            <td style="text-align: left; font-weight: 600;">Kochi Tuskers Kerala</td>
+            <td>2011</td>
+            <td>2</td>
+            <td>1</td>
+            <td>1</td>
+            <td>0</td>
+            <td>—</td>
+            <td>—</td>
+            <td>—</td>
+            <td>2</td>
+            <td>1</td>
+            <td>1</td>
+            <td>0</td>
+            <td style="font-weight: 700; color: #fff;">50.00%</td>
+          </tr>
+          <tr>
+            <td style="text-align: left; font-weight: 600;">Mumbai Indians</td>
+            <td>2008–2026</td>
+            <td>41</td>
+            <td>20</td>
+            <td>21</td>
+            <td>0</td>
+            <td>2</td>
+            <td>1</td>
+            <td>1</td>
+            <td>43</td>
+            <td>21</td>
+            <td>22</td>
+            <td>0</td>
+            <td style="font-weight: 700; color: #fff;">48.84%</td>
+          </tr>
+          <tr>
+            <td style="text-align: left; font-weight: 600;">Rajasthan Royals</td>
+            <td>2008–2026</td>
+            <td>32</td>
+            <td>16</td>
+            <td>16</td>
+            <td>0</td>
+            <td>1</td>
+            <td>0</td>
+            <td>1</td>
+            <td>33</td>
+            <td>16</td>
+            <td>17</td>
+            <td>0</td>
+            <td style="font-weight: 700; color: #fff;">48.49%</td>
+          </tr>
+          <tr>
+            <td style="text-align: left; font-weight: 600;">Gujarat Titans</td>
+            <td>2022–2025</td>
+            <td>10</td>
+            <td>4</td>
+            <td>6</td>
+            <td>0</td>
+            <td>—</td>
+            <td>—</td>
+            <td>—</td>
+            <td>10</td>
+            <td>4</td>
+            <td>6</td>
+            <td>0</td>
+            <td style="font-weight: 700; color: #fff;">40.00%</td>
+          </tr>
+          <tr>
+            <td style="text-align: left; font-weight: 600;">Lucknow Super Giants</td>
+            <td>2022–2026</td>
+            <td>8</td>
+            <td>3</td>
+            <td>4</td>
+            <td>1</td>
+            <td>—</td>
+            <td>—</td>
+            <td>—</td>
+            <td>8</td>
+            <td>3</td>
+            <td>4</td>
+            <td>1</td>
+            <td style="font-weight: 700; color: #fff;">37.50%</td>
+          </tr>
+          <tr class="total-row">
+            <td style="text-align: left; font-weight: 800;">Total</td>
+            <td>2008–2026</td>
+            <td>268</td>
+            <td>148</td>
+            <td>117</td>
+            <td>3</td>
+            <td>8</td>
+            <td>5</td>
+            <td>3</td>
+            <td>276</td>
+            <td>153</td>
+            <td>120</td>
+            <td>3</td>
+            <td style="font-weight: 800; color: var(--gold);">55.44%</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Archives Section -->
+    <div class="section-title" style="margin-top: 80px;">
+      Archives <span>Historical Performance & Leaders</span>
+    </div>
+
+    <div class="opposition-table-wrapper" style="margin-bottom: 80px;">
+      <table class="opposition-table">
+        <thead>
+          <tr>
+            <th>Year</th>
+            <th>Position</th>
+            <th>Top Scorer</th>
+            <th>Most Wickets</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>2026</td>
+            <td style="font-weight: 700; color: #fff;">6</td>
+            <td>477 <span style="color: var(--muted); font-weight: normal; font-size: 11px;">| Sanju Samson</span></td>
+            <td>21 <span style="color: var(--muted); font-weight: normal; font-size: 11px;">| Anshul Kamboj</span></td>
+          </tr>
+          <tr>
+            <td>2025</td>
+            <td style="font-weight: 700; color: #fff;">10</td>
+            <td>357 <span style="color: var(--muted); font-weight: normal; font-size: 11px;">| Shivam Dube</span></td>
+            <td>24 <span style="color: var(--muted); font-weight: normal; font-size: 11px;">| Noor Ahmad</span></td>
+          </tr>
+          <tr>
+            <td>2024</td>
+            <td style="font-weight: 700; color: #fff;">5</td>
+            <td>583 <span style="color: var(--muted); font-weight: normal; font-size: 11px;">| Ruturaj Gaikwad</span>
+            </td>
+            <td>17 <span style="color: var(--muted); font-weight: normal; font-size: 11px;">| Tushar Deshpande</span>
+            </td>
+          </tr>
+          <tr>
+            <td>2023</td>
+            <td style="font-weight: 700; color: #fff;">2</td>
+            <td>672 <span style="color: var(--muted); font-weight: normal; font-size: 11px;">| Devon Conway</span></td>
+            <td>21 <span style="color: var(--muted); font-weight: normal; font-size: 11px;">| Tushar Deshpande</span>
+            </td>
+          </tr>
+          <tr>
+            <td>2022</td>
+            <td style="font-weight: 700; color: #fff;">9</td>
+            <td>368 <span style="color: var(--muted); font-weight: normal; font-size: 11px;">| Ruturaj Gaikwad</span>
+            </td>
+            <td>16 <span style="color: var(--muted); font-weight: normal; font-size: 11px;">| Dwayne Bravo</span></td>
+          </tr>
+          <tr>
+            <td>2021</td>
+            <td style="font-weight: 700; color: #fff;">1</td>
+            <td>635 <span style="color: var(--muted); font-weight: normal; font-size: 11px;">| Ruturaj Gaikwad</span>
+            </td>
+            <td>21 <span style="color: var(--muted); font-weight: normal; font-size: 11px;">| Shardul Thakur</span></td>
+          </tr>
+          <tr>
+            <td>2020</td>
+            <td style="font-weight: 700; color: #fff;">7</td>
+            <td>449 <span style="color: var(--muted); font-weight: normal; font-size: 11px;">| Faf du Plessis</span>
+            </td>
+            <td>13 <span style="color: var(--muted); font-weight: normal; font-size: 11px;">| Sam Curran</span></td>
+          </tr>
+          <tr>
+            <td>2019</td>
+            <td style="font-weight: 700; color: #fff;">2</td>
+            <td>416 <span style="color: var(--muted); font-weight: normal; font-size: 11px;">| MS Dhoni</span></td>
+            <td>26 <span style="color: var(--muted); font-weight: normal; font-size: 11px;">| Imran Tahir</span></td>
+          </tr>
+          <tr>
+            <td>2018</td>
+            <td style="font-weight: 700; color: #fff;">1</td>
+            <td>602 <span style="color: var(--muted); font-weight: normal; font-size: 11px;">| Ambati Rayudu</span></td>
+            <td>16 <span style="color: var(--muted); font-weight: normal; font-size: 11px;">| Shardul Thakur</span></td>
+          </tr>
+          <tr>
+            <td>2015</td>
+            <td style="font-weight: 700; color: #fff;">2</td>
+            <td>436 <span style="color: var(--muted); font-weight: normal; font-size: 11px;">| Brendon McCullum</span>
+            </td>
+            <td>26 <span style="color: var(--muted); font-weight: normal; font-size: 11px;">| Dwayne Bravo</span></td>
+          </tr>
+          <tr>
+            <td>2014</td>
+            <td style="font-weight: 700; color: #fff;">3</td>
+            <td>566 <span style="color: var(--muted); font-weight: normal; font-size: 11px;">| Dwayne Smith</span></td>
+            <td>23 <span style="color: var(--muted); font-weight: normal; font-size: 11px;">| Mohit Sharma</span></td>
+          </tr>
+          <tr>
+            <td>2013</td>
+            <td style="font-weight: 700; color: #fff;">2</td>
+            <td>733 <span style="color: var(--muted); font-weight: normal; font-size: 11px;">| Michael Hussey</span>
+            </td>
+            <td>32 <span style="color: var(--muted); font-weight: normal; font-size: 11px;">| Dwayne Bravo</span></td>
+          </tr>
+          <tr>
+            <td>2012</td>
+            <td style="font-weight: 700; color: #fff;">2</td>
+            <td>441 <span style="color: var(--muted); font-weight: normal; font-size: 11px;">| Suresh Raina</span></td>
+            <td>14 <span style="color: var(--muted); font-weight: normal; font-size: 11px;">| Ben Hilfenhaus</span></td>
+          </tr>
+          <tr>
+            <td>2011</td>
+            <td style="font-weight: 700; color: #fff;">1</td>
+            <td>492 <span style="color: var(--muted); font-weight: normal; font-size: 11px;">| Michael Hussey</span>
+            </td>
+            <td>20 <span style="color: var(--muted); font-weight: normal; font-size: 11px;">| Ravichandran Ashwin</span>
+            </td>
+          </tr>
+          <tr>
+            <td>2010</td>
+            <td style="font-weight: 700; color: #fff;">1</td>
+            <td>520 <span style="color: var(--muted); font-weight: normal; font-size: 11px;">| Suresh Raina</span></td>
+            <td>15 <span style="color: var(--muted); font-weight: normal; font-size: 11px;">| Muttiah
+                Muralitharan</span></td>
+          </tr>
+          <tr>
+            <td>2009</td>
+            <td style="font-weight: 700; color: #fff;">4</td>
+            <td>572 <span style="color: var(--muted); font-weight: normal; font-size: 11px;">| Matthew Hayden</span>
+            </td>
+            <td>14 <span style="color: var(--muted); font-weight: normal; font-size: 11px;">| Muttiah
+                Muralitharan</span></td>
+          </tr>
+          <tr>
+            <td>2008</td>
+            <td style="font-weight: 700; color: #fff;">2</td>
+            <td>421 <span style="color: var(--muted); font-weight: normal; font-size: 11px;">| Suresh Raina</span></td>
+            <td>17 <span style="color: var(--muted); font-weight: normal; font-size: 11px;">| Albie Morkel</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Statistical Chronicles Section -->
+    <div class="section-title" id="stats-chronicles-title"
+      style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
+      <div>Statistical Chronicles <span>CSK All-Time Leaderboards</span></div>
+      <div class="stats-filter-container">
+        <select id="stats-category-select" class="stats-select">
+          <option value="all">All Categories</option>
+          <option value="batting">Batting Records</option>
+          <option value="bowling">Bowling Records</option>
+          <option value="fielding">Fielding &amp; Wicketkeeping</option>
+          <option value="team">Team Records</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="stats-categories-grid">
+      <!-- ==================== BATTING RECORDS (13 Cards) ==================== -->
+
+      <!-- 1. Most Runs -->
+      <div class="category-card" data-category="batting">
+        <div class="category-header">
+          <div class="category-icon">🏏</div>
+          <h3 class="category-title">Most Runs</h3>
+        </div>
+        <table class="stats-table">
+          <thead>
+            <tr>
+              <th>Rank &amp; Batter</th>
+              <th class="text-right">Runs</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="rank-row">
+                <span class="rank-num">01</span>
+                <div class="player-row">
+                  <img src="suresh_raina.svg" alt="Suresh Raina" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>Suresh Raina</span>
+                </div>
+              </td>
+              <td class="stat-val">4,687 <span class="stat-extra">171 Inns &bull; 136.88 SR</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">02</span>
+                <div class="player-row">
+                  <img src="1.png" alt="MS Dhoni" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>MS Dhoni</span>
+                </div>
+              </td>
+              <td class="stat-val">4,508 <span class="stat-extra">190 Inns &bull; 137.98 SR</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">03</span>
+                <div class="player-row">
+                  <img src="faf_du_plessis.svg" alt="Faf du Plessis" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>Faf du Plessis</span>
+                </div>
+              </td>
+              <td class="stat-val">2,721 <span class="stat-extra">86 Inns &bull; 131.44 SR</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">04</span>
+                <div class="player-row">
+                  <img src="7.png" alt="Ruturaj Gaikwad" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>Ruturaj Gaikwad</span>
+                </div>
+              </td>
+              <td class="stat-val">2,380 <span class="stat-extra">67 Inns &bull; 131.78 SR</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">05</span>
+                <div class="player-row">
+                  <div class="player-row-avatar">AR</div>
+                  <span>Ambati Rayudu</span>
+                </div>
+              </td>
+              <td class="stat-val">1,932 <span class="stat-extra">79 Inns &bull; 128.80 SR</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 2. Highest Individual Score -->
+      <div class="category-card" data-category="batting">
+        <div class="category-header">
+          <div class="category-icon">🔥</div>
+          <h3 class="category-title">Highest Individual Score</h3>
+        </div>
+        <table class="stats-table">
+          <thead>
+            <tr>
+              <th>Rank &amp; Batter</th>
+              <th class="text-right">Score</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <span class="rank-num">01</span>
+                <div class="player-row">
+                  <div class="player-row-avatar">MV</div>
+                  <span>Murali Vijay</span>
+                </div>
+              </td>
+              <td class="stat-val">127 <span class="stat-extra">vs RR, 2010</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">02</span>
+                <div class="player-row">
+                  <div class="player-row-avatar">SW</div>
+                  <span>Shane Watson</span>
+                </div>
+              </td>
+              <td class="stat-val">117* <span class="stat-extra">vs SRH, 2018</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">03</span>
+                <div class="player-row">
+                  <img src="michael_hussey.svg" alt="Michael Hussey" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>Michael Hussey</span>
+                </div>
+              </td>
+              <td class="stat-val">116* <span class="stat-extra">vs PBKS, 2008</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">04</span>
+                <div class="player-row">
+                  <div class="player-row-avatar">MV</div>
+                  <span>Murali Vijay</span>
+                </div>
+              </td>
+              <td class="stat-val">113 <span class="stat-extra">vs DC, 2012</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">05</span>
+                <div class="player-row">
+                  <img src="7.png" alt="R. Gaikwad" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>Ruturaj Gaikwad</span>
+                </div>
+              </td>
+              <td class="stat-val">108* <span class="stat-extra">vs LSG, 2024</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 3. Most Centuries -->
+      <div class="category-card" data-category="batting">
+        <div class="category-header">
+          <div class="category-icon">💯</div>
+          <h3 class="category-title">Most Centuries</h3>
+        </div>
+        <table class="stats-table">
+          <thead>
+            <tr>
+              <th>Rank &amp; Batter</th>
+              <th class="text-right">Hundreds</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="rank-row">
+                <span class="rank-num">01</span>
+                <div class="player-row">
+                  <img src="3.png" alt="Sanju Samson" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>Sanju Samson</span>
+                </div>
+              </td>
+              <td class="stat-val">2 <span class="stat-extra">14 Inns &bull; HS: 115*</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">02</span>
+                <div class="player-row">
+                  <div class="player-row-avatar">SW</div>
+                  <span>Shane Watson</span>
+                </div>
+              </td>
+              <td class="stat-val">2 <span class="stat-extra">43 Inns &bull; HS: 117*</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">03</span>
+                <div class="player-row">
+                  <img src="7.png" alt="R. Gaikwad" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>Ruturaj Gaikwad</span>
+                </div>
+              </td>
+              <td class="stat-val">2 <span class="stat-extra">85 Inns &bull; HS: 108*</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">04</span>
+                <div class="player-row">
+                  <div class="player-row-avatar">MV</div>
+                  <span>Murali Vijay</span>
+                </div>
+              </td>
+              <td class="stat-val">2 <span class="stat-extra">89 Inns &bull; HS: 127</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">05</span>
+                <div class="player-row">
+                  <div class="player-row-avatar">BM</div>
+                  <span>B. McCullum</span>
+                </div>
+              </td>
+              <td class="stat-val">1 <span class="stat-extra">28 Inns &bull; HS: 100*</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 4. Most Half-Centuries -->
+      <div class="category-card" data-category="batting">
+        <div class="category-header">
+          <div class="category-icon">🏏</div>
+          <h3 class="category-title">Most Half-Centuries</h3>
+        </div>
+        <table class="stats-table">
+          <thead>
+            <tr>
+              <th>Rank &amp; Batter</th>
+              <th class="text-right">Fifties</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <span class="rank-num">01</span>
+                <div class="player-row">
+                  <img src="suresh_raina.svg" alt="Suresh Raina" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>Suresh Raina</span>
+                </div>
+              </td>
+              <td class="stat-val">40 <span class="stat-extra">39 Fifties, 1 Ton</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">02</span>
+                <div class="player-row">
+                  <img src="1.png" alt="MS Dhoni" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>MS Dhoni</span>
+                </div>
+              </td>
+              <td class="stat-val">23 <span class="stat-extra">23 Fifties</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">03</span>
+                <div class="player-row">
+                  <img src="7.png" alt="Ruturaj Gaikwad" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>Ruturaj Gaikwad</span>
+                </div>
+              </td>
+              <td class="stat-val">22 <span class="stat-extra">21 Fifties, 1 Ton</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">04</span>
+                <div class="player-row">
+                  <img src="faf_du_plessis.svg" alt="Faf du Plessis" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>Faf du Plessis</span>
+                </div>
+              </td>
+              <td class="stat-val">21 <span class="stat-extra">21 Fifties</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">05</span>
+                <div class="player-row">
+                  <img src="michael_hussey.svg" alt="Michael Hussey" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>Michael Hussey</span>
+                </div>
+              </td>
+              <td class="stat-val">18 <span class="stat-extra">17 Fifties, 1 Ton</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 5. Most Sixes -->
+      <div class="category-card" data-category="batting">
+        <div class="category-header">
+          <div class="category-icon">🚀</div>
+          <h3 class="category-title">Most Sixes</h3>
+        </div>
+        <table class="stats-table">
+          <thead>
+            <tr>
+              <th>Rank &amp; Batter</th>
+              <th class="text-right">Sixes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="rank-row">
+                <span class="rank-num">01</span>
+                <div class="player-row">
+                  <img src="1.png" alt="MS Dhoni" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>MS Dhoni</span>
+                </div>
+              </td>
+              <td class="stat-val">248 <span class="stat-extra">258 Matches</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">02</span>
+                <div class="player-row">
+                  <img src="suresh_raina.svg" alt="Suresh Raina" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>Suresh Raina</span>
+                </div>
+              </td>
+              <td class="stat-val">219 <span class="stat-extra">176 Matches</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">03</span>
+                <div class="player-row">
+                  <div class="player-row-avatar">AR</div>
+                  <span>Ambati Rayudu</span>
+                </div>
+              </td>
+              <td class="stat-val">94 <span class="stat-extra">90 Matches</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">04</span>
+                <div class="player-row">
+                  <img src="faf_du_plessis.svg" alt="Faf du Plessis" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>Faf du Plessis</span>
+                </div>
+              </td>
+              <td class="stat-val">93 <span class="stat-extra">100 Matches</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">05</span>
+                <div class="player-row">
+                  <img src="7.png" alt="Ruturaj Gaikwad" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>Ruturaj Gaikwad</span>
+                </div>
+              </td>
+              <td class="stat-val">91 <span class="stat-extra">66 Matches</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 6. Most Fours -->
+      <div class="category-card" data-category="batting">
+        <div class="category-header">
+          <div class="category-icon">💥</div>
+          <h3 class="category-title">Most Fours</h3>
+        </div>
+        <table class="stats-table">
+          <thead>
+            <tr>
+              <th>Rank &amp; Batter</th>
+              <th class="text-right">Fours</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="rank-row">
+                <span class="rank-num">01</span>
+                <div class="player-row">
+                  <img src="suresh_raina.svg" alt="Suresh Raina" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>Suresh Raina</span>
+                </div>
+              </td>
+              <td class="stat-val">494 <span class="stat-extra">195 Inns</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">02</span>
+                <div class="player-row">
+                  <img src="1.png" alt="MS Dhoni" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>MS Dhoni</span>
+                </div>
+              </td>
+              <td class="stat-val">358 <span class="stat-extra">222 Inns</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">03</span>
+                <div class="player-row">
+                  <img src="faf_du_plessis.svg" alt="Faf du Plessis" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>Faf du Plessis</span>
+                </div>
+              </td>
+              <td class="stat-val">269 <span class="stat-extra">93 Inns</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">04</span>
+                <div class="player-row">
+                  <img src="michael_hussey.svg" alt="Michael Hussey" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>Michael Hussey</span>
+                </div>
+              </td>
+              <td class="stat-val">230 <span class="stat-extra">63 Inns</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">05</span>
+                <div class="player-row">
+                  <img src="7.png" alt="Ruturaj Gaikwad" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>Ruturaj Gaikwad</span>
+                </div>
+              </td>
+              <td class="stat-val">223 <span class="stat-extra">66 Inns</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 7. Best Batting Average -->
+      <div class="category-card" data-category="batting">
+        <div class="category-header">
+          <div class="category-icon">📊</div>
+          <h3 class="category-title">Best Batting Average</h3>
+        </div>
+        <table class="stats-table">
+          <thead>
+            <tr>
+              <th>Rank &amp; Batter</th>
+              <th class="text-right">Average</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <span class="rank-num">01</span>
+                <div class="player-row">
+                  <div class="player-row-avatar">DC</div>
+                  <span>Devon Conway</span>
+                </div>
+              </td>
+              <td class="stat-val">43.20 <span class="stat-extra">1,080 runs</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">02</span>
+                <div class="player-row">
+                  <img src="michael_hussey.svg" alt="Michael Hussey" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>Michael Hussey</span>
+                </div>
+              </td>
+              <td class="stat-val">42.09 <span class="stat-extra">1,768 runs</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">03</span>
+                <div class="player-row">
+                  <img src="7.png" alt="R. Gaikwad" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>Ruturaj Gaikwad</span>
+                </div>
+              </td>
+              <td class="stat-val">39.23 <span class="stat-extra">2,502 runs</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">04</span>
+                <div class="player-row">
+                  <img src="1.png" alt="MS Dhoni" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>MS Dhoni</span>
+                </div>
+              </td>
+              <td class="stat-val">38.80 <span class="stat-extra">5,121 runs</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">05</span>
+                <div class="player-row">
+                  <img src="suresh_raina.svg" alt="Suresh Raina" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>Suresh Raina</span>
+                </div>
+              </td>
+              <td class="stat-val">35.67 <span class="stat-extra">5,529 runs</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 8. Best Strike Rate -->
+      <div class="category-card" data-category="batting">
+        <div class="category-header">
+          <div class="category-icon">⚡</div>
+          <h3 class="category-title">Best Strike Rate</h3>
+        </div>
+        <table class="stats-table">
+          <thead>
+            <tr>
+              <th>Rank &amp; Batter</th>
+              <th class="text-right">Str Rate</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <span class="rank-num">01</span>
+                <div class="player-row">
+                  <div class="player-row-avatar">SD</div>
+                  <span>Shivam Dube</span>
+                </div>
+              </td>
+              <td class="stat-val">151.60 <span class="stat-extra">Min. 250 balls</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">02</span>
+                <div class="player-row">
+                  <div class="player-row-avatar">AM</div>
+                  <span>Albie Morkel</span>
+                </div>
+              </td>
+              <td class="stat-val">144.83 <span class="stat-extra">Legendary AR</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">03</span>
+                <div class="player-row">
+                  <div class="player-row-avatar">DC</div>
+                  <span>Devon Conway</span>
+                </div>
+              </td>
+              <td class="stat-val">139.71 <span class="stat-extra">CSK Opener</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">04</span>
+                <div class="player-row">
+                  <img src="suresh_raina.svg" alt="Suresh Raina" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>Suresh Raina</span>
+                </div>
+              </td>
+              <td class="stat-val">138.91 <span class="stat-extra">Mr. IPL</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">05</span>
+                <div class="player-row">
+                  <img src="1.png" alt="MS Dhoni" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>MS Dhoni</span>
+                </div>
+              </td>
+              <td class="stat-val">137.53 <span class="stat-extra">Thala Legend</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 9. Fastest Fifty -->
+      <div class="category-card" data-category="batting">
+        <div class="category-header">
+          <div class="category-icon">⏱️</div>
+          <h3 class="category-title">Fastest Fifty</h3>
+        </div>
+        <table class="stats-table">
+          <thead>
+            <tr>
+              <th>Rank &amp; Batter</th>
+              <th class="text-right">Balls</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="rank-row">
+                <span class="rank-num">01</span>
+                <div class="player-row">
+                  <div class="player-row-avatar">UP</div>
+                  <span>Urvil Patel</span>
+                </div>
+              </td>
+              <td class="stat-val">13 <span class="stat-extra">vs LSG, 2026</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">02</span>
+                <div class="player-row">
+                  <img src="suresh_raina.svg" alt="Suresh Raina" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>Suresh Raina</span>
+                </div>
+              </td>
+              <td class="stat-val">16 <span class="stat-extra">vs Kings XI, 2014</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">03</span>
+                <div class="player-row">
+                  <div class="player-row-avatar">MA</div>
+                  <span>Moeen Ali</span>
+                </div>
+              </td>
+              <td class="stat-val">19 <span class="stat-extra">vs RR, 2022</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">04</span>
+                <div class="player-row">
+                  <div class="player-row-avatar">AR</div>
+                  <span>Ajinkya Rahane</span>
+                </div>
+              </td>
+              <td class="stat-val">19 <span class="stat-extra">vs MI, 2023</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">05</span>
+                <div class="player-row">
+                  <div class="player-row-avatar">DB</div>
+                  <span>Dewald Brevis</span>
+                </div>
+              </td>
+              <td class="stat-val">19 <span class="stat-extra">vs GT, 2025</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 10. Fastest Century -->
+      <div class="category-card" data-category="batting">
+        <div class="category-header">
+          <div class="category-icon">⏳</div>
+          <h3 class="category-title">Fastest Century</h3>
+        </div>
+        <table class="stats-table">
+          <thead>
+            <tr>
+              <th>Rank &amp; Batter</th>
+              <th class="text-right">Balls</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="rank-row">
+                <span class="rank-num">01</span>
+                <div class="player-row">
+                  <div class="player-row-avatar">MV</div>
+                  <span>Murali Vijay</span>
+                </div>
+              </td>
+              <td class="stat-val">46 <span class="stat-extra">vs RR, 2010</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">02</span>
+                <div class="player-row">
+                  <div class="player-row-avatar">SW</div>
+                  <span>Shane Watson</span>
+                </div>
+              </td>
+              <td class="stat-val">51 <span class="stat-extra">vs RR, 2018</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">03</span>
+                <div class="player-row">
+                  <div class="player-row-avatar">MV</div>
+                  <span>Murali Vijay</span>
+                </div>
+              </td>
+              <td class="stat-val">51 <span class="stat-extra">vs DD, 2012</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">04</span>
+                <div class="player-row">
+                  <img src="suresh_raina.svg" alt="Suresh Raina" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>Suresh Raina</span>
+                </div>
+              </td>
+              <td class="stat-val">53 <span class="stat-extra">vs Kings XI, 2013</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">05</span>
+                <div class="player-row">
+                  <img src="michael_hussey.svg" alt="Michael Hussey" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>Michael Hussey</span>
+                </div>
+              </td>
+              <td class="stat-val">54 <span class="stat-extra">vs Kings XI, 2008</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 11. Most Player of the Match Awards -->
+      <div class="category-card" data-category="batting">
+        <div class="category-header">
+          <div class="category-icon">🏆</div>
+          <h3 class="category-title">Most Player of the Match</h3>
+        </div>
+        <table class="stats-table">
+          <thead>
+            <tr>
+              <th>Rank &amp; Batter</th>
+              <th class="text-right">POTM</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="rank-row">
+                <span class="rank-num">01</span>
+                <div class="player-row">
+                  <img src="1.png" alt="MS Dhoni" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>MS Dhoni</span>
+                </div>
+              </td>
+              <td class="stat-val">16 <span class="stat-extra">Finisher / Captain</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">02</span>
+                <div class="player-row">
+                  <img src="ravindra_jadeja.svg" alt="Ravindra Jadeja" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>Ravindra Jadeja</span>
+                </div>
+              </td>
+              <td class="stat-val">16 <span class="stat-extra">Spin &amp; Death-Overs AR</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">03</span>
+                <div class="player-row">
+                  <img src="suresh_raina.svg" alt="Suresh Raina" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>Suresh Raina</span>
+                </div>
+              </td>
+              <td class="stat-val">12 <span class="stat-extra">Top-Order / Mr. IPL</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">04</span>
+                <div class="player-row">
+                  <img src="7.png" alt="Ruturaj Gaikwad" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>Ruturaj Gaikwad</span>
+                </div>
+              </td>
+              <td class="stat-val">11 <span class="stat-extra">Opening Anchor / Captain</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">05</span>
+                <div class="player-row">
+                  <img src="michael_hussey.svg" alt="Michael Hussey" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>Michael Hussey</span>
+                </div>
+              </td>
+              <td class="stat-val">10 <span class="stat-extra">Mr. Dependable</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 12. Most Runs in a Season -->
+      <div class="category-card" data-category="batting">
+        <div class="category-header">
+          <div class="category-icon">👑</div>
+          <h3 class="category-title">Most Runs in a Season</h3>
+        </div>
+        <table class="stats-table">
+          <thead>
+            <tr>
+              <th>Rank &amp; Batter</th>
+              <th class="text-right">Runs</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <span class="rank-num">01</span>
+                <div class="player-row">
+                  <div class="player-row-avatar">MH</div>
+                  <span>Michael Hussey</span>
+                </div>
+              </td>
+              <td class="stat-val">733 <span class="stat-extra">2013 Season (17 Matches)</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">02</span>
+                <div class="player-row">
+                  <div class="player-row-avatar">DC</div>
+                  <span>Devon Conway</span>
+                </div>
+              </td>
+              <td class="stat-val">672 <span class="stat-extra">2023 Season (16 Matches)</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">03</span>
+                <div class="player-row">
+                  <img src="7.png" alt="R. Gaikwad" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>Ruturaj Gaikwad</span>
+                </div>
+              </td>
+              <td class="stat-val">635 <span class="stat-extra">2021 Season (16 Matches)</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">04</span>
+                <div class="player-row">
+                  <img src="faf_du_plessis.svg" alt="Faf du Plessis" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>Faf du Plessis</span>
+                </div>
+              </td>
+              <td class="stat-val">633 <span class="stat-extra">2021 Season (16 Matches)</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">05</span>
+                <div class="player-row">
+                  <div class="player-row-avatar">AR</div>
+                  <span>Ambati Rayudu</span>
+                </div>
+              </td>
+              <td class="stat-val">602 <span class="stat-extra">2018 Season (16 Matches)</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 13. Highest Partnership -->
+      <div class="category-card" data-category="batting">
+        <div class="category-header">
+          <div class="category-icon">🤝</div>
+          <h3 class="category-title">Highest Partnership</h3>
+        </div>
+        <table class="stats-table">
+          <thead>
+            <tr>
+              <th>Rank &amp; Partners</th>
+              <th class="text-right">Runs</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="rank-row">
+                <span class="rank-num">01</span>
+                <div class="player-row">
+                  <div class="player-row-avatar">RG</div>
+                  <span>Ruturaj Gaikwad &amp; Devon Conway</span>
+                </div>
+              </td>
+              <td class="stat-val">182 <span class="stat-extra">1st Wkt vs Sunrisers Hyderabad, 2022</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">02</span>
+                <div class="player-row">
+                  <div class="player-row-avatar">SW</div>
+                  <span>Shane Watson &amp; Faf du Plessis</span>
+                </div>
+              </td>
+              <td class="stat-val">181* <span class="stat-extra">1st Wkt vs Punjab Kings, 2020</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">03</span>
+                <div class="player-row">
+                  <div class="player-row-avatar">RU</div>
+                  <span>Robin Uthappa &amp; Shivam Dube</span>
+                </div>
+              </td>
+              <td class="stat-val">165 <span class="stat-extra">3rd Wkt vs Royal Challengers Bengaluru, 2022</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">04</span>
+                <div class="player-row">
+                  <div class="player-row-avatar">MH</div>
+                  <span>Michael Hussey &amp; Murali Vijay</span>
+                </div>
+              </td>
+              <td class="stat-val">159 <span class="stat-extra">1st Wkt vs Royal Challengers Bengaluru, 2011
+                  Final</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">05</span>
+                <div class="player-row">
+                  <div class="player-row-avatar">MV</div>
+                  <span>Murali Vijay &amp; Albie Morkel</span>
+                </div>
+              </td>
+              <td class="stat-val">152 <span class="stat-extra">3rd Wkt vs Rajasthan Royals, 2010</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- ==================== BOWLING RECORDS (10 Cards) ==================== -->
+
+      <!-- 1. Most Wickets -->
+      <div class="category-card" data-category="bowling">
+        <div class="category-header">
+          <div class="category-icon">⚡</div>
+          <h3 class="category-title">Most Wickets</h3>
+        </div>
+        <table class="stats-table">
+          <thead>
+            <tr>
+              <th>Rank &amp; Bowler</th>
+              <th class="text-right">Wickets</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="rank-row">
+                <span class="rank-num">01</span>
+                <div class="player-row">
+                  <img src="ravindra_jadeja.svg" alt="Ravindra Jadeja" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>Ravindra Jadeja</span>
+                </div>
+              </td>
+              <td class="stat-val">143 <span class="stat-extra">171 Matches &bull; 7.6 Econ</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">02</span>
+                <div class="player-row">
+                  <img src="dwayne_bravo.svg" alt="Dwayne Bravo" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>Dwayne Bravo</span>
+                </div>
+              </td>
+              <td class="stat-val">140 <span class="stat-extra">113 Matches &bull; 8.3 Econ</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">03</span>
+                <div class="player-row">
+                  <img src="r_ashwin.svg" alt="R. Ashwin" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>R. Ashwin</span>
+                </div>
+              </td>
+              <td class="stat-val">95 <span class="stat-extra">102 Matches &bull; 6.6 Econ</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">04</span>
+                <div class="player-row">
+                  <div class="player-row-avatar">DC</div>
+                  <span>Deepak Chahar</span>
+                </div>
+              </td>
+              <td class="stat-val">76 <span class="stat-extra">76 Matches &bull; 7.9 Econ</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">05</span>
+                <div class="player-row">
+                  <div class="player-row-avatar">AM</div>
+                  <span>Albie Morkel</span>
+                </div>
+              </td>
+              <td class="stat-val">76 <span class="stat-extra">75 Matches &bull; 8.1 Econ</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 2. Best Bowling Figures -->
+      <div class="category-card" data-category="bowling">
+        <div class="category-header">
+          <div class="category-icon">🎯</div>
+          <h3 class="category-title">Best Bowling Figures</h3>
+        </div>
+        <table class="stats-table">
+          <thead>
+            <tr>
+              <th>Rank &amp; Bowler</th>
+              <th class="text-right">Figures</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="rank-row">
+                <span class="rank-num">01</span>
+                <div class="player-row">
+                  <img src="ravindra_jadeja.svg" alt="Ravindra Jadeja" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>Ravindra Jadeja</span>
+                </div>
+              </td>
+              <td class="stat-val">5/16 <span class="stat-extra">vs Chargers, 2012</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">02</span>
+                <div class="player-row">
+                  <div class="player-row-avatar">LB</div>
+                  <span>L. Balaji</span>
+                </div>
+              </td>
+              <td class="stat-val">5/24 <span class="stat-extra">vs Kings XI, 2008</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">03</span>
+                <div class="player-row">
+                  <div class="player-row-avatar">AN</div>
+                  <span>Ashish Nehra</span>
+                </div>
+              </td>
+              <td class="stat-val">4/10 <span class="stat-extra">vs RCB, 2015</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">04</span>
+                <div class="player-row">
+                  <div class="player-row-avatar">LN</div>
+                  <span>Lungi Ngidi</span>
+                </div>
+              </td>
+              <td class="stat-val">4/10 <span class="stat-extra">vs Kings XI, 2018</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">05</span>
+                <div class="player-row">
+                  <img src="ravindra_jadeja.svg" alt="Ravindra Jadeja" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>Ravindra Jadeja</span>
+                </div>
+              </td>
+              <td class="stat-val">4/11 <span class="stat-extra">vs RR, 2015</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 3. Best Bowling Average -->
+      <div class="category-card" data-category="bowling">
+        <div class="category-header">
+          <div class="category-icon">📊</div>
+          <h3 class="category-title">Best Bowling Average</h3>
+        </div>
+        <table class="stats-table">
+          <thead>
+            <tr>
+              <th>Rank &amp; Bowler</th>
+              <th class="text-right">Average</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="rank-row">
+                <span class="rank-num">01</span>
+                <div class="player-row">
+                  <div class="player-row-avatar">LN</div>
+                  <span>Lungi Ngidi</span>
+                </div>
+              </td>
+              <td class="stat-val">12.96 <span class="stat-extra">25 Wkts &bull; 7.91 Econ &bull; 2018–2021</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">02</span>
+                <div class="player-row">
+                  <div class="player-row-avatar">AN</div>
+                  <span>Ashish Nehra</span>
+                </div>
+              </td>
+              <td class="stat-val">14.40 <span class="stat-extra">40 Wkts &bull; 7.24 Econ &bull; 2014–2015</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">03</span>
+                <div class="player-row">
+                  <div class="player-row-avatar">MP</div>
+                  <span>Matheesha Pathirana</span>
+                </div>
+              </td>
+              <td class="stat-val">20.10 <span class="stat-extra">46 Wkts &bull; 8.55 Econ &bull; 2022–Pres</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">04</span>
+                <div class="player-row">
+                  <div class="player-row-avatar">DB</div>
+                  <span>Doug Bollinger</span>
+                </div>
+              </td>
+              <td class="stat-val">20.30 <span class="stat-extra">55 Wkts &bull; 7.42 Econ &bull; 2010–2012</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">05</span>
+                <div class="player-row">
+                  <div class="player-row-avatar">MM</div>
+                  <span>Muttiah Muralitharan</span>
+                </div>
+              </td>
+              <td class="stat-val">21.90 <span class="stat-extra">40 Wkts &bull; 6.30 Econ &bull; 2008–2010</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 4. Best Economy Rate -->
+      <div class="category-card" data-category="bowling">
+        <div class="category-header">
+          <div class="category-icon">📉</div>
+          <h3 class="category-title">Best Economy Rate</h3>
+        </div>
+        <table class="stats-table">
+          <thead>
+            <tr>
+              <th>Rank &amp; Bowler</th>
+              <th class="text-right">Econ</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="rank-row">
+                <span class="rank-num">01</span>
+                <div class="player-row">
+                  <div class="player-row-avatar">MM</div>
+                  <span>Muttiah Muralitharan</span>
+                </div>
+              </td>
+              <td class="stat-val">6.28 <span class="stat-extra">179.1 Overs &bull; 40 Wkts &bull; 2008–2010</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">02</span>
+                <div class="player-row">
+                  <img src="r_ashwin.svg" alt="R. Ashwin" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>R. Ashwin</span>
+                </div>
+              </td>
+              <td class="stat-val">6.82 <span class="stat-extra">382.2 Overs &bull; 95 Wkts &bull; 2009–2015</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">03</span>
+                <div class="player-row">
+                  <div class="player-row-avatar">MN</div>
+                  <span>Makhaya Ntini</span>
+                </div>
+              </td>
+              <td class="stat-val">6.91 <span class="stat-extra">35.0 Overs &bull; 7 Wkts &bull; 2008</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">04</span>
+                <div class="player-row">
+                  <div class="player-row-avatar">MS</div>
+                  <span>Mitchell Santner</span>
+                </div>
+              </td>
+              <td class="stat-val">6.91 <span class="stat-extra">60.1 Overs &bull; 15 Wkts &bull; 2019–2024</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">05</span>
+                <div class="player-row">
+                  <img src="ravindra_jadeja.svg" alt="Ravindra Jadeja" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>Ravindra Jadeja</span>
+                </div>
+              </td>
+              <td class="stat-val">7.60 <span class="stat-extra">468.2 Overs &bull; 143 Wkts &bull; 2012–Pres</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 5. Best Strike Rate -->
+      <div class="category-card" data-category="bowling">
+        <div class="category-header">
+          <div class="category-icon">⚡</div>
+          <h3 class="category-title">Best Strike Rate</h3>
+        </div>
+        <table class="stats-table">
+          <thead>
+            <tr>
+              <th>Rank &amp; Bowler</th>
+              <th class="text-right">Strike Rate</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="rank-row">
+                <span class="rank-num">01</span>
+                <div class="player-row">
+                  <div class="player-row-avatar">LN</div>
+                  <span>Lungi Ngidi</span>
+                </div>
+              </td>
+              <td class="stat-val">15.60 <span class="stat-extra">25 Wkts &bull; 2018–2021</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">02</span>
+                <div class="player-row">
+                  <div class="player-row-avatar">MP</div>
+                  <span>Matheesha Pathirana</span>
+                </div>
+              </td>
+              <td class="stat-val">16.10 <span class="stat-extra">46 Wkts &bull; 2022–Present</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">03</span>
+                <div class="player-row">
+                  <div class="player-row-avatar">AN</div>
+                  <span>Ashish Nehra</span>
+                </div>
+              </td>
+              <td class="stat-val">17.90 <span class="stat-extra">40 Wkts &bull; 2014–2015</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">04</span>
+                <div class="player-row">
+                  <div class="player-row-avatar">DB</div>
+                  <span>Doug Bollinger</span>
+                </div>
+              </td>
+              <td class="stat-val">18.40 <span class="stat-extra">55 Wkts &bull; 2010–2012</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">05</span>
+                <div class="player-row">
+                  <img src="dwayne_bravo.svg" alt="Dwayne Bravo" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>Dwayne Bravo</span>
+                </div>
+              </td>
+              <td class="stat-val">18.50 <span class="stat-extra">140 Wkts &bull; 2011–2022</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 6. Most 4-Wicket Hauls -->
+      <div class="category-card" data-category="bowling">
+        <div class="category-header">
+          <div class="category-icon">☄️</div>
+          <h3 class="category-title">Most 4-Wicket Hauls</h3>
+        </div>
+        <table class="stats-table">
+          <thead>
+            <tr>
+              <th>Rank &amp; Bowler</th>
+              <th class="text-right">Hauls</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="rank-row">
+                <span class="rank-num">01</span>
+                <div class="player-row">
+                  <img src="ravindra_jadeja.svg" alt="Ravindra Jadeja" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>Ravindra Jadeja</span>
+                </div>
+              </td>
+              <td class="stat-val">4 <span class="stat-extra">BBI: 5/16 vs RCB &bull; 143 Wkts</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">02</span>
+                <div class="player-row">
+                  <div class="player-row-avatar">DC</div>
+                  <span>Deepak Chahar</span>
+                </div>
+              </td>
+              <td class="stat-val">2 <span class="stat-extra">BBI: 4/13 vs PBKS &bull; 76 Wkts</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">03</span>
+                <div class="player-row">
+                  <div class="player-row-avatar">SJ</div>
+                  <span>Shadab Jakati</span>
+                </div>
+              </td>
+              <td class="stat-val">2 <span class="stat-extra">BBI: 4/22 vs DD &bull; 45 Wkts</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">04</span>
+                <div class="player-row">
+                  <div class="player-row-avatar">NA</div>
+                  <span>Noor Ahmad</span>
+                </div>
+              </td>
+              <td class="stat-val">2 <span class="stat-extra">BBI: 4/17 vs MI &bull; 37 Wkts</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">05</span>
+                <div class="player-row">
+                  <div class="player-row-avatar">IT</div>
+                  <span>Imran Tahir</span>
+                </div>
+              </td>
+              <td class="stat-val">2 <span class="stat-extra">BBI: 4/12 vs KKR &bull; 35 Wkts</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 7. Most 5-Wicket Hauls -->
+      <div class="category-card" data-category="bowling">
+        <div class="category-header">
+          <div class="category-icon">🔥</div>
+          <h3 class="category-title">Most 5-Wicket Hauls</h3>
+        </div>
+        <table class="stats-table">
+          <thead>
+            <tr>
+              <th>Rank &amp; Bowler</th>
+              <th class="text-right">5W Hauls</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="rank-row">
+                <span class="rank-num">01</span>
+                <div class="player-row">
+                  <img src="ravindra_jadeja.svg" alt="Ravindra Jadeja" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>Ravindra Jadeja</span>
+                </div>
+              </td>
+              <td class="stat-val">1 <span class="stat-extra">5/16 vs Deccan Chargers, 2012</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">02</span>
+                <div class="player-row">
+                  <div class="player-row-avatar">LB</div>
+                  <span>Lakshmipathy Balaji</span>
+                </div>
+              </td>
+              <td class="stat-val">1 <span class="stat-extra">5/24 vs Kings XI Punjab, 2008</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">03</span>
+                <div class="player-row">
+                  <img src="dwayne_bravo.svg" alt="Dwayne Bravo" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>Dwayne Bravo</span>
+                </div>
+              </td>
+              <td class="stat-val">0 <span class="stat-extra">Best: 4/22</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">04</span>
+                <div class="player-row">
+                  <img src="r_ashwin.svg" alt="R. Ashwin" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>R. Ashwin</span>
+                </div>
+              </td>
+              <td class="stat-val">0 <span class="stat-extra">Best: 3/16</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">05</span>
+                <div class="player-row">
+                  <div class="player-row-avatar">DB</div>
+                  <span>Doug Bollinger</span>
+                </div>
+              </td>
+              <td class="stat-val">0 <span class="stat-extra">Best: 4/13</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 8. Most Dot Balls -->
+      <div class="category-card" data-category="bowling">
+        <div class="category-header">
+          <div class="category-icon">⚫</div>
+          <h3 class="category-title">Most Dot Balls</h3>
+        </div>
+        <table class="stats-table">
+          <thead>
+            <tr>
+              <th>Rank &amp; Bowler</th>
+              <th class="text-right">Dots</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="rank-row">
+                <span class="rank-num">01</span>
+                <div class="player-row">
+                  <img src="ravindra_jadeja.svg" alt="Ravindra Jadeja" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>Ravindra Jadeja</span>
+                </div>
+              </td>
+              <td class="stat-val">1,155 <span class="stat-extra">171 Matches</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">02</span>
+                <div class="player-row">
+                  <img src="r_ashwin.svg" alt="R. Ashwin" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>R. Ashwin</span>
+                </div>
+              </td>
+              <td class="stat-val">914 <span class="stat-extra">102 Matches</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">03</span>
+                <div class="player-row">
+                  <img src="dwayne_bravo.svg" alt="Dwayne Bravo" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>Dwayne Bravo</span>
+                </div>
+              </td>
+              <td class="stat-val">837 <span class="stat-extra">113 Matches</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">04</span>
+                <div class="player-row">
+                  <div class="player-row-avatar">DC</div>
+                  <span>Deepak Chahar</span>
+                </div>
+              </td>
+              <td class="stat-val">744 <span class="stat-extra">76 Matches</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">05</span>
+                <div class="player-row">
+                  <div class="player-row-avatar">AM</div>
+                  <span>Albie Morkel</span>
+                </div>
+              </td>
+              <td class="stat-val">522 <span class="stat-extra">75 Matches</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 9. Most Maidens -->
+      <div class="category-card" data-category="bowling">
+        <div class="category-header">
+          <div class="category-icon">🛡️</div>
+          <h3 class="category-title">Most Maidens</h3>
+        </div>
+        <table class="stats-table">
+          <thead>
+            <tr>
+              <th>Rank &amp; Bowler</th>
+              <th class="text-right">Maidens</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="rank-row">
+                <span class="rank-num">01</span>
+                <div class="player-row">
+                  <div class="player-row-avatar">DC</div>
+                  <span>Deepak Chahar</span>
+                </div>
+              </td>
+              <td class="stat-val">9 <span class="stat-extra">76 Matches</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">02</span>
+                <div class="player-row">
+                  <img src="r_ashwin.svg" alt="R. Ashwin" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>R. Ashwin</span>
+                </div>
+              </td>
+              <td class="stat-val">4 <span class="stat-extra">102 Matches</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">03</span>
+                <div class="player-row">
+                  <div class="player-row-avatar">IP</div>
+                  <span>Ishwar Pandey</span>
+                </div>
+              </td>
+              <td class="stat-val">3 <span class="stat-extra">25 Matches</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">04</span>
+                <div class="player-row">
+                  <img src="ravindra_jadeja.svg" alt="Ravindra Jadeja" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>Ravindra Jadeja</span>
+                </div>
+              </td>
+              <td class="stat-val">2 <span class="stat-extra">171 Matches</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">05</span>
+                <div class="player-row">
+                  <div class="player-row-avatar">DB</div>
+                  <span>Doug Bollinger</span>
+                </div>
+              </td>
+              <td class="stat-val">2 <span class="stat-extra">41 Matches</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 10. Most Wickets in a Season -->
+      <div class="category-card" data-category="bowling">
+        <div class="category-header">
+          <div class="category-icon">⚡</div>
+          <h3 class="category-title">Most Wickets in a Season</h3>
+        </div>
+        <table class="stats-table">
+          <thead>
+            <tr>
+              <th>Rank &amp; Bowler</th>
+              <th class="text-right">Wickets</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="rank-row">
+                <span class="rank-num">01</span>
+                <div class="player-row">
+                  <img src="dwayne_bravo.svg" alt="Dwayne Bravo" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>Dwayne Bravo</span>
+                </div>
+              </td>
+              <td class="stat-val">32 <span class="stat-extra">2013 Season (18 Matches)</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">02</span>
+                <div class="player-row">
+                  <img src="dwayne_bravo.svg" alt="Dwayne Bravo" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>Dwayne Bravo</span>
+                </div>
+              </td>
+              <td class="stat-val">26 <span class="stat-extra">2015 Season (17 Matches)</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">03</span>
+                <div class="player-row">
+                  <div class="player-row-avatar">IT</div>
+                  <span>Imran Tahir</span>
+                </div>
+              </td>
+              <td class="stat-val">26 <span class="stat-extra">2019 Season (17 Matches)</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">04</span>
+                <div class="player-row">
+                  <div class="player-row-avatar">NA</div>
+                  <span>Noor Ahmad</span>
+                </div>
+              </td>
+              <td class="stat-val">24 <span class="stat-extra">2025 Season (14 Matches)</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">05</span>
+                <div class="player-row">
+                  <div class="player-row-avatar">MS</div>
+                  <span>Mohit Sharma</span>
+                </div>
+              </td>
+              <td class="stat-val">23 <span class="stat-extra">2014 Season (16 Matches)</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- ==================== FIELDING RECORDS (7 Cards) ==================== -->
+
+      <!-- 1. Most Catches -->
+      <div class="category-card" data-category="fielding">
+        <div class="category-header">
+          <div class="category-icon">🏃</div>
+          <h3 class="category-title">Most Catches</h3>
+        </div>
+        <table class="stats-table">
+          <thead>
+            <tr>
+              <th>Rank &amp; Fielder</th>
+              <th class="text-right">Catches</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="rank-row">
+                <span class="rank-num">01</span>
+                <div class="player-row">
+                  <img src="1.png" alt="MS Dhoni" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>MS Dhoni</span>
+                </div>
+              </td>
+              <td class="stat-val">155 <span class="stat-extra">Wicketkeeper &bull; 248 Matches</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">02</span>
+                <div class="player-row">
+                  <img src="suresh_raina.svg" alt="Suresh Raina" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>Suresh Raina</span>
+                </div>
+              </td>
+              <td class="stat-val">109 <span class="stat-extra">Outfield Fielder &bull; 176 Matches</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">03</span>
+                <div class="player-row">
+                  <img src="ravindra_jadeja.svg" alt="Ravindra Jadeja" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>Ravindra Jadeja</span>
+                </div>
+              </td>
+              <td class="stat-val">94 <span class="stat-extra">Outfield Fielder &bull; 171 Matches</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">04</span>
+                <div class="player-row">
+                  <img src="faf_du_plessis.svg" alt="Faf du Plessis" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>Faf du Plessis</span>
+                </div>
+              </td>
+              <td class="stat-val">66 <span class="stat-extra">Outfield Fielder &bull; 92 Matches</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">05</span>
+                <div class="player-row">
+                  <img src="dwayne_bravo.svg" alt="Dwayne Bravo" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>Dwayne Bravo</span>
+                </div>
+              </td>
+              <td class="stat-val">64 <span class="stat-extra">Outfield Fielder &bull; 116 Matches</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 2. Most Dismissals -->
+      <div class="category-card" data-category="fielding">
+        <div class="category-header">
+          <div class="category-icon">🧤</div>
+          <h3 class="category-title">Most Dismissals</h3>
+        </div>
+        <table class="stats-table">
+          <thead>
+            <tr>
+              <th>Rank &amp; Fielder</th>
+              <th class="text-right">Dismissals</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="rank-row">
+                <span class="rank-num">01</span>
+                <div class="player-row">
+                  <img src="1.png" alt="MS Dhoni" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>MS Dhoni</span>
+                </div>
+              </td>
+              <td class="stat-val">226 <span class="stat-extra">155 C + 46 St + 25 RO</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">02</span>
+                <div class="player-row">
+                  <img src="suresh_raina.svg" alt="Suresh Raina" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>Suresh Raina</span>
+                </div>
+              </td>
+              <td class="stat-val">125 <span class="stat-extra">109 C + 0 St + 16 RO</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">03</span>
+                <div class="player-row">
+                  <img src="ravindra_jadeja.svg" alt="Ravindra Jadeja" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>Ravindra Jadeja</span>
+                </div>
+              </td>
+              <td class="stat-val">117 <span class="stat-extra">94 C + 0 St + 23 RO</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">04</span>
+                <div class="player-row">
+                  <img src="dwayne_bravo.svg" alt="Dwayne Bravo" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>Dwayne Bravo</span>
+                </div>
+              </td>
+              <td class="stat-val">76 <span class="stat-extra">64 C + 0 St + 12 RO</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">05</span>
+                <div class="player-row">
+                  <img src="faf_du_plessis.svg" alt="Faf du Plessis" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>Faf du Plessis</span>
+                </div>
+              </td>
+              <td class="stat-val">74 <span class="stat-extra">66 C + 0 St + 8 RO</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 3. Most Stumpings -->
+      <div class="category-card" data-category="fielding">
+        <div class="category-header">
+          <div class="category-icon">⚡</div>
+          <h3 class="category-title">Most Stumpings</h3>
+        </div>
+        <table class="stats-table">
+          <thead>
+            <tr>
+              <th>Rank &amp; Keeper</th>
+              <th class="text-right">Stumpings</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="rank-row">
+                <span class="rank-num">01</span>
+                <div class="player-row">
+                  <img src="1.png" alt="MS Dhoni" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>MS Dhoni</span>
+                </div>
+              </td>
+              <td class="stat-val">46 <span class="stat-extra">248 Matches</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">02</span>
+                <div class="player-row">
+                  <div class="player-row-avatar">PP</div>
+                  <span>Parthiv Patel</span>
+                </div>
+              </td>
+              <td class="stat-val">2 <span class="stat-extra">6 Matches</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">03</span>
+                <div class="player-row">
+                  <img src="3.png" alt="Sanju Samson" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>Sanju Samson</span>
+                </div>
+              </td>
+              <td class="stat-val">2 <span class="stat-extra">14 Matches</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 4. Most Run Outs -->
+      <div class="category-card" data-category="fielding">
+        <div class="category-header">
+          <div class="category-icon">🎯</div>
+          <h3 class="category-title">Most Run Outs</h3>
+        </div>
+        <table class="stats-table">
+          <thead>
+            <tr>
+              <th>Rank &amp; Player</th>
+              <th class="text-right">Run Outs</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="rank-row">
+                <span class="rank-num">01</span>
+                <div class="player-row">
+                  <img src="1.png" alt="MS Dhoni" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>MS Dhoni</span>
+                </div>
+              </td>
+              <td class="stat-val">25 <span class="stat-extra">Wicketkeeper</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">02</span>
+                <div class="player-row">
+                  <img src="ravindra_jadeja.svg" alt="Ravindra Jadeja" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>Ravindra Jadeja</span>
+                </div>
+              </td>
+              <td class="stat-val">23 <span class="stat-extra">Outfield Fielder</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">03</span>
+                <div class="player-row">
+                  <img src="suresh_raina.svg" alt="Suresh Raina" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>Suresh Raina</span>
+                </div>
+              </td>
+              <td class="stat-val">16 <span class="stat-extra">Outfield Fielder</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">04</span>
+                <div class="player-row">
+                  <img src="dwayne_bravo.svg" alt="Dwayne Bravo" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>Dwayne Bravo</span>
+                </div>
+              </td>
+              <td class="stat-val">12 <span class="stat-extra">Fielder / Bowler</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">05</span>
+                <div class="player-row">
+                  <img src="faf_du_plessis.svg" alt="Faf du Plessis" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>Faf du Plessis</span>
+                </div>
+              </td>
+              <td class="stat-val">8 <span class="stat-extra">Outfield Fielder</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 5. Most Catches in a Season -->
+      <div class="category-card" data-category="fielding">
+        <div class="category-header">
+          <div class="category-icon">🦅</div>
+          <h3 class="category-title">Most Catches in a Season</h3>
+        </div>
+        <table class="stats-table">
+          <thead>
+            <tr>
+              <th>Rank &amp; Fielder</th>
+              <th class="text-right">Catches</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="rank-row">
+                <span class="rank-num">01</span>
+                <div class="player-row">
+                  <img src="7.png" alt="Ruturaj Gaikwad" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>Ruturaj Gaikwad</span>
+                </div>
+              </td>
+              <td class="stat-val">17 <span class="stat-extra">2023 Season</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">02</span>
+                <div class="player-row">
+                  <img src="dwayne_bravo.svg" alt="Dwayne Bravo" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>Dwayne Bravo</span>
+                </div>
+              </td>
+              <td class="stat-val">14 <span class="stat-extra">2013 Season</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">03</span>
+                <div class="player-row">
+                  <img src="faf_du_plessis.svg" alt="Faf du Plessis" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>Faf du Plessis</span>
+                </div>
+              </td>
+              <td class="stat-val">13 <span class="stat-extra">2014 Season</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">04</span>
+                <div class="player-row">
+                  <img src="dwayne_bravo.svg" alt="Dwayne Bravo" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>Dwayne Bravo</span>
+                </div>
+              </td>
+              <td class="stat-val">13 <span class="stat-extra">2015 Season</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">05</span>
+                <div class="player-row">
+                  <img src="ravindra_jadeja.svg" alt="Ravindra Jadeja" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>Ravindra Jadeja</span>
+                </div>
+              </td>
+              <td class="stat-val">13 <span class="stat-extra">2015 &amp; 2021 Seasons</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 6. Most Dismissals in a Season -->
+      <div class="category-card" data-category="fielding">
+        <div class="category-header">
+          <div class="category-icon">🧤</div>
+          <h3 class="category-title">Most Dismissals in a Season</h3>
+        </div>
+        <table class="stats-table">
+          <thead>
+            <tr>
+              <th>Rank &amp; Fielder</th>
+              <th class="text-right">Dismissals</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="rank-row">
+                <span class="rank-num">01</span>
+                <div class="player-row">
+                  <img src="1.png" alt="MS Dhoni" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>MS Dhoni</span>
+                </div>
+              </td>
+              <td class="stat-val">24 <span class="stat-extra">19 Keep C + 5 St &bull; 2013</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">02</span>
+                <div class="player-row">
+                  <img src="1.png" alt="MS Dhoni" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>MS Dhoni</span>
+                </div>
+              </td>
+              <td class="stat-val">19 <span class="stat-extra">16 Keep C + 3 St &bull; 2019</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">03</span>
+                <div class="player-row">
+                  <img src="7.png" alt="Ruturaj Gaikwad" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>Ruturaj Gaikwad</span>
+                </div>
+              </td>
+              <td class="stat-val">18 <span class="stat-extra">17 Outf C + 1 RO &bull; 2023</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">04</span>
+                <div class="player-row">
+                  <img src="1.png" alt="MS Dhoni" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>MS Dhoni</span>
+                </div>
+              </td>
+              <td class="stat-val">17 <span class="stat-extra">15 Keep C + 2 St &bull; 2016</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">05</span>
+                <div class="player-row">
+                  <img src="dwayne_bravo.svg" alt="Dwayne Bravo" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>Dwayne Bravo</span>
+                </div>
+              </td>
+              <td class="stat-val">17 <span class="stat-extra">14 Outf C + 3 RO &bull; 2013</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 7. Most Wicketkeeper Dismissals -->
+      <div class="category-card" data-category="fielding">
+        <div class="category-header">
+          <div class="category-icon">🧤</div>
+          <h3 class="category-title">Most Wicketkeeper Dismissals</h3>
+        </div>
+        <table class="stats-table">
+          <thead>
+            <tr>
+              <th>Rank &amp; Keeper</th>
+              <th class="text-right">Dismissals</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="rank-row">
+                <span class="rank-num">01</span>
+                <div class="player-row">
+                  <img src="1.png" alt="MS Dhoni" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>MS Dhoni</span>
+                </div>
+              </td>
+              <td class="stat-val">201 <span class="stat-extra">155 Catches &bull; 46 Stumpings</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">02</span>
+                <div class="player-row">
+                  <div class="player-row-avatar">PP</div>
+                  <span>Parthiv Patel</span>
+                </div>
+              </td>
+              <td class="stat-val">7 <span class="stat-extra">5 Catches &bull; 2 Stumpings</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">03</span>
+                <div class="player-row">
+                  <img src="3.png" alt="Sanju Samson" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>Sanju Samson</span>
+                </div>
+              </td>
+              <td class="stat-val">6 <span class="stat-extra">4 Catches &bull; 2 Stumpings</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- ==================== TEAM RECORDS (8 Cards) ==================== -->
+
+      <!-- 1. Highest Team Total -->
+      <div class="category-card" data-category="team">
+        <div class="category-header">
+          <div class="category-icon">📈</div>
+          <h3 class="category-title">Highest Team Total</h3>
+        </div>
+        <table class="stats-table">
+          <thead>
+            <tr>
+              <th>Rank &amp; Score</th>
+              <th class="text-right">Opponent</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="rank-row">
+                <span class="rank-num">01</span>
+                <span class="stat-val" style="text-align: left; font-size: 15px;">246/5</span>
+              </td>
+              <td class="stat-val">Rajasthan Royals <span class="stat-extra">Chennai &bull; 2010</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">02</span>
+                <span class="stat-val" style="text-align: left; font-size: 15px;">240/5</span>
+              </td>
+              <td class="stat-val">Kings XI Punjab <span class="stat-extra">Mohali &bull; 2008</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">03</span>
+                <span class="stat-val" style="text-align: left; font-size: 15px;">235/4</span>
+              </td>
+              <td class="stat-val">Kolkata Knight Riders <span class="stat-extra">Kolkata &bull; 2023</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">04</span>
+                <span class="stat-val" style="text-align: left; font-size: 15px;">226/6</span>
+              </td>
+              <td class="stat-val">Royal Challengers Bengaluru <span class="stat-extra">Bengaluru &bull; 2023</span>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">05</span>
+                <span class="stat-val" style="text-align: left; font-size: 15px;">223/3</span>
+              </td>
+              <td class="stat-val">Delhi Capitals <span class="stat-extra">Delhi &bull; 2023</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 2. Highest Successful Chase -->
+      <div class="category-card" data-category="team">
+        <div class="category-header">
+          <div class="category-icon">🏹</div>
+          <h3 class="category-title">Highest Successful Chase</h3>
+        </div>
+        <table class="stats-table">
+          <thead>
+            <tr>
+              <th>Rank &amp; Score</th>
+              <th class="text-right">Opponent</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="rank-row">
+                <span class="rank-num">01</span>
+                <span class="stat-val" style="text-align: left; font-size: 15px;">208/5</span>
+              </td>
+              <td class="stat-val">Royal Challengers Bengaluru <span class="stat-extra">Target: 208 &bull; 2012</span>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">02</span>
+                <span class="stat-val" style="text-align: left; font-size: 15px;">208/5</span>
+              </td>
+              <td class="stat-val">Lucknow Super Giants <span class="stat-extra">Target: 208 &bull; 2026</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">03</span>
+                <span class="stat-val" style="text-align: left; font-size: 15px;">207/5</span>
+              </td>
+              <td class="stat-val">Royal Challengers Bengaluru <span class="stat-extra">Target: 207 &bull; 2018</span>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">04</span>
+                <span class="stat-val" style="text-align: left; font-size: 15px;">205/5</span>
+              </td>
+              <td class="stat-val">Kolkata Knight Riders <span class="stat-extra">Target: 205 &bull; 2018</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">05</span>
+                <span class="stat-val" style="text-align: left; font-size: 15px;">195/4</span>
+              </td>
+              <td class="stat-val">Punjab Kings <span class="stat-extra">Target: 195 &bull; 2010</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 3. Biggest Win (Runs) -->
+      <div class="category-card" data-category="team">
+        <div class="category-header">
+          <div class="category-icon">📉</div>
+          <h3 class="category-title">Biggest Win (Runs)</h3>
+        </div>
+        <table class="stats-table">
+          <thead>
+            <tr>
+              <th>Rank &amp; Margin</th>
+              <th class="text-right">Opponent</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="rank-row">
+                <span class="rank-num">01</span>
+                <span class="stat-val" style="text-align: left; font-size: 15px;">103 runs</span>
+              </td>
+              <td class="stat-val">Mumbai Indians <span class="stat-extra">Wankhede (Mumbai) &bull; 2026</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">02</span>
+                <span class="stat-val" style="text-align: left; font-size: 15px;">97 runs</span>
+              </td>
+              <td class="stat-val">Kings XI Punjab <span class="stat-extra">Chepauk (Chennai) &bull; 2015</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">03</span>
+                <span class="stat-val" style="text-align: left; font-size: 15px;">93 runs</span>
+              </td>
+              <td class="stat-val">Delhi Daredevils <span class="stat-extra">Abu Dhabi &bull; 2014</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">04</span>
+                <span class="stat-val" style="text-align: left; font-size: 15px;">92 runs</span>
+              </td>
+              <td class="stat-val">Royal Challengers Bengaluru <span class="stat-extra">Gqeberha &bull; 2009</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">05</span>
+                <span class="stat-val" style="text-align: left; font-size: 15px;">91 runs</span>
+              </td>
+              <td class="stat-val">Delhi Capitals <span class="stat-extra">Navi Mumbai &bull; 2022</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 4. Biggest Win (Wickets) -->
+      <div class="category-card" data-category="team">
+        <div class="category-header">
+          <div class="category-icon">🥎</div>
+          <h3 class="category-title">Biggest Win (Wickets)</h3>
+        </div>
+        <table class="stats-table">
+          <thead>
+            <tr>
+              <th>Rank &amp; Margin</th>
+              <th class="text-right">Opponent &amp; Pair</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="rank-row">
+                <span class="rank-num">01</span>
+                <span class="stat-val" style="text-align: left; font-size: 15px;">10 wickets</span>
+              </td>
+              <td class="stat-val">Kings XI Punjab <span class="stat-extra">M. Hussey &amp; M. Vijay &bull; 2013</span>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">02</span>
+                <span class="stat-val" style="text-align: left; font-size: 15px;">10 wickets</span>
+              </td>
+              <td class="stat-val">Kings XI Punjab <span class="stat-extra">S. Watson &amp; Faf du Plessis &bull;
+                  2020</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">03</span>
+                <span class="stat-val" style="text-align: left; font-size: 15px;">9 wickets</span>
+              </td>
+              <td class="stat-val">Kolkata Knight Riders <span class="stat-extra">M. Hayden &amp; MS Dhoni &bull;
+                  2008</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">04</span>
+                <span class="stat-val" style="text-align: left; font-size: 15px;">9 wickets</span>
+              </td>
+              <td class="stat-val">Kings XI Punjab <span class="stat-extra">P. Patel &amp; S. Raina &bull; 2008</span>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">05</span>
+                <span class="stat-val" style="text-align: left; font-size: 15px;">9 wickets</span>
+              </td>
+              <td class="stat-val">Kolkata Knight Riders <span class="stat-extra">M. Vijay &amp; S. Raina &bull;
+                  2010</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 5. Most Consecutive Wins -->
+      <div class="category-card" data-category="team">
+        <div class="category-header">
+          <div class="category-icon">🔥</div>
+          <h3 class="category-title">Most Consecutive Wins</h3>
+        </div>
+        <table class="stats-table">
+          <thead>
+            <tr>
+              <th>Rank &amp; Streak</th>
+              <th class="text-right">Season &amp; Streak Breaker</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="rank-row">
+                <span class="rank-num">01</span>
+                <span class="stat-val" style="text-align: left; font-size: 15px;">7 matches</span>
+              </td>
+              <td class="stat-val">2013 Season <span class="stat-extra">Breaker: Mumbai Indians</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">02</span>
+                <span class="stat-val" style="text-align: left; font-size: 15px;">6 matches</span>
+              </td>
+              <td class="stat-val">2014 Season <span class="stat-extra">Breaker: Mumbai Indians</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">03</span>
+                <span class="stat-val" style="text-align: left; font-size: 15px;">5 matches</span>
+              </td>
+              <td class="stat-val">2008 Season <span class="stat-extra">Breaker: Rajasthan Royals</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">04</span>
+                <span class="stat-val" style="text-align: left; font-size: 15px;">5 matches</span>
+              </td>
+              <td class="stat-val">2021 Season <span class="stat-extra">Breaker: Mumbai Indians</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 6. Longest Winning Streak at Home -->
+      <div class="category-card" data-category="team">
+        <div class="category-header">
+          <div class="category-icon">🏰</div>
+          <h3 class="category-title">Winning Streak at Home</h3>
+        </div>
+        <table class="stats-table">
+          <thead>
+            <tr>
+              <th>Rank &amp; Home Streak</th>
+              <th class="text-right">Seasons &amp; Streak Breaker</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="rank-row">
+                <span class="rank-num">01</span>
+                <span class="stat-val" style="text-align: left; font-size: 15px;">10 wins</span>
+              </td>
+              <td class="stat-val">2013–2015 <span class="stat-extra">Breaker: Mumbai Indians</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">02</span>
+                <span class="stat-val" style="text-align: left; font-size: 15px;">8 wins</span>
+              </td>
+              <td class="stat-val">2011 Season <span class="stat-extra">Breaker: Mumbai Indians</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">03</span>
+                <span class="stat-val" style="text-align: left; font-size: 15px;">7 wins</span>
+              </td>
+              <td class="stat-val">2015–2019 <span class="stat-extra">Breaker: Mumbai Indians</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">04</span>
+                <span class="stat-val" style="text-align: left; font-size: 15px;">4 wins</span>
+              </td>
+              <td class="stat-val">2008–2009 <span class="stat-extra">Breaker: Rajasthan Royals</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">05</span>
+                <span class="stat-val" style="text-align: left; font-size: 15px;">3 wins</span>
+              </td>
+              <td class="stat-val">2023 Season <span class="stat-extra">Breaker: Punjab Kings</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 7. Most Playoff Appearances -->
+      <div class="category-card" data-category="team">
+        <div class="category-header">
+          <div class="category-icon">🌟</div>
+          <h3 class="category-title">Most Playoff Appearances</h3>
+        </div>
+        <table class="stats-table">
+          <thead>
+            <tr>
+              <th>Rank &amp; Player</th>
+              <th class="text-right">Playoff Matches</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="rank-row">
+                <span class="rank-num">01</span>
+                <div class="player-row">
+                  <img src="1.png" alt="MS Dhoni" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>MS Dhoni</span>
+                </div>
+              </td>
+              <td class="stat-val">26 <span class="stat-extra">Matches for CSK</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">02</span>
+                <div class="player-row">
+                  <img src="suresh_raina.svg" alt="Suresh Raina" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>Suresh Raina</span>
+                </div>
+              </td>
+              <td class="stat-val">22 <span class="stat-extra">Matches for CSK</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">03</span>
+                <div class="player-row">
+                  <img src="ravindra_jadeja.svg" alt="Ravindra Jadeja" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>Ravindra Jadeja</span>
+                </div>
+              </td>
+              <td class="stat-val">20 <span class="stat-extra">Matches for CSK</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">04</span>
+                <div class="player-row">
+                  <img src="dwayne_bravo.svg" alt="Dwayne Bravo" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>Dwayne Bravo</span>
+                </div>
+              </td>
+              <td class="stat-val">19 <span class="stat-extra">Matches for CSK</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">05</span>
+                <div class="player-row">
+                  <img src="r_ashwin.svg" alt="R. Ashwin" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>R. Ashwin</span>
+                </div>
+              </td>
+              <td class="stat-val">17 <span class="stat-extra">Matches for CSK</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 8. Most Final Appearances -->
+      <div class="category-card" data-category="team">
+        <div class="category-header">
+          <div class="category-icon">🏆</div>
+          <h3 class="category-title">Most Final Appearances</h3>
+        </div>
+        <table class="stats-table">
+          <thead>
+            <tr>
+              <th>Rank &amp; Player</th>
+              <th class="text-right">Finals (Years)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="rank-row">
+                <span class="rank-num">01</span>
+                <div class="player-row">
+                  <img src="1.png" alt="MS Dhoni" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>MS Dhoni</span>
+                </div>
+              </td>
+              <td class="stat-val">10 <span class="stat-extra">08, 10, 11, 12, 13, 15, 18, 19, 21, 23</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">02</span>
+                <div class="player-row">
+                  <img src="suresh_raina.svg" alt="Suresh Raina" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>Suresh Raina</span>
+                </div>
+              </td>
+              <td class="stat-val">8 <span class="stat-extra">2008, 2010, 2011, 2012, 2013, 2015, 2018, 2019</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">03</span>
+                <div class="player-row">
+                  <img src="ravindra_jadeja.svg" alt="Ravindra Jadeja" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>Ravindra Jadeja</span>
+                </div>
+              </td>
+              <td class="stat-val">6 <span class="stat-extra">2012, 2013, 2015, 2018, 2019, 2023</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">04</span>
+                <div class="player-row">
+                  <img src="dwayne_bravo.svg" alt="Dwayne Bravo" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>Dwayne Bravo</span>
+                </div>
+              </td>
+              <td class="stat-val">5 <span class="stat-extra">2012, 2013, 2015, 2018, 2021</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="rank-num">05</span>
+                <div class="player-row">
+                  <img src="r_ashwin.svg" alt="R. Ashwin" class="player-row-avatar"
+                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                  <span>R. Ashwin</span>
+                </div>
+              </td>
+              <td class="stat-val">4 <span class="stat-extra">2011, 2012, 2013, 2015</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div> <!-- /stats-categories-grid -->
+
+  </div> <!-- /container -->
+
+  <!-- FOOTER -->
+  <footer>
+    <p>&copy; 2026 Chennai Super Kings Fan Portal. Developed with 💛 for Super Fans.</p>
+    <p>All statistical records are powered by historical archives. Back to <a href="csk_website.html">Main Home
+        Page</a>.</p>
+  </footer>
+
+  <script>
+    // CURSOR LOGIC (Matching main website exactly)
+    const cursor = document.getElementById('cursor');
+    const ring = document.getElementById('cursor-ring');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX;
+      my = e.clientY;
+      cursor.style.left = mx + 'px';
+      cursor.style.top = my + 'px';
+    });
+
+    function animRing() {
+      rx += (mx - rx) * 0.12;
+      ry += (my - ry) * 0.12;
+      ring.style.left = rx + 'px';
+      ring.style.top = ry + 'px';
+      requestAnimationFrame(animRing);
+    }
+    animRing();
+
+    // Hover scales for cursor ring
+    document.querySelectorAll('a, button, .hof-card, .category-card, tr').forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        ring.style.width = '60px';
+        ring.style.height = '60px';
+        ring.style.borderColor = 'rgba(253, 185, 19, 0.8)';
+      });
+      el.addEventListener('mouseleave', () => {
+        ring.style.width = '36px';
+        ring.style.height = '36px';
+        ring.style.borderColor = 'var(--gold)';
+      });
+    });
+
+    // NAVBAR SCROLL TRANSITION
+    window.addEventListener('scroll', () => {
+      document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 40);
+    });
+
+    // LEADERBOARD CATEGORY FILTER LOGIC
+    document.getElementById('stats-category-select').addEventListener('change', function (e) {
+      const cat = e.target.value;
+      document.querySelectorAll('.stats-categories-grid > .category-card').forEach(card => {
+        if (cat === 'all' || card.getAttribute('data-category') === cat) {
+          card.style.display = '';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+
+    // ═══ HAMBURGER MENU ════════════════════════════════════════════
+    (function () {
+      var btn = document.getElementById('nav-hamburger');
+      var links = document.getElementById('nav-links');
+      if (!btn || !links) return;
+      btn.addEventListener('click', function () {
+        btn.classList.toggle('active');
+        links.classList.toggle('open');
+      });
+      links.querySelectorAll('a').forEach(function (a) {
+        a.addEventListener('click', function () {
+          btn.classList.remove('active');
+          links.classList.remove('open');
+        });
+      });
+    })();
+
+    // ─── AUTHENTICATION SESSION RESTORER (Sync across all subpages) ───
+    const joinNowBtn = document.getElementById('join-now-btn');
+    const navUserProfile = document.getElementById('nav-user-profile');
+    const navUsername = document.getElementById('nav-username');
+    const logoutBtn = document.getElementById('logout-btn');
+
+    function updateNavState(username) {
+      if (joinNowBtn) joinNowBtn.style.display = 'none';
+      if (navUserProfile) {
+        navUserProfile.style.display = 'flex';
+        navUsername.textContent = username;
+      }
+    }
+
+    if (logoutBtn) {
+      logoutBtn.addEventListener('click', () => {
+        localStorage.removeItem('csk_auth_user');
+        localStorage.removeItem('csk_auth_verified');
+        if (joinNowBtn) joinNowBtn.style.display = 'inline-block';
+        if (navUserProfile) navUserProfile.style.display = 'none';
+        alert('You have successfully logged out of the CSK Portal.');
+      });
+    }
+
+    const cachedUser = JSON.parse(localStorage.getItem('csk_auth_user'));
+    const isVerified = localStorage.getItem('csk_auth_verified') === 'true';
+    if (cachedUser && isVerified) {
+      updateNavState(cachedUser.username);
+    }
+  </script>
+
+</body>
+
+</html>

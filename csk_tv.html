@@ -1,0 +1,1907 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSK TV — Chennai Super Kings Video Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700;1,800;1,900&family=Poppins:wght@300;400;500;600&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --gold: #FDB913;
+      --gold-dim: rgba(253, 185, 19, 0.15);
+      --blue: #0047A0;
+      --blue-light: #1a6fd4;
+      --bg: #060810;
+      --bg2: #080c18;
+      --text: #e8eaf0;
+      --muted: rgba(232, 234, 240, 0.5);
+      --border: rgba(253, 185, 19, 0.2);
+      --holo-cyan: #00f0ff;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* CUSTOM CURSOR */
+    #cursor {
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      background: var(--gold);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 99999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.1s;
+      mix-blend-mode: screen;
+    }
+
+    #cursor-ring {
+      position: fixed;
+      width: 36px;
+      height: 36px;
+      border: 1.5px solid var(--gold);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 99998;
+      transform: translate(-50%, -50%);
+      transition: all 0.15s ease;
+      opacity: 0.6;
+    }
+
+    /* SCANLINE */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 0, 0, 0.03) 2px, rgba(0, 0, 0, 0.03) 4px);
+      pointer-events: none;
+      z-index: 9998;
+    }
+
+    /* NAVBAR */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+      height: 72px;
+      transition: background 0.4s, backdrop-filter 0.4s;
+    }
+
+    nav.scrolled {
+      background: rgba(6, 8, 16, 0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo img {
+      height: 52px;
+      width: auto;
+      filter: drop-shadow(0 0 12px rgba(253, 185, 19, 0.4));
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 36px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 600;
+      font-size: 15px;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--gold) !important;
+      text-shadow: 0 0 8px rgba(253, 185, 19, 0.6) !important;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .btn-angled {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800;
+      font-size: 14px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--bg);
+      text-decoration: none;
+      background: var(--gold);
+      padding: 11px 28px;
+      clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+      transition: all 0.2s;
+      display: inline-block;
+    }
+
+    .btn-angled:hover {
+      background: #ffe066;
+      transform: translateY(-1px);
+      box-shadow: 0 8px 30px rgba(253, 185, 19, 0.4);
+    }
+
+    .live-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 40, 40, 0.15);
+      border: 1px solid rgba(255, 40, 40, 0.4);
+      padding: 5px 12px;
+      border-radius: 4px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      color: #ff4444;
+      text-transform: uppercase;
+    }
+
+    .live-dot {
+      width: 7px;
+      height: 7px;
+      background: #ff4444;
+      border-radius: 50%;
+      animation: pulse-red 1.2s infinite;
+    }
+
+    @keyframes pulse-red {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.7); }
+    }
+
+    /* HEADER BANNER */
+    .tv-hero {
+      position: relative;
+      padding: 140px 8vw 60px;
+      background: linear-gradient(180deg, rgba(253, 185, 19, 0.05) 0%, transparent 100%);
+      border-bottom: 1px solid rgba(253, 185, 19, 0.05);
+      text-align: center;
+    }
+
+    .tv-tag {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 0.3em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      display: inline-block;
+    }
+
+    .tv-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 64px;
+      font-weight: 900;
+      line-height: 1.1;
+      text-transform: uppercase;
+      letter-spacing: -0.01em;
+      margin-bottom: 16px;
+    }
+
+    .tv-title span {
+      color: var(--gold);
+      text-shadow: 0 0 20px rgba(253, 185, 19, 0.3);
+    }
+
+    .tv-subtitle {
+      color: var(--muted);
+      font-size: 16px;
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    /* SEARCH AND FILTER BAR */
+    .filter-section {
+      padding: 0 8vw 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      max-width: 1600px;
+      margin: 0 auto;
+    }
+
+    .search-row {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .search-input-wrap {
+      flex: 1;
+      min-width: 280px;
+      position: relative;
+    }
+
+    .search-input {
+      width: 100%;
+      background: rgba(6, 8, 16, 0.6);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px 20px 14px 46px;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 15px;
+      outline: none;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    .search-input:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 15px rgba(253, 185, 19, 0.2);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 16px;
+      color: var(--muted);
+      pointer-events: none;
+    }
+
+    .select-wrap {
+      position: relative;
+      min-width: 200px;
+    }
+
+    .select-input {
+      width: 100%;
+      background: rgba(6, 8, 16, 0.6);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px 40px 14px 20px;
+      color: var(--text);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      outline: none;
+      cursor: pointer;
+      appearance: none;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    .select-input:focus {
+      border-color: var(--gold);
+    }
+
+    .select-icon {
+      position: absolute;
+      right: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--gold);
+      pointer-events: none;
+      font-size: 12px;
+    }
+
+    .category-tabs {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .cat-tab {
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 10px 24px;
+      color: var(--muted);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .cat-tab:hover,
+    .cat-tab.active {
+      color: var(--bg);
+      background: var(--gold);
+      border-color: var(--gold);
+      box-shadow: 0 0 15px rgba(253, 185, 19, 0.3);
+    }
+
+    /* VIDEO GRID */
+    .video-section {
+      padding: 0 8vw 80px;
+      max-width: 1600px;
+      margin: 0 auto;
+    }
+
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 30px;
+    }
+
+    .video-card {
+      background: rgba(8, 12, 24, 0.4);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .video-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--gold);
+      box-shadow: 0 10px 30px rgba(253, 185, 19, 0.15);
+    }
+
+    .video-thumb-wrap {
+      position: relative;
+      aspect-ratio: 16/9;
+      overflow: hidden;
+      background: #000;
+    }
+
+    .video-thumb {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .video-card:hover .video-thumb {
+      transform: scale(1.05);
+    }
+
+    .play-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(6, 8, 16, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .video-card:hover .play-overlay {
+      opacity: 1;
+    }
+
+    .play-btn-circle {
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      background: var(--gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      color: var(--bg);
+      box-shadow: 0 0 20px rgba(253, 185, 19, 0.5);
+      transform: scale(0.8);
+      transition: transform 0.3s ease;
+    }
+
+    .video-card:hover .play-btn-circle {
+      transform: scale(1);
+    }
+
+    .video-duration {
+      position: absolute;
+      bottom: 12px;
+      right: 12px;
+      background: rgba(0, 0, 0, 0.85);
+      border: 1px solid rgba(253, 185, 19, 0.3);
+      border-radius: 4px;
+      padding: 3px 8px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+    }
+
+    .video-category-tag {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: var(--blue);
+      border-radius: 4px;
+      padding: 3px 10px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      box-shadow: 0 4px 10px rgba(0, 71, 160, 0.5);
+    }
+
+    .video-info {
+      padding: 20px;
+    }
+
+    .video-card-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+
+    .video-card-meta span.video-opp {
+      color: var(--gold);
+    }
+
+    .video-card-title {
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 1.4;
+      margin-bottom: 8px;
+      color: var(--text);
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      height: 44px;
+      transition: color 0.2s ease;
+    }
+
+    .video-card:hover .video-card-title {
+      color: var(--gold);
+    }
+
+    .video-card-desc {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.5;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .no-results {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 60px 0;
+      border: 1px dashed var(--border);
+      border-radius: 12px;
+      background: rgba(8, 12, 24, 0.2);
+    }
+
+    .no-results-icon {
+      font-size: 48px;
+      margin-bottom: 12px;
+      opacity: 0.5;
+    }
+
+    .no-results-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+
+    .no-results-desc {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    /* HOLOGRAPHIC THEATER MODAL OVERLAY */
+    .tv-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(4, 6, 12, 0.95);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      backdrop-filter: blur(20px);
+    }
+
+    .tv-modal-overlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .tv-modal-container {
+      width: 100%;
+      max-width: 1200px;
+      background: #080c18;
+      border: 2px solid var(--holo-cyan);
+      border-radius: 16px;
+      box-shadow: 0 0 50px rgba(0, 240, 255, 0.25);
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1.6fr 1fr;
+      position: relative;
+      transform: scale(0.9);
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .tv-modal-overlay.active .tv-modal-container {
+      transform: scale(1);
+    }
+
+    .tv-modal-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(0, 240, 255, 0.1);
+      border: 1px solid var(--holo-cyan);
+      color: var(--holo-cyan);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      z-index: 10;
+    }
+
+    .tv-modal-close:hover {
+      background: var(--holo-cyan);
+      color: var(--bg);
+      box-shadow: 0 0 15px var(--holo-cyan);
+    }
+
+    /* MODAL LEFT: STREAMING SCREEN */
+    .tv-stream-panel {
+      border-right: 1px solid rgba(0, 240, 255, 0.15);
+      display: flex;
+      flex-direction: column;
+      background: #04060c;
+    }
+
+    .tv-player-wrap {
+      position: relative;
+      aspect-ratio: 16/9;
+      background: #000;
+      border-bottom: 1px solid rgba(0, 240, 255, 0.15);
+      overflow: hidden;
+    }
+
+    .tv-mock-video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.3;
+      filter: blur(3px) grayscale(50%);
+    }
+
+    .tv-player-hud {
+      position: absolute;
+      inset: 0;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      pointer-events: none;
+      background: radial-gradient(circle, transparent 40%, rgba(0, 0, 0, 0.6) 100%);
+    }
+
+    .hud-top {
+      display: flex;
+      justify-content: space-between;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800;
+      font-size: 14px;
+      letter-spacing: 0.15em;
+      color: var(--holo-cyan);
+      text-transform: uppercase;
+      animation: flash-cyan 2s infinite alternate;
+    }
+
+    @keyframes flash-cyan {
+      0% { opacity: 0.6; }
+      100% { opacity: 1; text-shadow: 0 0 8px var(--holo-cyan); }
+    }
+
+    .hud-center {
+      align-self: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .hud-play-btn {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: rgba(0, 240, 255, 0.1);
+      border: 2px solid var(--holo-cyan);
+      color: var(--holo-cyan);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      text-shadow: 0 0 10px var(--holo-cyan);
+      box-shadow: 0 0 20px rgba(0, 240, 255, 0.2);
+      cursor: pointer;
+      pointer-events: all;
+      transition: all 0.3s ease;
+    }
+
+    .hud-play-btn:hover {
+      background: var(--holo-cyan);
+      color: var(--bg);
+      box-shadow: 0 0 30px var(--holo-cyan);
+    }
+
+    .hud-status-text {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--holo-cyan);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+
+    .hud-bottom {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      pointer-events: all;
+    }
+
+    .hud-progress-bar {
+      height: 4px;
+      background: rgba(0, 240, 255, 0.2);
+      border-radius: 2px;
+      position: relative;
+      cursor: pointer;
+    }
+
+    .hud-progress-fill {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 32%;
+      background: var(--holo-cyan);
+      border-radius: 2px;
+      box-shadow: 0 0 10px var(--holo-cyan);
+    }
+
+    .hud-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--holo-cyan);
+      letter-spacing: 0.05em;
+    }
+
+    .hud-controls-left {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .hud-icon-btn {
+      background: none;
+      border: none;
+      color: var(--holo-cyan);
+      font-size: 16px;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+
+    .hud-icon-btn:hover {
+      opacity: 0.8;
+    }
+
+    .tv-stream-info {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    .tv-stream-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 28px;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: var(--text);
+      line-height: 1.2;
+    }
+
+    .tv-stream-desc {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .tv-stream-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: auto;
+    }
+
+    /* MODAL RIGHT: INTERACTIVE COMMENTS PANEL */
+    .tv-comments-panel {
+      display: flex;
+      flex-direction: column;
+      background: #080c18;
+      height: 100%;
+      max-height: 675px;
+    }
+
+    .comments-header {
+      padding: 24px;
+      border-bottom: 1px solid rgba(0, 240, 255, 0.15);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      color: var(--holo-cyan);
+      text-transform: uppercase;
+    }
+
+    .comments-feed {
+      flex: 1;
+      padding: 24px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .comment-item {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(232, 234, 240, 0.05);
+    }
+
+    .comment-user-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .comment-username {
+      color: var(--gold);
+    }
+
+    .comment-time {
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .comment-body {
+      font-size: 13px;
+      line-height: 1.5;
+      color: var(--text);
+    }
+
+    .comments-input-wrap {
+      padding: 24px;
+      border-top: 1px solid rgba(0, 240, 255, 0.15);
+      background: rgba(6, 8, 16, 0.4);
+    }
+
+    .comments-form {
+      display: flex;
+      gap: 12px;
+    }
+
+    .comment-field {
+      flex: 1;
+      background: rgba(6, 8, 16, 0.8);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 12px 16px;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 13px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .comment-field:focus {
+      border-color: var(--holo-cyan);
+    }
+
+    .comment-submit-btn {
+      background: rgba(0, 240, 255, 0.1);
+      border: 1px solid var(--holo-cyan);
+      border-radius: 6px;
+      padding: 0 16px;
+      color: var(--holo-cyan);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .comment-submit-btn:hover {
+      background: var(--holo-cyan);
+      color: var(--bg);
+      box-shadow: 0 0 15px var(--holo-cyan);
+    }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 60px 8vw 30px;
+      background: #03050a;
+    }
+
+    .footer-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 30px;
+      margin-bottom: 40px;
+    }
+
+    .footer-brand {
+      flex: 1;
+      min-width: 250px;
+    }
+
+    .footer-logo-text {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 32px;
+      font-weight: 900;
+      letter-spacing: 0.05em;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+
+    .footer-logo-text span {
+      color: var(--gold);
+    }
+
+    .footer-tagline {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover {
+      color: var(--gold);
+    }
+
+    .footer-socials {
+      display: flex;
+      gap: 16px;
+    }
+
+    .social-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      text-decoration: none;
+      transition: all 0.3s ease;
+      font-size: 16px;
+    }
+
+    .social-icon:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+      box-shadow: 0 0 10px rgba(253, 185, 19, 0.3);
+    }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      border-top: 1px solid rgba(232, 234, 240, 0.05);
+      padding-top: 24px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .footer-csk {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      color: var(--gold);
+      text-transform: uppercase;
+    }
+
+    /* MOBILE BREAKPOINTS */
+    @media (max-width: 900px) {
+      .tv-modal-container {
+        grid-template-columns: 1fr;
+      }
+
+      .tv-stream-panel {
+        border-right: none;
+        border-bottom: 1px solid rgba(0, 240, 255, 0.15);
+      }
+
+      .tv-comments-panel {
+        max-height: 400px;
+      }
+    }
+
+    /* RESPONSIVENESS & MOBILE MENU */
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 8px;
+      z-index: 200;
+    }
+
+    .nav-hamburger span {
+      display: block;
+      width: 26px;
+      height: 2px;
+      background: var(--text);
+      border-radius: 2px;
+      transition: .3s;
+    }
+
+    .nav-hamburger.active span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+
+    .nav-hamburger.active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .nav-hamburger.active span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+
+    @media (max-width: 900px) {
+      nav {
+        padding: 0 24px;
+      }
+
+      .nav-hamburger {
+        display: flex;
+      }
+
+      .nav-links {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: min(320px, 80vw);
+        height: 100vh;
+        background: rgba(6, 8, 16, .98);
+        backdrop-filter: blur(20px);
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 32px;
+        transition: right .4s cubic-bezier(.25, .8, .25, 1);
+        border-left: 1px solid var(--border);
+        z-index: 150;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .nav-links.open {
+        right: 0;
+      }
+
+      .nav-links a {
+        font-size: 20px;
+      }
+
+      .tv-title {
+        font-size: 40px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Custom cursor elements -->
+  <div id="cursor"></div>
+  <div id="cursor-ring"></div>  <!-- NAVBAR -->
+  <nav id="navbar">
+    <div class="nav-logo">
+      <a href="csk_website.html"><img src="logo.png" alt="CSK Crest"></a>
+    </div>
+    <button class="nav-hamburger" id="nav-hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="csk_website.html">Home</a></li>
+      <li><a href="about_csk.html">About CSK</a></li>
+      <li><a href="pillars.html">Pillars</a></li>
+      <li><a href="stats.html">Stats</a></li>
+      <li><a href="awards.html">Awards</a></li>
+      <li><a href="fanzone.html">Fan Zone</a></li>
+      <li><a href="csk_tv.html" class="active">CSK TV</a></li>
+      <li><a href="shop.html">Shop</a></li>
+    </ul>
+    <div class="nav-right">
+      <div id="nav-user-profile" style="display:none; align-items:center; gap:12px;">
+        <span class="user-avatar" style="width:36px; height:36px; border-radius:50%; background:var(--gold); color:var(--bg); display:flex; align-items:center; justify-content:center; font-family:'Barlow Condensed', sans-serif; font-weight:800; font-size:16px; border:2px solid #fff; box-shadow:0 0 10px rgba(253,195,19,0.4);">🦁</span>
+        <span id="nav-username" style="font-family:'Barlow Condensed', sans-serif; font-weight:700; font-size:14px; letter-spacing:0.05em; text-transform:uppercase; color:#fff;"></span>
+        <a href="javascript:void(0)" id="logout-btn" style="font-family:'Barlow Condensed', sans-serif; font-weight:700; font-size:12px; letter-spacing:0.05em; text-transform:uppercase; color:var(--muted); text-decoration:none; margin-left:8px; transition:color 0.2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--muted)'">Logout</a>
+      </div>
+      <a href="csk_website.html#membership" class="btn-angled" id="join-now-btn">Join Now</a>
+    </div>
+  </nav>
+
+  <!-- TV HERO BANNER -->
+  <header class="tv-hero">
+    <span class="tv-tag">Exclusive Broadcaster</span>
+    <h1 class="tv-title">CSK <span>TV</span></h1>
+    <p class="tv-subtitle">Your prime destination for Chennai Super Kings match highlights, player auctions, and exclusive interviews.</p>
+  </header>
+
+  <!-- FILTERS SECTION -->
+  <section class="filter-section">
+    <div class="search-row">
+      <div class="search-input-wrap">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="tv-search" class="search-input" placeholder="Search videos, matches, diaries...">
+      </div>
+      <div class="select-wrap">
+        <select id="tv-cat-filter" class="select-input">
+          <option value="all">Category: All</option>
+          <option value="Highlights">Highlights</option>
+          <option value="Auction">Auction</option>
+          <option value="Interviews">Interviews</option>
+          <option value="Stories">Stories</option>
+          <option value="Making of the Lion">Making of the Lion</option>
+        </select>
+        <span class="select-icon">▼</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- VIDEOS DIRECTORY SECTION -->
+  <main class="video-section">
+    <div class="video-grid" id="tv-video-grid">
+      <!-- Populated dynamically by JS -->
+    </div>
+  </main>
+
+  <!-- HOLOGRAPHIC THEATER MODAL OVERLAY -->
+  <div class="tv-modal-overlay" id="tv-player-modal">
+    <div class="tv-modal-container">
+      <button class="tv-modal-close" id="tv-modal-close">✕</button>
+      
+      <!-- Left side: Player + Description -->
+      <div class="tv-stream-panel">
+        <div class="tv-player-wrap">
+          <img src="1.png" alt="Holographic stream overlay" class="tv-mock-video" id="modal-video-thumb">
+          
+          <div class="tv-player-hud">
+            <div class="hud-top">
+              <div>🔴 HOLO-STREAM LEVEL A</div>
+              <div>SCANRATE: 240HZ</div>
+            </div>
+            <div class="hud-center">
+              <button class="hud-play-btn" id="modal-play-trigger">▶</button>
+              <div class="hud-status-text" id="modal-hud-status">READY TO STREAM</div>
+            </div>
+            <div class="hud-bottom">
+              <div class="hud-progress-bar">
+                <div class="hud-progress-fill" id="modal-progress"></div>
+              </div>
+              <div class="hud-controls">
+                <div class="hud-controls-left">
+                  <button class="hud-icon-btn">🔊</button>
+                  <span id="modal-duration-text">0:00 / 0:00</span>
+                </div>
+                <div>THEATER HUD v2.6</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="tv-stream-info">
+          <h2 class="tv-stream-title" id="modal-video-title">IPL 2026: MATCH HIGHLIGHTS</h2>
+          <p class="tv-stream-desc" id="modal-video-desc">Video description goes here.</p>
+          <div class="tv-stream-actions">
+            <button class="cat-tab active" onclick="copyVideoLink()">Share Hologram</button>
+            <button class="cat-tab" onclick="alert('Added to your watchlist!')">Watchlist</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right side: Interactive Comments -->
+      <div class="tv-comments-panel">
+        <div class="comments-header">Holo-Chat Feedback</div>
+        <div class="comments-feed" id="modal-comments-feed">
+          <!-- Populated by JS -->
+        </div>
+        <div class="comments-input-wrap">
+          <form class="comments-form" id="comments-form">
+            <input type="text" class="comment-field" id="comment-input" placeholder="Transmit your comment..." required>
+            <button type="submit" class="comment-submit-btn">Transmit</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-container">
+      <div class="footer-brand">
+        <div class="footer-logo-text">CSK <span>PORTAL</span></div>
+        <p class="footer-tagline">The Pride of Chennai · 5-Time IPL Champions</p>
+      </div>
+      <div class="footer-links">
+        <a href="csk_website.html">Home</a>
+        <a href="about_csk.html">About CSK</a>
+        <a href="pillars.html">Pillars</a>
+        <a href="stats.html">Stats</a>
+        <a href="awards.html">Awards</a>
+        <a href="fanzone.html">Fan Zone</a>
+        <a href="csk_tv.html">CSK TV</a>
+        <a href="shop.html">Shop</a>
+      </div>
+      <div class="footer-socials">
+        <a href="#" class="social-icon">𝕏</a>
+        <a href="#" class="social-icon">📸</a>
+        <a href="#" class="social-icon">🎥</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">&copy; 2026 Chennai Super Kings Cricket Ltd. All rights reserved.</div>
+      <div class="footer-csk">Whistle Podu 🦁</div>
+    </div>
+  </footer>
+
+  <script>
+    // ─── CURSOR ENGINE ───
+    const cursor = document.getElementById('cursor');
+    const ring = document.getElementById('cursor-ring');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; cursor.style.left = mx + 'px'; cursor.style.top = my + 'px'; });
+    function animRing() { rx += (mx - rx) * 0.12; ry += (my - ry) * .12; ring.style.left = rx + 'px'; ring.style.top = ry + 'px'; requestAnimationFrame(animRing); }
+    animRing();
+
+    function bindCursorEffects() {
+      document.querySelectorAll('a, button, select, input, .video-card, .cat-tab, .tv-modal-close').forEach(el => {
+        el.addEventListener('mouseenter', () => { ring.style.width = '60px'; ring.style.height = '60px'; ring.style.borderColor = 'rgba(0, 240, 255, 0.8)'; });
+        el.addEventListener('mouseleave', () => { ring.style.width = '36px'; ring.style.height = '36px'; ring.style.borderColor = 'var(--gold)'; });
+      });
+    }
+
+    const VIDEO_DATABASE = [
+      {
+        id: 17,
+        title: "We have learned a lot about many young players: Eric Simons",
+        desc: "CSK bowling coach Eric Simons shares key insights about team preparations and youth developments in TATA IPL 2026.",
+        category: "Interviews",
+        opp: "None",
+        duration: "06:40",
+        date: "May 21, 2026",
+        views: "350K views",
+        thumb: "interview1.avif",
+        url: "https://www.iplt20.com/video/68698/we-have-learned-a-lot-about-many-young-players-eric-simons",
+        comments: [
+          { user: "PillarsOfCSK", text: "Simons' tactical analysis is always top class.", time: "2 hours ago" }
+        ]
+      },
+      {
+        id: 16,
+        title: "IPL 2026 M66: GT vs CSK - Ruturaj Gaikwad Interview",
+        desc: "Chennai Super Kings captain Ruturaj Gaikwad speaks to the host broadcaster after the TATA IPL 2026 match against Gujarat Titans.",
+        category: "Interviews",
+        opp: "GT",
+        duration: "05:25",
+        date: "May 21, 2026",
+        views: "430K views",
+        thumb: "interview2.avif",
+        url: "https://www.iplt20.com/video/68686/ipl-2026-m66-gt-vs-csk---ruturaj-gaikwad-interview",
+        comments: [
+          { user: "RutuSupporter", text: "He speaks with so much clarity and modesty.", time: "1 hour ago" }
+        ]
+      },
+      {
+        id: 1,
+        title: "IPL 2026 M66: GT vs CSK - Match Highlights",
+        desc: "Match highlights of the TATA IPL 2026 clash between Gujarat Titans and Chennai Super Kings.",
+        category: "Highlights",
+        opp: "GT",
+        duration: "09:35",
+        date: "May 20, 2026",
+        views: "1.4M views",
+        thumb: "cskvsgt.webp",
+        url: "https://www.iplt20.com/video/68658/ipl-2026-m66-gt-vs-csk---match-highlights",
+        comments: [
+          { user: "SuperKingsNation", text: "What a spectacular match! GT put up a good fight.", time: "5 mins ago" }
+        ]
+      },
+      {
+        id: 19,
+        title: "7 Minutes of Thala",
+        desc: "Seven unforgettable minutes reliving MS Dhoni's most iconic moments in yellow.",
+        category: "Stories",
+        opp: "None",
+        duration: "07:00",
+        date: "May 19, 2026",
+        views: "3.2M views",
+        thumb: "minutesofthala.jpeg",
+        url: "https://www.chennaisuperkings.com/csktv/csktvvideos/1713",
+        comments: [
+          { user: "Thala_Forever_7", text: "Goosebumps every single time. GOAT. 🐐", time: "1 hour ago" }
+        ]
+      },
+      {
+        id: 18,
+        title: "Yellorukkum Thanks",
+        desc: "A heartfelt tribute from the Super Kings family — Yellorukkum Thanks to the fans who make Chepauk roar.",
+        category: "Stories",
+        opp: "None",
+        duration: "04:30",
+        date: "May 18, 2026",
+        views: "620K views",
+        thumb: "thanks.png",
+        url: "https://www.chennaisuperkings.com/csktv/csktvvideos/1706",
+        comments: [
+          { user: "YelloveForever", text: "This made me emotional. Whistle Podu always! 🦁", time: "3 hours ago" }
+        ]
+      },
+      {
+        id: 2,
+        title: "IPL 2026 M63: CSK vs SRH - Match Highlights",
+        desc: "Match highlights of the high-scoring TATA IPL 2026 clash between Chennai Super Kings and Sunrisers Hyderabad at Chepauk.",
+        category: "Highlights",
+        opp: "SRH",
+        duration: "11:15",
+        date: "May 17, 2026",
+        views: "1.8M views",
+        thumb: "cskvssrh.webp",
+        url: "https://www.iplt20.com/video/68452/ipl-2026-m63-csk-vs-srh---match-highlights",
+        comments: [
+          { user: "WhistlePoduFan", text: "Chepauk was absolutely electric! SRH spin test passed.", time: "1 hour ago" }
+        ]
+      },
+      {
+        id: 20,
+        title: "Urvil Patel Reacts to the Internet After His 13-Ball Carnage",
+        desc: "Urvil Patel watches fan reactions and memes after his blistering 13-ball cameo that set the IPL on fire.",
+        category: "Stories",
+        opp: "None",
+        duration: "06:15",
+        date: "May 16, 2026",
+        views: "890K views",
+        thumb: "urvil13.jpeg",
+        url: "https://www.chennaisuperkings.com/csktv/csktvvideos/1709",
+        comments: [
+          { user: "PowerHitter", text: "That 13-ball innings was absolutely insane!", time: "5 hours ago" }
+        ]
+      },
+      {
+        id: 22,
+        title: "The Making of Dewald Brevis",
+        desc: "Go behind the scenes to discover how Baby AB — Dewald Brevis — became a Chennai Super King.",
+        category: "Making of the Lion",
+        opp: "None",
+        duration: "08:20",
+        date: "May 15, 2026",
+        views: "720K views",
+        thumb: "makingbrevis.jpeg",
+        url: "https://www.chennaisuperkings.com/csktv/csktvvideos/1704",
+        comments: [
+          { user: "BabyABFan", text: "Brevis is going to be a superstar. Mark my words!", time: "4 hours ago" }
+        ]
+      },
+      {
+        id: 3,
+        title: "IPL 2026 M59: LSG vs CSK - Match Highlights",
+        desc: "Match highlights of the TATA IPL 2026 clash between Lucknow Super Giants and Chennai Super Kings.",
+        category: "Highlights",
+        opp: "LSG",
+        duration: "10:04",
+        date: "May 13, 2026",
+        views: "1.1M views",
+        thumb: "cskvslsg.jpg",
+        url: "https://www.iplt20.com/video/68134/ipl-2026-m59-lsg-vs-csk---match-highlights",
+        comments: [
+          { user: "Thala_Dhoni_7", text: "Brilliant death overs bowling from CSK!", time: "2 hours ago" }
+        ]
+      },
+      {
+        id: 21,
+        title: "Spreading Joy on the Streets with Cricket",
+        desc: "CSK players take to the streets to spread the joy of cricket, connecting with fans in the most heartwarming way.",
+        category: "Stories",
+        opp: "None",
+        duration: "05:45",
+        date: "May 10, 2026",
+        views: "540K views",
+        thumb: "streets.jpeg",
+        url: "https://www.chennaisuperkings.com/csktv/csktvvideos/1694",
+        comments: [
+          { user: "StreetCricketFan", text: "This is why CSK is more than a team. It's a family!", time: "2 days ago" }
+        ]
+      },
+      {
+        id: 4,
+        title: "IPL 2026 M53: CSK vs LSG - Match Highlights",
+        desc: "Match highlights of the return fixture between Chennai Super Kings and Lucknow Super Giants at Chennai.",
+        category: "Highlights",
+        opp: "LSG",
+        duration: "08:45",
+        date: "May 09, 2026",
+        views: "950K views",
+        thumb: "cskvslsg.jpg",
+        url: "https://www.iplt20.com/video/67705/ipl-2026-m53-csk-vs-lsg---match-highlights",
+        comments: [
+          { user: "LionsDenChennai", text: "Another solid home victory. The crowd is awesome.", time: "4 hours ago" }
+        ]
+      },
+      {
+        id: 23,
+        title: "The Making of Karthik Sharma",
+        desc: "The untold journey of Karthik Sharma — from domestic cricket grind to wearing the yellow jersey.",
+        category: "Making of the Lion",
+        opp: "None",
+        duration: "07:50",
+        date: "May 08, 2026",
+        views: "410K views",
+        thumb: "makingkarthik.jpeg",
+        url: "https://www.chennaisuperkings.com/csktv/csktvvideos/1679",
+        comments: [
+          { user: "DomesticHero", text: "Hard work pays off. Well deserved spot in CSK!", time: "1 day ago" }
+        ]
+      },
+      {
+        id: 5,
+        title: "IPL 2026 M48: DC vs CSK - Match Highlights",
+        desc: "Match highlights of the TATA IPL 2026 clash between Delhi Capitals and Chennai Super Kings at Arun Jaitley Stadium.",
+        category: "Highlights",
+        opp: "DC",
+        duration: "09:50",
+        date: "May 05, 2026",
+        views: "890K views",
+        thumb: "cskvsdc.webp",
+        url: "https://www.iplt20.com/video/67345/ipl-2026-m48-dc-vs-csk---match-highlights",
+        comments: [
+          { user: "CapitalKing", text: "Delhi was completely painted in yellow today!", time: "6 hours ago" }
+        ]
+      },
+      {
+        id: 24,
+        title: "The Making of Ayush Mhatre",
+        desc: "Follow the inspiring rise of young gun Ayush Mhatre as he earns his place in the Super Kings squad.",
+        category: "Making of the Lion",
+        opp: "None",
+        duration: "08:05",
+        date: "May 03, 2026",
+        views: "380K views",
+        thumb: "makingayush.png",
+        url: "https://www.chennaisuperkings.com/csktv/csktvvideos/1674",
+        comments: [
+          { user: "YoungLion", text: "The future of Indian cricket right here!", time: "3 days ago" }
+        ]
+      },
+      {
+        id: 6,
+        title: "IPL 2026 M44: CSK vs MI - Match Highlights",
+        desc: "Match highlights of the legendary TATA IPL 2026 El Clásico between Chennai Super Kings and Mumbai Indians at Chepauk.",
+        category: "Highlights",
+        opp: "MI",
+        duration: "12:10",
+        date: "May 02, 2026",
+        views: "2.4M views",
+        thumb: "cskvsmi.png",
+        url: "https://www.iplt20.com/video/67061/ipl-2026-m44-csk-vs-mi---match-highlights",
+        comments: [
+          { user: "ClassicIPL", text: "CSK vs MI matches never fail to amaze. Thriller till the end!", time: "10 mins ago" }
+        ]
+      },
+      {
+        id: 7,
+        title: "IPL 2026 M37: CSK vs GT - Match Highlights",
+        desc: "Match highlights of the TATA IPL 2026 clash between Chennai Super Kings and Gujarat Titans at Chennai.",
+        category: "Highlights",
+        opp: "GT",
+        duration: "08:55",
+        date: "Apr 27, 2026",
+        views: "920K views",
+        thumb: "cskvsgt.webp",
+        url: "https://www.iplt20.com/video/66559/ipl-2026-m37-csk-vs-gt---match-highlights",
+        comments: [
+          { user: "GujaratLions", text: "Well played, Rutu captains the team so well.", time: "12 hours ago" }
+        ]
+      },
+      {
+        id: 8,
+        title: "IPL 2026 M33: MI vs CSK - Match Highlights",
+        desc: "Match highlights of the first leg of TATA IPL 2026 between Mumbai Indians and Chennai Super Kings at Wankhede Stadium.",
+        category: "Highlights",
+        opp: "MI",
+        duration: "11:40",
+        date: "Apr 24, 2026",
+        views: "2.1M views",
+        thumb: "cskvsmi.png",
+        url: "https://www.iplt20.com/video/66249/ipl-2026-m33-mi-vs-csk---match-highlights",
+        comments: [
+          { user: "DhoniDevotee", text: "Thala's entries at Wankhede are always legendary.", time: "1 day ago" }
+        ]
+      },
+      {
+        id: 25,
+        title: "The Making of Ruturaj Gaikwad",
+        desc: "Captain Ruturaj Gaikwad's incredible journey from a quiet debutant to leading the Chennai Super Kings.",
+        category: "Making of the Lion",
+        opp: "None",
+        duration: "10:30",
+        date: "Apr 20, 2026",
+        views: "1.6M views",
+        thumb: "makingruturaj.jpeg",
+        url: "https://www.chennaisuperkings.com/csktv/csktvvideos/1534",
+        comments: [
+          { user: "CaptainRutu", text: "Born to lead. The perfect successor to Thala!", time: "5 days ago" }
+        ]
+      },
+      {
+        id: 9,
+        title: "IPL 2026 M27: SRH vs CSK - Match Highlights",
+        desc: "Match highlights of the TATA IPL 2026 clash between Sunrisers Hyderabad and Chennai Super Kings.",
+        category: "Highlights",
+        opp: "SRH",
+        duration: "10:15",
+        date: "Apr 19, 2026",
+        views: "1.2M views",
+        thumb: "cskvssrh.webp",
+        url: "https://www.iplt20.com/video/65826/ipl-2026-m27-srh-vs-csk---match-highlights",
+        comments: [
+          { user: "OrangeNavy", text: "Great boundaries and fast run rate from both sides.", time: "1 day ago" }
+        ]
+      },
+      {
+        id: 10,
+        title: "IPL 2026 M22: CSK vs KKR - Match Highlights",
+        desc: "Match highlights of the TATA IPL 2026 match between Chennai Super Kings and Kolkata Knight Riders.",
+        category: "Highlights",
+        opp: "KKR",
+        duration: "09:40",
+        date: "Apr 15, 2026",
+        views: "1.3M views",
+        thumb: "cskvskkr.jpg",
+        url: "https://www.iplt20.com/video/65499/ipl-2026-m22-csk-vs-kkr---match-highlights",
+        comments: [
+          { user: "SpinMaster", text: "Spin wizardry at play today. KKR completely choked.", time: "2 days ago" }
+        ]
+      },
+      {
+        id: 11,
+        title: "IPL 2026 M18: CSK vs DC - Match Highlights",
+        desc: "Match highlights of the first leg between Chennai Super Kings and Delhi Capitals at Chennai.",
+        category: "Highlights",
+        opp: "DC",
+        duration: "08:30",
+        date: "Apr 12, 2026",
+        views: "980K views",
+        thumb: "cskvsdc.webp",
+        url: "https://www.iplt20.com/video/65216/ipl-2026-m18-csk-vs-dc---match-highlights",
+        comments: [
+          { user: "YelloveAlways", text: "Superb catch in the slips! Whistle Podu!", time: "2 days ago" }
+        ]
+      },
+      {
+        id: 12,
+        title: "IPL 2026 M11: RCB vs CSK - Match Highlights",
+        desc: "Match highlights of the southern derby between Royal Challengers Bengaluru and Chennai Super Kings at M. Chinnaswamy Stadium.",
+        category: "Highlights",
+        opp: "RCB",
+        duration: "12:05",
+        date: "Apr 07, 2026",
+        views: "2.8M views",
+        thumb: "cskvsrcb.jpg",
+        url: "https://www.iplt20.com/video/64761/ipl-2026-m11-rcb-vs-csk---match-highlights",
+        comments: [
+          { user: "DerbyPride", text: "Chinnaswamy was completely loud! What a classic chase.", time: "3 days ago" }
+        ]
+      },
+      {
+        id: 13,
+        title: "IPL 2026 M07: CSK vs PBKS - Match Highlights",
+        desc: "Match highlights of the TATA IPL 2026 match between Chennai Super Kings and Punjab Kings at Chepauk.",
+        category: "Highlights",
+        opp: "PBKS",
+        duration: "10:30",
+        date: "Apr 04, 2026",
+        views: "1.1M views",
+        thumb: "cskvspk.jpg",
+        url: "https://www.iplt20.com/video/64506/ipl-2026-m07-csk-vs-pbks---match-highlights",
+        comments: [
+          { user: "PunjabKingsFan", text: "Very close match, great death bowling from PBKS too.", time: "4 days ago" }
+        ]
+      },
+      {
+        id: 14,
+        title: "IPL 2026 M03: RR vs CSK - Match Highlights",
+        desc: "Match highlights of the inaugural leg between Rajasthan Royals and Chennai Super Kings at Jaipur.",
+        category: "Highlights",
+        opp: "RR",
+        duration: "09:15",
+        date: "Mar 31, 2026",
+        views: "1.5M views",
+        thumb: "cskvsrr.jpg",
+        url: "https://www.iplt20.com/video/64235/ipl-2026-m03-rr-vs-csk---match-highlights",
+        comments: [
+          { user: "RoyalsJaipur", text: "Good opening match for the season!", time: "5 days ago" }
+        ]
+      },
+      {
+        id: 15,
+        title: "TATA IPL Player Auction 2026 - Chennai Super Kings",
+        desc: "Behind-the-scenes and summary highlights of the TATA IPL Player Auction 2026 for Chennai Super Kings.",
+        category: "Auction",
+        opp: "None",
+        duration: "15:40",
+        date: "Dec 16, 2025",
+        views: "2.1M views",
+        thumb: "auction.avif",
+        url: "https://www.iplt20.com/video/64034/tata-ipl-player-auction-2026---chennai-super-kings",
+        comments: [
+          { user: "AuctionStrategist", text: "Viswanathan and the management built a solid squad. Bravo!", time: "1 month ago" }
+        ]
+      }
+    ];
+
+    window.copyVideoLink = function() {
+      if (activeVideo && activeVideo.url) {
+        navigator.clipboard.writeText(activeVideo.url).then(() => {
+          alert('Copied official TATA IPL video link to clipboard!\n\nLink: ' + activeVideo.url);
+        }).catch(() => {
+          alert('Official TATA IPL Video Link: ' + activeVideo.url);
+        });
+      } else {
+        alert('Copied link to clipboard! Whistle Podu! 🦁');
+      }
+    };
+
+    // ─── INITIALIZATION & DYNAMIC RENDERING ───
+    let currentCategory = "all";
+    let searchQuery = "";
+    let activeVideo = null;
+
+    const searchInput = document.getElementById("tv-search");
+    const catFilter = document.getElementById("tv-cat-filter");
+    const videoGrid = document.getElementById("tv-video-grid");
+
+    const playerModal = document.getElementById("tv-player-modal");
+    const modalClose = document.getElementById("tv-modal-close");
+    const modalTitle = document.getElementById("modal-video-title");
+    const modalDesc = document.getElementById("modal-video-desc");
+    const modalThumb = document.getElementById("modal-video-thumb");
+    const commentsFeed = document.getElementById("modal-comments-feed");
+    const commentsForm = document.getElementById("comments-form");
+    const commentInput = document.getElementById("comment-input");
+    const modalPlayTrigger = document.getElementById("modal-play-trigger");
+    const modalHudStatus = document.getElementById("modal-hud-status");
+    const modalProgress = document.getElementById("modal-progress");
+    const modalDurationText = document.getElementById("modal-duration-text");
+
+    function renderVideos() {
+      videoGrid.innerHTML = "";
+
+      const filtered = VIDEO_DATABASE.filter(video => {
+        const matchesCategory = currentCategory === "all" || video.category === currentCategory;
+        const matchesSearch = searchQuery === "" || 
+                              video.title.toLowerCase().includes(searchQuery) ||
+                              video.desc.toLowerCase().includes(searchQuery);
+
+        return matchesCategory && matchesSearch;
+      });
+
+      if (filtered.length === 0) {
+        videoGrid.innerHTML = `
+          <div class="no-results">
+            <div class="no-results-icon">📡</div>
+            <div class="no-results-title">No Video Signals Found</div>
+            <div class="no-results-desc">Adjust your filters or search keywords to tune back in to the Yellow network.</div>
+          </div>
+        `;
+        return;
+      }
+
+      filtered.forEach(video => {
+        const card = document.createElement("div");
+        card.className = "video-card reveal";
+        card.onclick = () => openPlayerModal(video);
+
+        card.innerHTML = `
+          <div class="video-thumb-wrap">
+            <img src="${video.thumb}" alt="${video.title}" class="video-thumb">
+            <div class="play-overlay">
+              <div class="play-btn-circle">▶</div>
+            </div>
+            <span class="video-duration">${video.duration}</span>
+            <span class="video-category-tag">${video.category}</span>
+          </div>
+          <div class="video-info">
+            <div class="video-card-meta">
+              <span>${video.date}</span>
+              ${video.opp !== "None" ? `<span class="video-opp">vs ${video.opp}</span>` : ''}
+            </div>
+            <h3 class="video-card-title">${video.title}</h3>
+            <p class="video-card-desc">${video.desc}</p>
+          </div>
+        `;
+
+        videoGrid.appendChild(card);
+      });
+
+      bindCursorEffects();
+    }
+
+    // ─── FILTER EVENT BINDINGS ───
+    searchInput.addEventListener("input", (e) => {
+      searchQuery = e.target.value.toLowerCase();
+      renderVideos();
+    });
+
+    catFilter.addEventListener("change", (e) => {
+      currentCategory = e.target.value;
+      renderVideos();
+    });
+
+    // ─── MODAL CONTROLLER & CHAT TRANSMITTER ───
+    let isPlaying = false;
+    let progressTimer = null;
+    let progressPercent = 32;
+
+    function openPlayerModal(video) {
+      activeVideo = video;
+      isPlaying = false;
+      progressPercent = 0;
+      
+      modalTitle.textContent = video.title;
+      modalDesc.textContent = video.desc;
+      modalThumb.src = video.thumb;
+      modalPlayTrigger.textContent = "▶";
+      modalHudStatus.textContent = "READY TO STREAM";
+      modalProgress.style.width = "0%";
+      modalDurationText.textContent = `0:00 / ${video.duration}`;
+
+      renderComments();
+      playerModal.classList.add("active");
+      document.body.style.overflow = "hidden";
+      bindCursorEffects();
+    }
+
+    function closePlayerModal() {
+      playerModal.classList.remove("active");
+      document.body.style.overflow = "";
+      clearInterval(progressTimer);
+      activeVideo = null;
+    }
+
+    modalClose.onclick = closePlayerModal;
+    playerModal.onclick = (e) => {
+      if (e.target === playerModal) closePlayerModal();
+    };
+
+    modalPlayTrigger.onclick = () => {
+      isPlaying = !isPlaying;
+      if (isPlaying) {
+        modalPlayTrigger.textContent = "⏸";
+        modalHudStatus.textContent = "HOLO-STREAMING ACTIVE";
+        modalHudStatus.style.color = "#00f0ff";
+        
+        progressTimer = setInterval(() => {
+          if (progressPercent < 100) {
+            progressPercent += 0.5;
+            modalProgress.style.width = progressPercent + "%";
+            
+            // Fake timer update
+            const totalSec = parseDuration(activeVideo.duration);
+            const currentSec = Math.floor((progressPercent / 100) * totalSec);
+            modalDurationText.textContent = `${formatTime(currentSec)} / ${activeVideo.duration}`;
+          } else {
+            clearInterval(progressTimer);
+            isPlaying = false;
+            modalPlayTrigger.textContent = "▶";
+            modalHudStatus.textContent = "STREAM COMPLETED";
+          }
+        }, 100);
+      } else {
+        clearInterval(progressTimer);
+        modalPlayTrigger.textContent = "▶";
+        modalHudStatus.textContent = "STREAM PAUSED";
+      }
+    };
+
+    function parseDuration(durStr) {
+      const parts = durStr.split(":").map(Number);
+      if (parts.length === 2) return parts[0] * 60 + parts[1];
+      return 0;
+    }
+
+    function formatTime(sec) {
+      const m = Math.floor(sec / 60);
+      const s = sec % 60;
+      return `${m}:${s < 10 ? '0' : ''}${s}`;
+    }
+
+    function renderComments() {
+      commentsFeed.innerHTML = "";
+      if (!activeVideo) return;
+
+      activeVideo.comments.forEach(comment => {
+        const item = document.createElement("div");
+        item.className = "comment-item";
+        item.innerHTML = `
+          <div class="comment-user-row">
+            <span class="comment-username">${comment.user}</span>
+            <span class="comment-time">${comment.time}</span>
+          </div>
+          <p class="comment-body">${comment.text}</p>
+        `;
+        commentsFeed.appendChild(item);
+      });
+      commentsFeed.scrollTop = commentsFeed.scrollHeight;
+    }
+
+    commentsForm.onsubmit = (e) => {
+      e.preventDefault();
+      if (!activeVideo) return;
+
+      const commentText = commentInput.value.trim();
+      if (!commentText) return;
+
+      activeVideo.comments.push({
+        user: "@UserFan_" + Math.floor(Math.random() * 900 + 100),
+        text: commentText,
+        time: "Just now"
+      });
+
+      commentInput.value = "";
+      renderComments();
+    };
+
+    // ─── INITIAL RENDERING ───
+    renderVideos();
+    bindCursorEffects();
+
+    // Scroll Navbar effect
+    window.addEventListener('scroll', () => {
+      document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 40);
+    });
+
+    // ═══ HAMBURGER MENU ════════════════════════════════════════════
+    (function () {
+      var btn = document.getElementById('nav-hamburger');
+      var links = document.getElementById('nav-links');
+      if (!btn || !links) return;
+      btn.addEventListener('click', function () {
+        btn.classList.toggle('active');
+        links.classList.toggle('open');
+      });
+      links.querySelectorAll('a').forEach(function (a) {
+        a.addEventListener('click', function () {
+          btn.classList.remove('active');
+          links.classList.remove('open');
+        });
+      });
+    })();
+
+    // ─── AUTHENTICATION SESSION RESTORER (Sync across all subpages) ───
+    const joinNowBtn = document.getElementById('join-now-btn');
+    const navUserProfile = document.getElementById('nav-user-profile');
+    const navUsername = document.getElementById('nav-username');
+    const logoutBtn = document.getElementById('logout-btn');
+
+    function updateNavState(username) {
+      if (joinNowBtn) joinNowBtn.style.display = 'none';
+      if (navUserProfile) {
+        navUserProfile.style.display = 'flex';
+        navUsername.textContent = username;
+      }
+    }
+
+    if (logoutBtn) {
+      logoutBtn.addEventListener('click', () => {
+        localStorage.removeItem('csk_auth_user');
+        localStorage.removeItem('csk_auth_verified');
+        if (joinNowBtn) joinNowBtn.style.display = 'inline-block';
+        if (navUserProfile) navUserProfile.style.display = 'none';
+        alert('You have successfully logged out of the CSK Portal.');
+      });
+    }
+
+    const cachedUser = JSON.parse(localStorage.getItem('csk_auth_user'));
+    const isVerified = localStorage.getItem('csk_auth_verified') === 'true';
+    if (cachedUser && isVerified) {
+      updateNavState(cachedUser.username);
+    }
+  </script>
+</body>
+
+</html>
