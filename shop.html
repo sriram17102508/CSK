@@ -781,6 +781,53 @@
       gap: 24px;
       flex-wrap: wrap;
       justify-content: center;
+    }
+
+    .footer-links a {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover {
+      color: var(--gold);
+    }
+
+    .footer-socials {
+      display: flex;
+      gap: 16px;
+    }
+
+    .social-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      text-decoration: none;
+      transition: all 0.3s ease;
+      font-size: 16px;
+    }
+
+    .social-icon:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+      box-shadow: 0 0 10px rgba(253, 185, 19, 0.3);
+    }
+
+    .footer-bottom {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
       gap: 16px;
       border-top: 1px solid rgba(232, 234, 240, 0.05);
       padding-top: 24px;
@@ -899,7 +946,6 @@
       <span></span><span></span><span></span>
     </button>
     <ul class="nav-links" id="nav-links">
-      <li><a href="csk_website.html">Home</a></li>
       <li><a href="about_csk.html">About CSK</a></li>
       <li><a href="pillars.html">Pillars</a></li>
       <li><a href="stats.html">Stats</a></li>
